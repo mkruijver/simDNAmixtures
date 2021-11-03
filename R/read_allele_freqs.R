@@ -9,7 +9,7 @@
 #' @return list
 #' @examples
 #' # below we read an allele freqs file that comes with the package
-#' filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "STRmixTools")
+#' filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA")
 #' freqs <- read_allele_freqs(filename)
 #' freqs # the output is just a list with an N attribute
 #' @importFrom utils read.csv
@@ -30,7 +30,6 @@ read_allele_freqs <- function(filename){
     f0[is.na(f0)] <- 0.
     f <- f0
 
-    # returnList[[names(dfWithoutN)[iLocus]]]  <- setNames(f[f>0],nm =  alleles[f>0])
     returnList[[names(dfWithoutN)[iLocus]]]  <- setNames(f,nm =  alleles)
     N[names(dfWithoutN)[iLocus]] <- dfWithN[[iLocus]][length(dfWithN[[iLocus]])]
   }
