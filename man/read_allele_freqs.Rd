@@ -24,7 +24,7 @@ e.g. we do not restrict the first column name or the last row name.
 }
 \examples{
 # below we read an allele freqs file that comes with the package
-filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "STRmixTools")
+filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA")
 freqs <- read_allele_freqs(filename)
 freqs # the output is just a list with an N attribute
 }
