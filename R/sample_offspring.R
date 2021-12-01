@@ -58,8 +58,8 @@ sample_offspring <- function(father, mother, label = "Child"){
 
   epg <- data.frame("Sample Name" = rep(label, number_of_loci),
                     Locus = loci,
-                    Allele1 = allele1,
-                    Allele2 = allele2,
+                    Allele1 = a,
+                    Allele2 = b,
                     stringsAsFactors = FALSE, check.names = FALSE)
 
   epg
