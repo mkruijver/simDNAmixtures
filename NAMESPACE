@@ -3,4 +3,5 @@
 export(read_allele_freqs)
 export(sample_genotype)
 export(sample_offspring)
+export(sample_pedigree_genotypes)
 importFrom(utils,read.csv)
