@@ -12,11 +12,19 @@ read_size_regression <- function(filename){
   regression_df <- read.csv(filename, colClasses = c("character", "numeric", "numeric"))
   regression_df_by_locus <- split(regression_df, regression_df$Locus)
 
-  f <- function(locus, allele){
-    intercept <- regression_df_by_locus[[locus]]$Intercept
-    slope <- regression_df_by_locus[[locus]]$Slope
 
-    intercept + slope * allele
+  f <- function(locus, allele){
+
+    regression_locus <- regression_df_by_locus[[locus]]
+
+    if (is.null(regression_locus)){
+      stop("No size regression available for locus ", locus)
+    }
+
+    intercept <- regression_locus$Intercept
+    slope <- regression_locus$Slope
+
+    intercept + slope * as.numeric(allele)
   }
 
   f
