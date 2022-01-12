@@ -4,10 +4,14 @@
 \alias{read_allele_freqs}
 \title{Read allele frequencies in STRmix a.k.a FSIgen format (.csv)}
 \usage{
-read_allele_freqs(filename)
+read_allele_freqs(filename, remove_zeroes = TRUE, normalise = TRUE)
 }
 \arguments{
 \item{filename}{Path to csv file.}
+
+\item{remove_zeroes}{Logical. Should frequencies of 0 be removed from the return value? Default is TRUE.}
+
+\item{normalise}{Logical. Should frequencies be normalised to sum to 1? Default is TRUE.}
 }
 \value{
 list
