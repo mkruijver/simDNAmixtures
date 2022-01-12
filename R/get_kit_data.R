@@ -9,7 +9,8 @@
 #' gf_colour_by_marker <- setNames(gf$Color[match(gf_markers, gf$Marker)], gf_markers)
 #' @export
 get_kit_data <- function() {
-  fn_kit_data <- system.file("extdata/kit_data.txt", package = "SimMixDNA")
+
+  fn_kit_data <- system.file("extdata", "kit_data.txt", package = "SimMixDNA")
 
   x <- readr::read_tsv(fn_kit_data, col_types = "cccddddcddddccll")
   kit_data <- c(list(all_kits = x), split(x, x$Panel))
