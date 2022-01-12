@@ -29,18 +29,22 @@ sample_mixture_profile <- function(genotypes, model, sample_name = "mixture"){
   # make SampleName the first column
   profile <- profile[c(length(profile), seq_len(length(profile) - 1))]
 
+  # round size and height
+  profile$Size <- round(profile$Size)
+  profile$Height <- round(profile$Height)
+
   profile
 }
 
 reorder_profile <- function(x){
 
-  locus_order <- unique(x$Locus)
+  marker_order <- unique(x$Marker)
 
   # first order by size
   x1 <- x[order(x$Size),]
 
   # then by locus
-  x2 <- x1[order(match(x1$Locus, table = locus_order)),]
+  x2 <- x1[order(match(x1$Marker, table = marker_order)),]
 
   rownames(x2) <- NULL
   x2
