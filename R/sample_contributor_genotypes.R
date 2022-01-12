@@ -1,8 +1,8 @@
 #' @title Sample genotypes for mixture contributors according to allele frequencies
 #'
 #' @param contributors Character vector with unique names of contributors. Valid names are "U1", "U2", ... for unrelated contributors or the names of pedigree members for related contributors.
-#' @param pedigree (optionally) \link{pedtools::ped} object
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
+#' @param pedigree (optionally) \link[pedtools]{ped} object
 #' @param loci Character vector of locus names (defaults to names attr. of \code{freqs})
 #' @details For each founder, a genotype is sampled randomly by drawing two alleles from allele frequencies.
 #' @examples
@@ -18,9 +18,9 @@
 #' # sample genotypes for a mixture of S1 + U1 + S2
 #' # where U1 is an unrelated person
 #'
-#' sample_contributor_genotypes(contributors = c("S1","U1","S2"), ped_sibs, freqs)
+#' sample_contributor_genotypes(contributors = c("S1","U1","S2"), freqs, ped_sibs)
 #' @export
-sample_contributor_genotypes <- function(contributors, pedigree, freqs, loci = names(freqs)){
+sample_contributor_genotypes <- function(contributors, freqs, pedigree, loci = names(freqs)){
 
   if (!is.character(contributors)){
     stop("contributors should be a character vector")

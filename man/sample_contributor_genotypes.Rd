@@ -6,17 +6,17 @@
 \usage{
 sample_contributor_genotypes(
   contributors,
-  pedigree,
   freqs,
+  pedigree,
   loci = names(freqs)
 )
 }
 \arguments{
 \item{contributors}{Character vector with unique names of contributors. Valid names are "U1", "U2", ... for unrelated contributors or the names of pedigree members for related contributors.}
 
-\item{pedigree}{(optionally) \link{pedtools::ped} object}
-
 \item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
+
+\item{pedigree}{(optionally) \link[pedtools]{ped} object}
 
 \item{loci}{Character vector of locus names (defaults to names attr. of \code{freqs})}
 }
@@ -39,5 +39,5 @@ children = c("S1", "S2"))
 # sample genotypes for a mixture of S1 + U1 + S2
 # where U1 is an unrelated person
 
-sample_contributor_genotypes(contributors = c("S1","U1","S2"), ped_sibs, freqs)
+sample_contributor_genotypes(contributors = c("S1","U1","S2"), freqs, ped_sibs)
 }
