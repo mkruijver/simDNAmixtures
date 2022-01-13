@@ -1,4 +1,4 @@
-#' @title Global stutter model where the expected stutter rate is constant across alleleles and loci
+#' @title Global stutter model where the expected stutter rate is constant across alleles and loci
 #'
 #' @param back_stutter_rate Numeric. (Optional)
 #' @param forward_stutter_rate Numeric. (Optional)
