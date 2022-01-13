@@ -27,13 +27,13 @@ stutter_type <- function(name, delta, stutter_regression, stutter_exceptions){
 
   stutter$get_expected_stutter_ratio <- function(locus, allele){
 
-    exception <- stutter_exceptions[[locus]][[as.character(allele)]]
+    exception <- stutter$exceptions[[locus]][[as.character(allele)]]
 
     if (isTRUE(exception > 0)){
       return(exception)
     }
     else{
-      return(stutter_regression(locus, allele))
+      return(stutter$regression(locus, allele))
     }
   }
 
