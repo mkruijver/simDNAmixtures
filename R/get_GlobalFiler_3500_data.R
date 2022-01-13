@@ -33,7 +33,7 @@ get_GlobalFiler_3500_data <- function() {
   # forward stutter
 
   filename_fs_regression <- system.file("extdata","GlobalFiler_Forward_Stutter_3500.txt",package = "SimMixDNA")
-  fs_regression <- read_stutter_exceptions(filename_fs_regression)
+  fs_regression <- read_stutter_regression(filename_fs_regression)
   forward_stutter <- stutter_type(name = "ForwardStutter", delta = 1,
                               stutter_regression = fs_regression)
 
