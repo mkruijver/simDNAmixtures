@@ -41,7 +41,7 @@ get_GlobalFiler_3500_data <- function() {
 
 
   gf$stutter_model <- allele_specific_stutter_model(stutter_types = gf$stutters,
-                                                    size_regression = size_regression)
+                                                    size_regression = gf$size_regression)
 
   gf
 }
