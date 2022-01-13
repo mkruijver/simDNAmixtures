@@ -4,12 +4,14 @@
 \alias{global_stutter_model}
 \title{Global stutter model where the expected stutter rate is constant across alleleles and loci}
 \usage{
-global_stutter_model(back_stutter_rate, forward_stutter_rate)
+global_stutter_model(back_stutter_rate, forward_stutter_rate, size_regression)
 }
 \arguments{
 \item{back_stutter_rate}{Numeric. (Optional)}
 
 \item{forward_stutter_rate}{Numeric. (Optional)}
+
+\item{size_regression.}{Function, see \link{read_size_regression}.}
 }
 \description{
 Global stutter model where the expected stutter rate is constant across alleleles and loci

@@ -5,7 +5,7 @@
 #' @param cv Numeric. Coefficient of variation of a full heterozygote contributing allele peak height
 #' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.
 #' @param size_regression. Function, see \link{read_size_regression}.
-#' @param stutter_model. stutter_model object. See \link{global_stutter_model}.
+#' @param stutter_model. Optionally a stutter_model object. See \link{global_stutter_model}.
 #' @details Defines a gamma model as described by Bleka et al.
 #' @export
 gamma_model <- function(mixture_proportions, mu, cv,
