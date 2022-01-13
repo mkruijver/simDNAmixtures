@@ -5,11 +5,12 @@
 #' @param cv Numeric. Coefficient of variation of a full heterozygote contributing allele peak height
 #' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.
 #' @param size_regression. Function, see \link{read_size_regression}.
+#' @param stutter_model. stutter_model object. See \link{global_stutter_model}.
 #' @details Defines a gamma model as described by Bleka et al.
 #' @export
 gamma_model <- function(mixture_proportions, mu, cv,
                         degradation_beta = rep(1., length(mixture_proportions)),
-                        size_regression){
+                        size_regression, stutter_model){
 
   if (!is.numeric(mixture_proportions)){
     stop("mixture_proportions should be a numeric vector")
@@ -47,6 +48,12 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("cv should be non-negative")
   }
 
+  if (!missing(stutter_model)){
+    if (!inherits(stutter_model, "stutter_model")){
+      stop("stutter_model is not of class stutter_model")
+    }
+  }
+
   model <- list()
 
   parameters <- list(mixture_proportions = mixture_proportions,
@@ -58,6 +65,10 @@ gamma_model <- function(mixture_proportions, mu, cv,
   model$size_regression <- size_regression
   model$build_expected_profile <- function(...) gamma_model_build_expected_profile(model, ...)
   model$sample_peak_heights <- function(...) gamma_model_sample_peak_heights(model, ...)
+
+  if (!missing(stutter_model)){
+    model$stutter_model <- stutter_model
+  }
 
   class(model) <- "pg_model"
 
@@ -105,10 +116,20 @@ gamma_model_build_expected_profile <- function(model, genotypes){
 
         deg <- beta[i_contributor] ^ ((size - 125.) / 100.)
 
-        x <- add_expected_peak_height(x, locus, a, size, deg * mu_contributor)
+        x <- add_expected_allelic_peak_height(x, locus, a, size, deg * mu_contributor)
       }
 
     }
+  }
+
+  if (!is.null(model$stutter_model)){
+    stutter_model <- model$stutter_model
+
+    x <- stutter_model$add_expected_stutter(x)
+    x$Expected <- x$ExpectedAllelic + x$ExpectedStutter
+  }
+  else{
+    x$Expected <- x$ExpectedAllelic
   }
 
   x
@@ -136,13 +157,15 @@ get_allele_index <- function(x, marker, allele){
   which(x$Marker == marker & x$Allele == allele)
 }
 
-add_expected_peak_height <- function(x, marker, allele, size, expected){
+add_expected_allelic_peak_height <- function(x, marker, allele, size, expected){
   idx <- get_allele_index(x, marker, allele)
 
   if(length(idx)==0){
-    return(dplyr::bind_rows(x, data.frame(Marker=marker, Allele=allele, Size=size, Expected=expected, stringsAsFactors = FALSE)))
+    return(dplyr::bind_rows(x, data.frame(Marker=marker, Allele=allele,
+                                          Size=size,
+                                          ExpectedAllelic=expected, stringsAsFactors = FALSE)))
   }else if(length(idx)==1){
-    x$Expected[idx] <- x$Expected[idx] + expected
+    x$ExpectedAllelic[idx] <- x$ExpectedAllelic[idx] + expected
     return(x)
   }else{
     stop("something wrong")

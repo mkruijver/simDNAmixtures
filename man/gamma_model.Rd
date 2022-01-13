@@ -22,6 +22,8 @@ gamma_model(
 \item{degradation_beta}{Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.}
 
 \item{size_regression.}{Function, see \link{read_size_regression}.}
+
+\item{stutter_model.}{stutter_model object. See \link{global_stutter_model}.}
 }
 \description{
 Defines a gamma model for peak height variability

@@ -3,6 +3,7 @@
 export(SMASH_to_wide_table)
 export(gamma_model)
 export(get_kit_data)
+export(global_stutter_model)
 export(log_normal_model)
 export(read_allele_freqs)
 export(read_size_regression)
