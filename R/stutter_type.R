@@ -10,7 +10,7 @@
 #' bs_exceptions <- read_stutter_exceptions(filename_bs_exceptions)
 #'
 #' filename_bs_regression <- system.file("extdata","GlobalFiler_Stutter_3500.txt",package = "SimMixDNA")
-#' bs_regression <- read_stutter_exceptions(filename_bs_regression)
+#' bs_regression <- read_stutter_regression(filename_bs_regression)
 #' backstutter <- stutter_type(name = "BackStutter", delta = -1,
 #'                             stutter_regression = bs_regression,
 #'                             stutter_exceptions = bs_exceptions)
@@ -20,8 +20,30 @@ stutter_type <- function(name, delta, stutter_regression, stutter_exceptions){
   stutter <- list()
   class(stutter) <- "stutter_type"
 
+  if (!is.character(name)){
+    stop("name is not a character")
+  }
+  if (length(name)!=1){
+    stop("name is not length 1")
+  }
+  if (!is.numeric(delta)){
+    stop("delta is not numeric")
+  }
+  if (length(delta) != 1){
+    stop("delta is not length 1")
+  }
+  if (!is.function(stutter_regression)){
+    stop("stutter_regression is not a function")
+  }
+  if (!missing(stutter_exceptions)){
+    if (!is.list(stutter_exceptions)){
+      stop("stutter_exceptions is not a list")
+    }
+  }
+
   stutter$name <- name
   stutter$delta <- delta
+
   stutter$regression <- stutter_regression
 
   if (!missing(stutter_exceptions)){
