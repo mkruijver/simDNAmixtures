@@ -19,6 +19,19 @@
 #' @export
 sample_mixture_profile <- function(genotypes, model, sample_name = "mixture"){
 
+  if (!is.list(genotypes)){
+    stop("genotypes is not a list of DataFrames")
+  }
+  if (!all(sapply(genotypes, is.data.frame))){
+    stop("genotypes is not a list of DataFrames")
+  }
+  if (!is.character(sample_name)){
+    stop("sample_name is not a character")
+  }
+  if (length(sample_name) != 1){
+    stop("sample_name is not length 1")
+  }
+
   profile <- model$build_expected_profile(genotypes)
   profile <- model$sample_peak_heights(profile)
 
