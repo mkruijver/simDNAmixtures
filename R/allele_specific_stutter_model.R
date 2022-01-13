@@ -25,7 +25,7 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
 
   size_regression <- stutter_model$size_regression
 
-  # apply all stutter types in the model
+  # compute ExpectedStutter for all stutter types in the model
   for (i_stutter in seq_along(stutter_model$stutter_types)){
     stutter <- stutter_model$stutter_types[[i_stutter]]
 
@@ -55,7 +55,7 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
   }
 
   # set NAs from rowbinding to zero
-  for (stutter_name in names(stutter_model$stutters)){
+  for (stutter_name in names(stutter_model$stutter_types)){
     column_name <- paste0("Expected", stutter_name)
 
     x[[column_name]][is.na(x[[column_name]])] <- 0.
