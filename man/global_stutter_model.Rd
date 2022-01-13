@@ -2,7 +2,7 @@
 % Please edit documentation in R/global_stutter_model.R
 \name{global_stutter_model}
 \alias{global_stutter_model}
-\title{Global stutter model where the expected stutter rate is constant across alleleles and loci}
+\title{Global stutter model where the expected stutter rate is constant across alleles and loci}
 \usage{
 global_stutter_model(back_stutter_rate, forward_stutter_rate, size_regression)
 }
@@ -14,7 +14,7 @@ global_stutter_model(back_stutter_rate, forward_stutter_rate, size_regression)
 \item{size_regression.}{Function, see \link{read_size_regression}.}
 }
 \description{
-Global stutter model where the expected stutter rate is constant across alleleles and loci
+Global stutter model where the expected stutter rate is constant across alleles and loci
 }
 \details{
 When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.

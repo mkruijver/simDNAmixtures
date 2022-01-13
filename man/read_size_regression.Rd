@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_size_regression.R
 \name{read_size_regression}
 \alias{read_size_regression}
-\title{Reads a stutter regression file}
+\title{Reads a size regression file}
 \usage{
 read_size_regression(filename)
 }
@@ -10,7 +10,7 @@ read_size_regression(filename)
 \item{filename}{Character. Path to file.}
 }
 \description{
-Reads a stutter regression file
+Reads a size regression file
 }
 \details{
 Reads the file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.

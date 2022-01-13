@@ -48,7 +48,7 @@ global_stutter_model_add_expected_stutter <- function(stutter_model, x){
 
   x_pre_stutter <- x
 
-  x$ExpectedAllelicPreStutter <- x$ExpectedAllelic
+  x$ExpectedAllelePreStutter <- x$ExpectedAllele
 
   x$ExpectedStutter <- 0.
 
@@ -69,11 +69,11 @@ global_stutter_model_add_expected_stutter <- function(stutter_model, x){
       parent <- x_pre_stutter$Allele[i_row]
       target <- get_stutter_target(parent, stutter$delta)
       target_size <- size_regression(marker, target)
-      parent_height <- x_pre_stutter$ExpectedAllelic[i_row]
+      parent_height <- x_pre_stutter$ExpectedAllele[i_row]
       expected <- parent_height * stutter_rate
 
-      # subtract stutter from Allelic
-      x <- add_expected_peak_height(x, marker, parent, NA, -expected, "ExpectedAllelic")
+      # subtract stutter from Allele
+      x <- add_expected_peak_height(x, marker, parent, NA, -expected, "ExpectedAllele")
       # add expected stutter
       x <- add_expected_peak_height(x, marker, target, target_size, expected, column_name)
     }
@@ -101,8 +101,8 @@ add_expected_peak_height <- function(x, marker, allele, size, expected, column_n
   if(length(idx)==0){
 
     new_df <- data.frame(Marker=marker, Allele=allele,
-                         ExpectedAllelicPreStutter = 0.,
-                         ExpectedAllelic = 0., ExpectedStutter = 0.,
+                         ExpectedAllelePreStutter = 0.,
+                         ExpectedAllele = 0., ExpectedStutter = 0.,
                Size=size, stringsAsFactors = FALSE)
     new_df[[column_name]] <- expected
 

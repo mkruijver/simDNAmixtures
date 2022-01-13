@@ -126,10 +126,10 @@ gamma_model_build_expected_profile <- function(model, genotypes){
     stutter_model <- model$stutter_model
 
     x <- stutter_model$add_expected_stutter(x)
-    x$Expected <- x$ExpectedAllelic + x$ExpectedStutter
+    x$Expected <- x$ExpectedAllele + x$ExpectedStutter
   }
   else{
-    x$Expected <- x$ExpectedAllelic
+    x$Expected <- x$ExpectedAllele
   }
 
   x
@@ -163,9 +163,9 @@ add_expected_allelic_peak_height <- function(x, marker, allele, size, expected){
   if(length(idx)==0){
     return(dplyr::bind_rows(x, data.frame(Marker=marker, Allele=allele,
                                           Size=size,
-                                          ExpectedAllelic=expected, stringsAsFactors = FALSE)))
+                                          ExpectedAllele=expected, stringsAsFactors = FALSE)))
   }else if(length(idx)==1){
-    x$ExpectedAllelic[idx] <- x$ExpectedAllelic[idx] + expected
+    x$ExpectedAllele[idx] <- x$ExpectedAllele[idx] + expected
     return(x)
   }else{
     stop("something wrong")
