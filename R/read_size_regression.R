@@ -1,4 +1,4 @@
-#' @title Reads a stutter regression file
+#' @title Reads a size regression file
 #'
 #' @param filename Character. Path to file.
 #' @details Reads the file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
