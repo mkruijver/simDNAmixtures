@@ -81,6 +81,13 @@ global_stutter_model_add_expected_stutter <- function(stutter_model, x){
     x$ExpectedStutter <- x$ExpectedStutter + x[[column_name]]
   }
 
+  # set NAs from rowbinding to zero
+  for (stutter_name in names(stutter_model$stutters)){
+    column_name <- paste0("Expected", stutter_name)
+
+    x[[column_name]][is.na(x[[column_name]])] <- 0.
+  }
+
   x
 }
 
