@@ -55,6 +55,10 @@ stutter_type <- function(name, delta, stutter_regression, stutter_exceptions){
     if (!is.null(stutter$exceptions)){
       exception <- stutter$exceptions[[locus]][[as.character(allele)]]
     }
+    else{
+      exception <- NULL
+    }
+
 
     if (isTRUE(exception > 0)){
       return(exception)
