@@ -13,7 +13,7 @@ stutter_type(name, delta, stutter_regression, stutter_exceptions)
 
 \item{stutter_regression}{Function. See \link{read_stutter_regression}.}
 
-\item{stutter_exceptions}{Optinally a list. See \link{read_stutter_exceptions}.}
+\item{stutter_exceptions}{Optionally a list. See \link{read_stutter_exceptions}.}
 }
 \description{
 Defines a stutter type to be used in an allele specific stutter model.

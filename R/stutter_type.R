@@ -3,7 +3,7 @@
 #' @param name Character. Name of the stutter, e.g. "BackStutter"
 #' @param delta Numeric. Repeat units gained (lost when negative).
 #' @param stutter_regression Function. See \link{read_stutter_regression}.
-#' @param stutter_exceptions Optinally a list. See \link{read_stutter_exceptions}.
+#' @param stutter_exceptions Optionally a list. See \link{read_stutter_exceptions}.
 #' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
 #' @examples
 #' filename_bs_exceptions <- system.file("extdata","GlobalFiler_Stutter_Exceptions_3500.csv",package = "SimMixDNA")
