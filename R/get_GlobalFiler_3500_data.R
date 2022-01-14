@@ -43,5 +43,15 @@ get_GlobalFiler_3500_data <- function() {
   gf$stutter_model <- allele_specific_stutter_model(stutter_types = gf$stutters,
                                                     size_regression = gf$size_regression)
 
+  # log-normal stutter variability model
+  gf$log_normal_stutter_variability <- list(
+    BackStutter = list(k2_prior = c(1.884,7.686),
+                       stutter_max = 0.3,
+                       inversely_proportional_to_parent = TRUE),
+    ForwardStutter = list(k2_prior = c(2.144,4.507),
+                       stutter_max = 0.15,
+                       inversely_proportional_to_parent = FALSE)
+  )
+
   gf
 }
