@@ -90,28 +90,3 @@ global_stutter_model_add_expected_stutter <- function(stutter_model, x){
 
   x
 }
-
-get_stutter_target <- function(parent, delta){
-  as.character(as.numeric(parent) + delta)
-}
-
-add_expected_peak_height <- function(x, marker, allele, size, expected, column_name){
-  idx <- get_allele_index(x, marker, allele)
-
-  if(length(idx)==0){
-
-    new_df <- data.frame(Marker=marker, Allele=allele,
-                         ExpectedAllelePreStutter = 0.,
-                         ExpectedAllele = 0., ExpectedStutter = 0.,
-               Size=size, stringsAsFactors = FALSE)
-    new_df[[column_name]] <- expected
-
-    return(dplyr::bind_rows(x, new_df))
-  }else if(length(idx)==1){
-    x[[column_name]][idx] <- x[[column_name]][idx] + expected
-    return(x)
-  }else{
-    stop("something wrong")
-  }
-}
-
