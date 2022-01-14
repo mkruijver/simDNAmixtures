@@ -152,22 +152,3 @@ gamma_model_sample_peak_heights <- function(model, x){
 
   x
 }
-
-get_allele_index <- function(x, marker, allele){
-  which(x$Marker == marker & x$Allele == allele)
-}
-
-add_expected_allelic_peak_height <- function(x, marker, allele, size, expected){
-  idx <- get_allele_index(x, marker, allele)
-
-  if(length(idx)==0){
-    return(dplyr::bind_rows(x, data.frame(Marker=marker, Allele=allele,
-                                          Size=size,
-                                          ExpectedAllele=expected, stringsAsFactors = FALSE)))
-  }else if(length(idx)==1){
-    x$ExpectedAllele[idx] <- x$ExpectedAllele[idx] + expected
-    return(x)
-  }else{
-    stop("something wrong")
-  }
-}
