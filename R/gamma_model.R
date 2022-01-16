@@ -63,8 +63,13 @@ gamma_model <- function(mixture_proportions, mu, cv,
 
   model$parameters <- parameters
   model$size_regression <- size_regression
-  model$build_expected_profile <- function(...) gamma_model_build_expected_profile(model, ...)
-  model$sample_peak_heights <- function(...) gamma_model_sample_peak_heights(model, ...)
+
+  model$build_expected_profile_and_sample_peak_heights <- function(genotypes){
+    expected_profile <- gamma_model_build_expected_profile(model, genotypes)
+    x <- gamma_model_sample_peak_heights(model, expected_profile)
+
+    x
+  }
 
   if (!missing(stutter_model)){
     model$stutter_model <- stutter_model

@@ -32,8 +32,7 @@ sample_mixture_profile <- function(genotypes, model, sample_name = "mixture"){
     stop("sample_name is not length 1")
   }
 
-  profile <- model$build_expected_profile(genotypes)
-  profile <- model$sample_peak_heights(profile)
+  profile <- model$build_expected_profile_and_sample_peak_heights(genotypes)
 
   profile <- reorder_profile(profile)
 
