@@ -144,7 +144,7 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
       for (a in ab){
         size <- size_regression(locus, a)
 
-        deg <- exp(-degradation[i_contributor] * (size - 100.))
+        deg <- exp(-degradation[i_contributor] * (size - 80.))
 
         amount <- lsae * deg * template_contributor
 
