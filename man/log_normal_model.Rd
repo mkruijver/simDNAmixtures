@@ -9,6 +9,7 @@ log_normal_model(
   degradation = rep(0, length(template)),
   c2,
   stutter_model,
+  stutter_variability,
   size_regression
 )
 }
@@ -19,9 +20,13 @@ log_normal_model(
 
 \item{c2}{Numeric. Allele variance parameter.}
 
-\item{size_regression.}{Function, see \link{read_size_regression}.}
+\item{stutter_model}{Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.}
 
-\item{stutter_model.}{Optionally a stutter_model object. See \link{global_stutter_model}.}
+\item{stutter_variability}{Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.}
+
+\item{size_regression}{Function, see \link{read_size_regression}.}
+
+\item{k2}{Optionally a numeric vector with stutter variance parameters. See \link{sample_log_normal_stutter_variance}.}
 }
 \description{
 Defines a log normal model for peak height variability
