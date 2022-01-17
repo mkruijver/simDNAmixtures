@@ -53,5 +53,7 @@ get_GlobalFiler_3500_data <- function() {
                        inversely_proportional_to_parent = FALSE)
   )
 
+  gf$log_normal_LSAE_variance <- 0.019
+
   gf
 }

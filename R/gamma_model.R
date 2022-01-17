@@ -4,6 +4,8 @@
 #' @param mu Numeric. Expectation of a full heterozygote contributing allele peak height.
 #' @param cv Numeric. Coefficient of variation of a full heterozygote contributing allele peak height
 #' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.
+#' @param locus_names Character vector.
+#' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
 #' @param size_regression. Function, see \link{read_size_regression}.
 #' @param stutter_model. Optionally a stutter_model object. See \link{global_stutter_model}.
 #' @details Defines a gamma model as described by Bleka et al.
@@ -34,6 +36,15 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("degradation_beta should not exceed 1")
   }
 
+  if (!is.character(locus_names)){
+    stop("locus_names needs to be a character vector")
+  }
+
+  if (!all(locus_names %in% names(LSAE))){
+    stop("all locus names need to be in names(LSAE)")
+  }
+
+
   if ((!is.numeric(mu)) || (length(mu) != 1) ){
     stop("mu should be a numeric of length 1")
   }
@@ -56,6 +67,9 @@ gamma_model <- function(mixture_proportions, mu, cv,
 
   model <- list()
 
+  model$locus_names <- locus_names
+  model$LSAE <- lsae
+
   parameters <- list(mixture_proportions = mixture_proportions,
                      mu = mu,
                      cv = cv,
@@ -67,6 +81,8 @@ gamma_model <- function(mixture_proportions, mu, cv,
   model$build_expected_profile_and_sample_peak_heights <- function(genotypes){
     expected_profile <- gamma_model_build_expected_profile(model, genotypes)
     x <- gamma_model_sample_peak_heights(model, expected_profile)
+
+    x$LSAE <- LSAE[x$Marker]
 
     x
   }
@@ -116,12 +132,15 @@ gamma_model_build_expected_profile <- function(model, genotypes){
       locus <- g$Locus[i_row]
       ab <- c(g$Allele1[i_row], g$Allele2[i_row])
 
+      lsae <- as.numeric(model$LSAE[locus])
+
       for (a in ab){
         size <- size_regression(locus, a)
 
         deg <- beta[i_contributor] ^ ((size - 125.) / 100.)
 
-        x <- add_expected_allelic_peak_height(x, locus, a, size, deg * mu_contributor)
+        amount <- lsae * deg * mu_contributor
+        x <- add_expected_allelic_peak_height(x, locus, a, size, amount)
       }
 
     }

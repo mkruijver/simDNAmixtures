@@ -1,7 +1,9 @@
 #' @title Defines a log normal model for peak height variability
 #'
 #' @param template Numeric vector
-#' @param degradation Numeric Vector of same length as template. Degradation parameters for each contributor.
+#' @param degradation Numeric vector of same length as template. Degradation parameters for each contributor.
+#' @param locus_names Character vector.
+#' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
 #' @param c2 Numeric. Allele variance parameter.
 #' @param k2 Optionally a numeric vector with stutter variance parameters. See \link{sample_log_normal_stutter_variance}.
 #' @param size_regression Function, see \link{read_size_regression}.
@@ -10,6 +12,8 @@
 #' @details Defines a log normal model as described by Bright et al.
 #' @export
 log_normal_model <- function(template, degradation = rep(0., length(template)),
+                             locus_names,
+                             LSAE = setNames(rep(1., length(locus_names)), locus_names),
                              c2, k2, stutter_model,
                              stutter_variability,
                              size_regression){
@@ -27,6 +31,14 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
 
   if (any(degradation < 0)){
     stop("degradation should be non-negative")
+  }
+
+  if (!is.character(locus_names)){
+    stop("locus_names needs to be a character vector")
+  }
+
+  if (!all(locus_names %in% names(LSAE))){
+    stop("all locus names need to be in names(LSAE)")
   }
 
   if (!is.numeric(c2)){
@@ -48,7 +60,7 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
       stop("k2 needs to be supplied when stutter_model is supplied")
     }
 
-    expected_k2_names <- paste0("k2", names(gf$stutter_model$stutter_types))
+    expected_k2_names <- paste0("k2", names(stutter_model$stutter_types))
 
     if (!identical(expected_k2_names, names(k2))){
       stop("k2 does not have expected names: ", paste(expected_k2_names, collapse = ", "))
@@ -61,6 +73,9 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
                      degradation = degradation,
                      c2 = c2)
 
+  model$locus_names <- locus_names
+  model$LSAE <- LSAE
+
   model$parameters <- parameters
   model$size_regression <- size_regression
 
@@ -71,12 +86,15 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
                                               expected_profile,
                                               model$stutter_variability)
 
+    x$LSAE <- LSAE[x$Marker]
+
     x
   }
 
   if (!missing(stutter_model)){
     model$stutter_model <- stutter_model
     model$stutter_variability <- stutter_variability
+    model$parameters$k2 <- k2
   }
 
   class(model) <- "pg_model"
@@ -121,13 +139,16 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
       locus <- g$Locus[i_row]
       ab <- c(g$Allele1[i_row], g$Allele2[i_row])
 
+      lsae <- as.numeric(model$LSAE[locus])
+
       for (a in ab){
         size <- size_regression(locus, a)
 
         deg <- exp(-degradation[i_contributor] * (size - 100.))
 
-        x <- add_expected_allelic_peak_height(x, locus, a, size,
-                                              deg * template_contributor)
+        amount <- lsae * deg * template_contributor
+
+        x <- add_expected_allelic_peak_height(x, locus, a, size, amount)
       }
     }
   }
@@ -169,6 +190,8 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
   i_stutter = 1
 
   # determine expected stutters based on _realised_ HeightAllele
+  k2 <- parameters$k2
+
   for (i_stutter in seq_along(stutter_model$stutter_types)){
     stutter <- stutter_model$stutter_types[[i_stutter]]
     stutter_name <- stutter$name
@@ -243,6 +266,12 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
   x$HeightStutter <- rowSums(x[paste0("Height", names(stutter_types))])
 
   x$Height <- x$HeightAllele + x$HeightStutter
+
+  # fix expected stutter total
+  x$ExpectedStutter <- rowSums(x[paste0("Expected", names(stutter_types))])
+
+  x$Expected <- x$ExpectedStutter + x$ExpectedAllele
+
 
   x
 }

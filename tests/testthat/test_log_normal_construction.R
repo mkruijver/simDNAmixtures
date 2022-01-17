@@ -7,6 +7,7 @@ test_that("Log-Normal model can be constructed", {
 
   size_regression <- read_size_regression(system.file("extdata","GlobalFiler_SizeRegression.csv",package = "SimMixDNA"))
   model <- log_normal_model(template = template,
+                            locus_names = "locus1",
                             c2 = c2, size_regression = size_regression)
 
   expect_identical(model$size_regression, size_regression)
