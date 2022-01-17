@@ -220,6 +220,8 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
 
 
       observed_parent <- x$HeightAllele[idx_parents]
+
+      x[[variance_column]] <- 0.
       x[[variance_column]][idx_stutter] <- stutter_k2 / (b / observed_parent + observed_parent)
 
       x[[height_column]][idx_stutter] <- 10^(log10(x[[expected_column]][idx_stutter]) +
