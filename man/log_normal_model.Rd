@@ -7,6 +7,9 @@
 log_normal_model(
   template,
   degradation = rep(0, length(template)),
+  locus_names,
+  LSAE = setNames(rep(1, length(locus_names)), locus_names),
+  detection_threshold = setNames(rep(50, length(locus_names)), locus_names),
   c2,
   k2,
   stutter_model,
@@ -17,7 +20,13 @@ log_normal_model(
 \arguments{
 \item{template}{Numeric vector}
 
-\item{degradation}{Numeric Vector of same length as template. Degradation parameters for each contributor.}
+\item{degradation}{Numeric vector of same length as template. Degradation parameters for each contributor.}
+
+\item{locus_names}{Character vector.}
+
+\item{LSAE}{Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.}
+
+\item{detection_threshold}{Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.}
 
 \item{c2}{Numeric. Allele variance parameter.}
 

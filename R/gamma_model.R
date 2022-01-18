@@ -6,12 +6,16 @@
 #' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.
 #' @param locus_names Character vector.
 #' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
+#' @param detection_threshold Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
 #' @param size_regression. Function, see \link{read_size_regression}.
 #' @param stutter_model. Optionally a stutter_model object. See \link{global_stutter_model}.
 #' @details Defines a gamma model as described by Bleka et al.
 #' @export
 gamma_model <- function(mixture_proportions, mu, cv,
                         degradation_beta = rep(1., length(mixture_proportions)),
+                        locus_names,
+                        LSAE = setNames(rep(1., length(locus_names)), locus_names),
+                        detection_threshold = setNames(rep(50., length(locus_names)), locus_names),
                         size_regression, stutter_model){
 
   if (!is.numeric(mixture_proportions)){
@@ -44,6 +48,17 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("all locus names need to be in names(LSAE)")
   }
 
+  if (!all(locus_names %in% names(detection_threshold))){
+    stop("all locus names need to be in names(detection_threshold)")
+  }
+
+  if (!is.numeric(LSAE)){
+    stop("LSAE needs to be numeric")
+  }
+
+  if (!is.numeric(detection_threshold)){
+    stop("detection_threhold needs to be numeric")
+  }
 
   if ((!is.numeric(mu)) || (length(mu) != 1) ){
     stop("mu should be a numeric of length 1")
@@ -69,6 +84,7 @@ gamma_model <- function(mixture_proportions, mu, cv,
 
   model$locus_names <- locus_names
   model$LSAE <- lsae
+  model$detection_threshold <- detection_threshold
 
   parameters <- list(mixture_proportions = mixture_proportions,
                      mu = mu,
@@ -117,8 +133,10 @@ gamma_model_build_expected_profile <- function(model, genotypes){
   x <- data.frame(
     Marker=character(),
     Allele=character(),
+    Size=numeric(),
     Height=numeric(),
-    Size=numeric(),Expected=numeric(),
+    Expected=numeric(),
+    LSAE=numeric(),
     stringsAsFactors = FALSE)
 
   for (i_contributor in seq_len(number_of_contributors)){
@@ -173,6 +191,10 @@ gamma_model_sample_peak_heights <- function(model, x){
   x$Scale <- cv*cv * x$Expected
 
   x$Height <- rgamma(n = nrow(x), shape = x$Shape, scale = x$Scale)
+
+  # add detection threshold
+  x$DetectionThreshold <- model$detection_threshold[x$Marker]
+  x$HeightAtOrAboveDetectionThreshold <- round(x$Height) >= x$DetectionThreshold
 
   x
 }

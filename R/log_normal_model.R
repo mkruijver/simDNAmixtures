@@ -4,6 +4,7 @@
 #' @param degradation Numeric vector of same length as template. Degradation parameters for each contributor.
 #' @param locus_names Character vector.
 #' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
+#' @param detection_threshold Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
 #' @param c2 Numeric. Allele variance parameter.
 #' @param k2 Optionally a numeric vector with stutter variance parameters. See \link{sample_log_normal_stutter_variance}.
 #' @param size_regression Function, see \link{read_size_regression}.
@@ -14,6 +15,7 @@
 log_normal_model <- function(template, degradation = rep(0., length(template)),
                              locus_names,
                              LSAE = setNames(rep(1., length(locus_names)), locus_names),
+                             detection_threshold = setNames(rep(50., length(locus_names)), locus_names),
                              c2, k2, stutter_model,
                              stutter_variability,
                              size_regression){
@@ -39,6 +41,18 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
 
   if (!all(locus_names %in% names(LSAE))){
     stop("all locus names need to be in names(LSAE)")
+  }
+
+  if (!all(locus_names %in% names(detection_threshold))){
+    stop("all locus names need to be in names(detection_threshold)")
+  }
+
+  if (!is.numeric(LSAE)){
+    stop("LSAE needs to be numeric")
+  }
+
+  if (!is.numeric(detection_threshold)){
+    stop("detection_threhold needs to be numeric")
   }
 
   if (!is.numeric(c2)){
@@ -91,6 +105,7 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
 
   model$locus_names <- locus_names
   model$LSAE <- LSAE
+  model$detection_threshold <- detection_threshold
 
   model$parameters <- parameters
   model$size_regression <- size_regression
@@ -139,9 +154,10 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
   x <- data.frame(
     Marker=character(),
     Allele=character(),
-    Height=numeric(),
     Size=numeric(),
+    Height=numeric(),
     Expected=numeric(),
+    LSAE=numeric(),
     stringsAsFactors = FALSE)
 
   for (i_contributor in seq_len(number_of_contributors)){
@@ -245,9 +261,8 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
     variance_column <- paste0("Variance", stutter_name)
 
     height_uncapped_column <- paste0("HeightUncapped", stutter_name)
-    height_column <- paste0("Height", stutter_name)
 
-    x[[height_uncapped_column]] <- x[[height_column]] <- 0.
+    x[[height_uncapped_column]] <- 0.
 
     stutter_parent_column <- paste0("StutterParent", stutter_name)
 
@@ -287,12 +302,15 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
                                                      sd = sqrt(x[[variance_column]])))
     }
 
-    x[[height_column]] <- pmin(x[[height_uncapped_column]],
-                               x[[paste0("StutterCap", stutter_name)]])
+
   }
 
   # add up stutters
-  x$HeightStutter <- rowSums(x[paste0("Height", names(stutter_types))])
+  x$HeightUncappedStutter <- rowSums(x[paste0("HeightUncapped", names(stutter_types))])
+
+  x$StutterCap <- do.call(pmax, x[paste0("StutterCap", names(stutter_types))])
+
+  x$HeightStutter <- pmin(x$HeightUncappedStutter, x$StutterCap)
 
   x$Height <- x$HeightAllele + x$HeightStutter
 
@@ -301,6 +319,9 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
 
   x$Expected <- x$ExpectedStutter + x$ExpectedAllele
 
+  # add detection threshold
+  x$DetectionThreshold <- model$detection_threshold[x$Marker]
+  x$HeightAtOrAboveDetectionThreshold <- round(x$Height) >= x$DetectionThreshold
 
   x
 }
