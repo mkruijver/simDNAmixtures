@@ -65,6 +65,22 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
     if (!identical(expected_k2_names, names(k2))){
       stop("k2 does not have expected names: ", paste(expected_k2_names, collapse = ", "))
     }
+
+    for (stutter_name in names(stutter_variability)){
+      if (!is.numeric(stutter_variability[[stutter_name]]$max_stutter_ratio)){
+        stop("stutter_variability$", stutter_name,
+             "$max_stutter_ratio is not numeric")
+      }
+      if (length(stutter_variability[[stutter_name]]$max_stutter_ratio) != 1){
+        stop("stutter_variability$", stutter_name,
+             "$max_stutter_ratio needs to have length 1")
+      }
+      if (stutter_variability[[stutter_name]]$max_stutter_ratio < 0){
+        stop("stutter_variability$", stutter_name,
+             "$max_stutter_ratio needs to be non-negative")
+      }
+
+    }
   }
 
   model <- list()
@@ -196,10 +212,15 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
     stutter <- stutter_model$stutter_types[[i_stutter]]
     stutter_name <- stutter$name
 
+    sr_max <- stutter_variability[[stutter_name]]$stutter_max
+
     sr_column_name <- paste0("StutterRate", stutter_name)
     stutter_product_column_name <- paste0("StutterProduct", stutter_name)
 
     expected_column_name <- paste0("Expected", stutter_name)
+    stutter_cap_column_name <- paste0("StutterCap", stutter_name)
+
+    x[[stutter_cap_column_name]] <- 0.
 
     idx_parents <- !is.na(x[[stutter_product_column_name]])
     stutter_products <- x[[stutter_product_column_name]][idx_parents]
@@ -209,6 +230,9 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
 
     x[[expected_column_name]][idx_targets] <- x$HeightAllele[idx_parents] *
                                     x$StutterRatioBackStutter[idx_parents]
+
+    x[[stutter_cap_column_name]][idx_targets] <- x$HeightAllele[idx_parents] *
+                                    sr_max
   }
 
   # sample stutter heights
@@ -219,9 +243,11 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
   for (stutter_name in names(stutter_types)){
     expected_column <- paste0("Expected", stutter_name)
     variance_column <- paste0("Variance", stutter_name)
+
+    height_uncapped_column <- paste0("HeightUncapped", stutter_name)
     height_column <- paste0("Height", stutter_name)
 
-    x[[height_column]] <- 0.
+    x[[height_uncapped_column]] <- x[[height_column]] <- 0.
 
     stutter_parent_column <- paste0("StutterParent", stutter_name)
 
@@ -247,20 +273,23 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
       x[[variance_column]] <- 0.
       x[[variance_column]][idx_stutter] <- stutter_k2 / (b / observed_parent + observed_parent)
 
-      x[[height_column]][idx_stutter] <- 10^(log10(x[[expected_column]][idx_stutter]) +
+      x[[height_uncapped_column]][idx_stutter] <- 10^(log10(x[[expected_column]][idx_stutter]) +
                                                rnorm(n = sum(idx_stutter),
                                                      mean = 0,
                                                      sd = sqrt(x[[variance_column]][idx_stutter])))
+
     }
     else{
       x[[variance_column]] <- stutter_k2 / (b / x[[expected_column]] + x[[expected_column]])
 
-      x[[height_column]] <- 10^(log10(x[[expected_column]]) + rnorm(n = nrow(x),
+      x[[height_uncapped_column]] <- 10^(log10(x[[expected_column]]) + rnorm(n = nrow(x),
                                                      mean = 0,
                                                      sd = sqrt(x[[variance_column]])))
     }
-  }
 
+    x[[height_column]] <- pmin(x[[height_uncapped_column]],
+                               x[[paste0("StutterCap", stutter_name)]])
+  }
 
   # add up stutters
   x$HeightStutter <- rowSums(x[paste0("Height", names(stutter_types))])

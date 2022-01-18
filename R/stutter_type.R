@@ -15,7 +15,8 @@
 #'                             stutter_regression = bs_regression,
 #'                             stutter_exceptions = bs_exceptions)
 #' @export
-stutter_type <- function(name, delta, stutter_regression, stutter_exceptions){
+stutter_type <- function(name, delta, stutter_regression,
+                         stutter_exceptions){
 
   stutter <- list()
   class(stutter) <- "stutter_type"
@@ -43,7 +44,6 @@ stutter_type <- function(name, delta, stutter_regression, stutter_exceptions){
 
   stutter$name <- name
   stutter$delta <- delta
-
   stutter$regression <- stutter_regression
 
   if (!missing(stutter_exceptions)){

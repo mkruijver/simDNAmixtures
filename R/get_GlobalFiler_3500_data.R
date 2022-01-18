@@ -47,10 +47,12 @@ get_GlobalFiler_3500_data <- function() {
   gf$log_normal_stutter_variability <- list(
     BackStutter = list(k2_prior = c(1.884,7.686),
                        stutter_max = 0.3,
-                       inversely_proportional_to_parent = TRUE),
+                       inversely_proportional_to_parent = TRUE,
+                       max_stutter_ratio = 0.3),
     ForwardStutter = list(k2_prior = c(2.144,4.507),
                        stutter_max = 0.15,
-                       inversely_proportional_to_parent = FALSE)
+                       inversely_proportional_to_parent = FALSE,
+                       max_stutter_ratio = 0.15)
   )
 
   gf$log_normal_LSAE_variance <- 0.019
