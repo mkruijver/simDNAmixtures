@@ -55,6 +55,7 @@ get_GlobalFiler_3500_data <- function() {
                        max_stutter_ratio = 0.15)
   )
 
+  gf$log_normal_c2_prior <- c(8.45,1.746)
   gf$log_normal_LSAE_variance_prior <- 0.019
 
   gf$detection_threshold <- c(D3S1358 = 50, vWA = 50, D16S539 = 50, CSF1PO = 50, TPOX = 50,

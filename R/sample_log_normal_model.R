@@ -1,4 +1,4 @@
-#' @title Sample log normal model with parameters according to priors
+#' @title Sample log normal model(s) with parameters according to priors
 #'
 #' @param number_of_contributors Integer
 #' @param min_template Numeric of length one.
@@ -34,6 +34,16 @@ sample_log_normal_model <- function(number_of_contributors,
                                     size_regression,
                                     stutter_model,
                                     stutter_variability){
+
+  if (length(number_of_contributors) > 1){
+    this_call <- match.call()
+
+    return(lapply(number_of_contributors,
+                  function(n){
+                    this_call$number_of_contributors <- n
+                    eval(this_call)
+                  }))
+  }
 
   if (length(number_of_contributors) != 1){
     stop("number_of_contributors needs to have length 1")

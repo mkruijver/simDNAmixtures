@@ -1,4 +1,4 @@
-#' @title Sample mixture profile
+#' @title Sample mixture profile with provided genotypes
 #'
 #' @param genotypes List of contributor genotypes. See \link{sample_contributor_genotypes}.
 #' @param model pg_model object.
