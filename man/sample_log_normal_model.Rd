@@ -2,7 +2,7 @@
 % Please edit documentation in R/sample_log_normal_model.R
 \name{sample_log_normal_model}
 \alias{sample_log_normal_model}
-\title{Sample log normal model with parameters according to priors}
+\title{Sample log normal model(s) with parameters according to priors}
 \usage{
 sample_log_normal_model(
   number_of_contributors,
@@ -10,14 +10,7 @@ sample_log_normal_model(
   max_template,
   degradation_shape,
   degradation_scale,
-  locus_names,
-  degradation_parameter_cap = 0.01,
-  c2_prior,
-  LSAE_variance_prior,
-  detection_threshold = setNames(rep(50, length(locus_names)), locus_names),
-  size_regression,
-  stutter_model,
-  stutter_variability
+  model_settings
 )
 }
 \arguments{
@@ -31,32 +24,24 @@ sample_log_normal_model(
 
 \item{degradation_scale}{Numeric of length one.}
 
-\item{locus_names}{Character vector.}
-
-\item{degradation_parameter_cap}{Numeric. Defaults to 0.01.}
-
-\item{c2_prior}{Numeric of length two with shape and scale.}
-
-\item{LSAE_variance_prior}{Numeric of length one.}
-
-\item{detection_threshold}{Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.}
-
-\item{size_regression}{Function, see \link{read_size_regression}.}
-
-\item{stutter_model}{Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.}
-
-\item{stutter_variability}{Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.}
+\item{model_settings}{List. Possible parameters: \itemize{
+\item locus_names. Character vector.
+\item degradation_parameter_cap. Numeric.
+\item c2_prior. Numeric of length two with shape and scale.
+\item LSAE_variance_prior. Numeric of length one.
+\item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+\item size_regression. Function, see \link{read_size_regression}.
+\item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
+\item stutter_variability. Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
+}}
 }
 \description{
-Sample log normal model with parameters according to priors
+Sample log normal model(s) with parameters according to priors
 }
 \examples{
 gf <- get_GlobalFiler_3500_data()
 model_no_stutter <- sample_log_normal_model(number_of_contributors = 1,
                                             min_template = 50., max_template = 1000.,
                                             degradation_shape = 2.5, degradation_scale = 1e-3,
-                                            locus_names = gf$autosomal_markers,
-                                            c2_prior = gf$log_normal_c2_prior,
-                                            LSAE_variance_prior = gf$log_normal_LSAE_variance,
-                                            size_regression = gf$size_regression)
+                                            model_settings = gf$log_normal_settings)
 }

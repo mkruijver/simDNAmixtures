@@ -2,23 +2,25 @@
 #'
 #' @param template Numeric vector
 #' @param degradation Numeric vector of same length as template. Degradation parameters for each contributor.
-#' @param locus_names Character vector.
 #' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
-#' @param detection_threshold Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
 #' @param c2 Numeric. Allele variance parameter.
 #' @param k2 Optionally a numeric vector with stutter variance parameters. See \link{sample_log_normal_stutter_variance}.
-#' @param size_regression Function, see \link{read_size_regression}.
-#' @param stutter_model Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
-#' @param stutter_variability Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
-#' @details Defines a log normal model as described by Bright et al.
+#' @param model_settings List. Possible parameters: \itemize{
+#'  \item locus_names. Character vector.
+#'  \item degradation_parameter_cap. Numeric.
+#'  \item c2_prior. Numeric of length two with shape and scale.
+#'  \item LSAE_variance_prior. Numeric of length one.
+#'  \item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+#'  \item size_regression. Function, see \link{read_size_regression}.
+#'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
+#'  \item stutter_variability. Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
+#'  }
 #' @export
 log_normal_model <- function(template, degradation = rep(0., length(template)),
-                             locus_names,
-                             LSAE = setNames(rep(1., length(locus_names)), locus_names),
-                             detection_threshold = setNames(rep(50., length(locus_names)), locus_names),
-                             c2, k2, stutter_model,
-                             stutter_variability,
-                             size_regression){
+                             LSAE = setNames(rep(1., length(model_settings$locus_names)),
+                                             model_settings$locus_names),
+                             c2, k2,
+                             model_settings){
 
   if (!is.numeric(template)){
     stop("template should be a numeric vector")
@@ -35,26 +37,6 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
     stop("degradation should be non-negative")
   }
 
-  if (!is.character(locus_names)){
-    stop("locus_names needs to be a character vector")
-  }
-
-  if (!all(locus_names %in% names(LSAE))){
-    stop("all locus names need to be in names(LSAE)")
-  }
-
-  if (!all(locus_names %in% names(detection_threshold))){
-    stop("all locus names need to be in names(detection_threshold)")
-  }
-
-  if (!is.numeric(LSAE)){
-    stop("LSAE needs to be numeric")
-  }
-
-  if (!is.numeric(detection_threshold)){
-    stop("detection_threhold needs to be numeric")
-  }
-
   if (!is.numeric(c2)){
     stop("c2 should be numeric")
   }
@@ -65,37 +47,7 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
     stop("c2 should be positive")
   }
 
-  if (!missing(stutter_model)){
-    if (missing(stutter_variability)){
-      stop("stutter_variability needs to be supplied when stutter_model is supplied")
-    }
-
-    if (missing(k2)){
-      stop("k2 needs to be supplied when stutter_model is supplied")
-    }
-
-    expected_k2_names <- paste0("k2", names(stutter_model$stutter_types))
-
-    if (!identical(expected_k2_names, names(k2))){
-      stop("k2 does not have expected names: ", paste(expected_k2_names, collapse = ", "))
-    }
-
-    for (stutter_name in names(stutter_variability)){
-      if (!is.numeric(stutter_variability[[stutter_name]]$max_stutter_ratio)){
-        stop("stutter_variability$", stutter_name,
-             "$max_stutter_ratio is not numeric")
-      }
-      if (length(stutter_variability[[stutter_name]]$max_stutter_ratio) != 1){
-        stop("stutter_variability$", stutter_name,
-             "$max_stutter_ratio needs to have length 1")
-      }
-      if (stutter_variability[[stutter_name]]$max_stutter_ratio < 0){
-        stop("stutter_variability$", stutter_name,
-             "$max_stutter_ratio needs to be non-negative")
-      }
-
-    }
-  }
+  validate_log_normal_model_settings(model_settings, LSAE, k2)
 
   model <- list()
 
@@ -103,12 +55,12 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
                      degradation = degradation,
                      c2 = c2)
 
-  model$locus_names <- locus_names
+  model$locus_names <- model_settings$locus_names
   model$LSAE <- LSAE
-  model$detection_threshold <- detection_threshold
+  model$detection_threshold <- model_settings$detection_threshold
 
   model$parameters <- parameters
-  model$size_regression <- size_regression
+  model$size_regression <- model_settings$size_regression
 
   model$build_expected_profile_and_sample_peak_heights <- function(genotypes){
     expected_profile <- log_normal_model_build_expected_profile(model, genotypes)
@@ -122,9 +74,9 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
     x
   }
 
-  if (!missing(stutter_model)){
-    model$stutter_model <- stutter_model
-    model$stutter_variability <- stutter_variability
+  if (!is.null(model_settings$stutter_model)){
+    model$stutter_model <- model_settings$stutter_model
+    model$stutter_variability <- model_settings$stutter_variability
     model$parameters$k2 <- k2
   }
 

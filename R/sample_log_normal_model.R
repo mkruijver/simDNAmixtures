@@ -5,35 +5,27 @@
 #' @param max_template Numeric of length one.
 #' @param degradation_shape Numeric of length one.
 #' @param degradation_scale Numeric of length one.
-#' @param locus_names Character vector.
-#' @param degradation_parameter_cap Numeric. Defaults to 0.01.
-#' @param c2_prior Numeric of length two with shape and scale.
-#' @param LSAE_variance_prior Numeric of length one.
-#' @param detection_threshold Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
-#' @param size_regression Function, see \link{read_size_regression}.
-#' @param stutter_model Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
-#' @param stutter_variability Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
+#' @param model_settings List. Possible parameters: \itemize{
+#'  \item locus_names. Character vector.
+#'  \item degradation_parameter_cap. Numeric.
+#'  \item c2_prior. Numeric of length two with shape and scale.
+#'  \item LSAE_variance_prior. Numeric of length one.
+#'  \item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+#'  \item size_regression. Function, see \link{read_size_regression}.
+#'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
+#'  \item stutter_variability. Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
+#' }
 #' @examples
 #' gf <- get_GlobalFiler_3500_data()
 #' model_no_stutter <- sample_log_normal_model(number_of_contributors = 1,
 #'                                             min_template = 50., max_template = 1000.,
 #'                                             degradation_shape = 2.5, degradation_scale = 1e-3,
-#'                                             locus_names = gf$autosomal_markers,
-#'                                             c2_prior = gf$log_normal_c2_prior,
-#'                                             LSAE_variance_prior = gf$log_normal_LSAE_variance,
-#'                                             size_regression = gf$size_regression)
+#'                                             model_settings = gf$log_normal_settings)
 #' @export
 sample_log_normal_model <- function(number_of_contributors,
                                     min_template, max_template,
                                     degradation_shape, degradation_scale,
-                                    locus_names,
-                                    degradation_parameter_cap = 0.01,
-                                    c2_prior,
-                                    LSAE_variance_prior,
-                                    detection_threshold = setNames(rep(50., length(locus_names)), locus_names),
-                                    size_regression,
-                                    stutter_model,
-                                    stutter_variability){
+                                    model_settings){
 
   if (length(number_of_contributors) > 1){
     this_call <- match.call()
@@ -74,30 +66,10 @@ sample_log_normal_model <- function(number_of_contributors,
   if (min_template > max_template){
     stop("min_template > max_template")
   }
-  if ((!is.numeric(degradation_parameter_cap)) | (length(degradation_parameter_cap) != 1)){
-    stop("degradation_parameter_cap needs to be a numeric of length 1")
-  }
 
-  if (!missing(stutter_model)){
-    if (missing(stutter_variability)){
-      stop("stutter_variability needs to be supplied when stutter_model is supplied")
-    }
-
-    for (stutter_name in names(stutter_variability)){
-      if (!is.numeric(stutter_variability[[stutter_name]]$max_stutter_ratio)){
-        stop("stutter_variability$", stutter_name,
-             "$max_stutter_ratio is not numeric")
-      }
-      if (length(stutter_variability[[stutter_name]]$max_stutter_ratio) != 1){
-        stop("stutter_variability$", stutter_name,
-             "$max_stutter_ratio needs to have length 1")
-      }
-      if (stutter_variability[[stutter_name]]$max_stutter_ratio < 0){
-        stop("stutter_variability$", stutter_name,
-             "$max_stutter_ratio needs to be non-negative")
-      }
-    }
-  }
+  validate_log_normal_model_settings(model_settings,
+                                     validate_k2 = FALSE,
+                                     validate_LSAE = FALSE)
 
   template <- sort(runif(n = number_of_contributors,
                          min = min_template, max = max_template),
@@ -106,26 +78,27 @@ sample_log_normal_model <- function(number_of_contributors,
   degradation <- pmin(rgamma(n = number_of_contributors,
                              shape = degradation_shape,
                              scale = degradation_scale),
-                      degradation_parameter_cap)
+                      model_settings$degradation_parameter_cap)
 
+  c2_prior <- model_settings$c2_prior
   c2 <- rgamma(n = 1, shape = c2_prior[1],
                scale = c2_prior[2])
 
-  LSAE <- sample_LSAE(LSAE_variance_prior, locus_names)
+  LSAE <- sample_LSAE(model_settings$LSAE_variance_prior,
+                      model_settings$locus_names)
 
-  if (missing(stutter_model)){
+  if (is.null(model_settings$stutter_model)){
     model <- log_normal_model(template = template, degradation = degradation,
-                              locus_names = locus_names, LSAE = LSAE, c2 = c2,
-                              size_regression = size_regression)
+                              LSAE = LSAE, c2 = c2,
+                              model_settings = model_settings)
   }
   else{
-    k2 <- sample_log_normal_stutter_variance(stutter_variability)
+    k2 <- sample_log_normal_stutter_variance(model_settings$stutter_variability)
 
     model <- log_normal_model(template = template, degradation = degradation,
-                              locus_names = locus_names, LSAE = LSAE, c2 = c2,
-                              k2 = k2, stutter_model = stutter_model,
-                              stutter_variability = stutter_variability,
-                              size_regression = size_regression)
+                              LSAE = LSAE, c2 = c2,
+                              k2 = k2,
+                              model_settings = model_settings)
   }
 
   model

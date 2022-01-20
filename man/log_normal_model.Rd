@@ -7,14 +7,11 @@
 log_normal_model(
   template,
   degradation = rep(0, length(template)),
-  locus_names,
-  LSAE = setNames(rep(1, length(locus_names)), locus_names),
-  detection_threshold = setNames(rep(50, length(locus_names)), locus_names),
+  LSAE = setNames(rep(1, length(model_settings$locus_names)),
+    model_settings$locus_names),
   c2,
   k2,
-  stutter_model,
-  stutter_variability,
-  size_regression
+  model_settings
 )
 }
 \arguments{
@@ -22,25 +19,23 @@ log_normal_model(
 
 \item{degradation}{Numeric vector of same length as template. Degradation parameters for each contributor.}
 
-\item{locus_names}{Character vector.}
-
 \item{LSAE}{Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.}
-
-\item{detection_threshold}{Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.}
 
 \item{c2}{Numeric. Allele variance parameter.}
 
 \item{k2}{Optionally a numeric vector with stutter variance parameters. See \link{sample_log_normal_stutter_variance}.}
 
-\item{stutter_model}{Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.}
-
-\item{stutter_variability}{Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.}
-
-\item{size_regression}{Function, see \link{read_size_regression}.}
+\item{model_settings}{List. Possible parameters: \itemize{
+\item locus_names. Character vector.
+\item degradation_parameter_cap. Numeric.
+\item c2_prior. Numeric of length two with shape and scale.
+\item LSAE_variance_prior. Numeric of length one.
+\item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+\item size_regression. Function, see \link{read_size_regression}.
+\item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
+\item stutter_variability. Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
+}}
 }
 \description{
 Defines a log normal model for peak height variability
-}
-\details{
-Defines a log normal model as described by Bright et al.
 }
