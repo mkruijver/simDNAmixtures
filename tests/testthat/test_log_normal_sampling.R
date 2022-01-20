@@ -11,7 +11,7 @@ test_that("Log-Normal sampling (single source, no stutter)", {
 
   g <- sample_genotype(freqs = freqs, loci = gf$autosomal_markers)
 
-  s <- sample_mixture_profile(list(g), model, sample_name = "mix1")
+  s <- sample_mixture_from_genotypes(list(g), model, sample_name = "mix1")
 
   expect_equal(s$SampleName, rep("mix1", nrow(s)))
 })
@@ -38,7 +38,7 @@ test_that("Log-Normal sampling (single source, back and forward stutter)", {
 
   g <- sample_genotype(freqs = freqs, loci = gf$autosomal_markers)
 
-  s <- sample_mixture_profile(list(g), model, sample_name = "mix1")
+  s <- sample_mixture_from_genotypes(list(g), model, sample_name = "mix1")
 
   expect_equal(s$SampleName, rep("mix1", nrow(s)))
   expect_true("ExpectedBackStutter" %in% names(s))
