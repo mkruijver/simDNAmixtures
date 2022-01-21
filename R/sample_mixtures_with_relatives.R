@@ -54,9 +54,13 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
   samples <- list()
 
+  sample_names <- character(n)
+
   for (i_sample in seq_len(n)){
 
     sample_name <- paste0("sample", "_", sprintf("%04d", i_sample))
+
+    sample_names[i_sample] <- sample_name
 
     contributor_genotypes <- sample_contributor_genotypes(contributors, freqs, pedigree,
                                                           loci = model_settings$locus_names)
@@ -69,7 +73,8 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     mixture <- get_bare_mixture(annotated_mixture)
 
-    samples[[i_sample]] <- list(contributor_genotypes = contributor_genotypes,
+    samples[[i_sample]] <- list(sample_name = sample_name,
+                                contributor_genotypes = contributor_genotypes,
                                 model = model,
                                 annotated_mixture = annotated_mixture,
                                 mixture = mixture)
@@ -84,6 +89,8 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
       write_knowns(contributor_genotypes, knowns_dir, sample_name)
     }
   }
+
+  names(samples) <- sample_names
 
   samples
 }
