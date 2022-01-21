@@ -1,10 +1,13 @@
 #' @title Sample log normal model(s) with parameters according to priors
 #'
 #' @param number_of_contributors Integer
-#' @param min_template Numeric of length one.
-#' @param max_template Numeric of length one.
-#' @param degradation_shape Numeric of length one.
-#' @param degradation_scale Numeric of length one.
+#' @param sampling_parameters List. Needs to contain:
+#' \itemize{
+#'  \item min_template. Numeric of length one.
+#'  \item max_template. Numeric of length one.
+#'  \item degradation_shape. Numeric of length one.
+#'  \item degradation_scale. Numeric of length one.
+#' }
 #' @param model_settings List. Possible parameters: \itemize{
 #'  \item locus_names. Character vector.
 #'  \item degradation_parameter_cap. Numeric.
@@ -17,15 +20,15 @@
 #' }
 #' @examples
 #' gf <- get_GlobalFiler_3500_data()
+#'
+#' sampling_parameters <- list(min_template = 50., max_template = 1000.,
+#'                             degradation_shape = 2.5, degradation_scale = 1e-3)
+#'
 #' model_no_stutter <- sample_log_normal_model(number_of_contributors = 1,
-#'                                             min_template = 50., max_template = 1000.,
-#'                                             degradation_shape = 2.5, degradation_scale = 1e-3,
+#'                                             sampling_parameters = sampling_parameters,
 #'                                             model_settings = gf$log_normal_settings)
 #' @export
-sample_log_normal_model <- function(number_of_contributors,
-                                    min_template, max_template,
-                                    degradation_shape, degradation_scale,
-                                    model_settings){
+sample_log_normal_model <- function(number_of_contributors, sampling_parameters, model_settings){
 
   if (length(number_of_contributors) > 1){
     this_call <- match.call()
@@ -50,6 +53,11 @@ sample_log_normal_model <- function(number_of_contributors,
   }
 
   number_of_contributors <- as.integer(number_of_contributors)
+
+  min_template <- sampling_parameters$min_template
+  max_template <- sampling_parameters$max_template
+  degradation_shape <- sampling_parameters$degradation_shape
+  degradation_scale <- sampling_parameters$degradation_scale
 
   if ((!is.numeric(min_template)) | (length(min_template) != 1)){
     stop("min_template needs to be a numeric of length 1")

@@ -6,23 +6,20 @@
 \usage{
 sample_log_normal_model(
   number_of_contributors,
-  min_template,
-  max_template,
-  degradation_shape,
-  degradation_scale,
+  sampling_parameters,
   model_settings
 )
 }
 \arguments{
 \item{number_of_contributors}{Integer}
 
-\item{min_template}{Numeric of length one.}
-
-\item{max_template}{Numeric of length one.}
-
-\item{degradation_shape}{Numeric of length one.}
-
-\item{degradation_scale}{Numeric of length one.}
+\item{sampling_parameters}{List. Needs to contain:
+\itemize{
+\item min_template. Numeric of length one.
+\item max_template. Numeric of length one.
+\item degradation_shape. Numeric of length one.
+\item degradation_scale. Numeric of length one.
+}}
 
 \item{model_settings}{List. Possible parameters: \itemize{
 \item locus_names. Character vector.
@@ -40,8 +37,11 @@ Sample log normal model(s) with parameters according to priors
 }
 \examples{
 gf <- get_GlobalFiler_3500_data()
+
+sampling_parameters <- list(min_template = 50., max_template = 1000.,
+                            degradation_shape = 2.5, degradation_scale = 1e-3)
+
 model_no_stutter <- sample_log_normal_model(number_of_contributors = 1,
-                                            min_template = 50., max_template = 1000.,
-                                            degradation_shape = 2.5, degradation_scale = 1e-3,
+                                            sampling_parameters = sampling_parameters,
                                             model_settings = gf$log_normal_settings)
 }
