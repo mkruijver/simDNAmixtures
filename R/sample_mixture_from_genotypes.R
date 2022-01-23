@@ -42,7 +42,7 @@ sample_mixture_from_genotypes <- function(genotypes, model, sample_name = "mixtu
   profile <- profile[c(length(profile), seq_len(length(profile) - 1))]
 
   # round size and height
-  profile$Size <- round(profile$Size)
+  profile$Size <- round(profile$Size, digits = 2)
   profile$Height <- round(profile$Height)
 
   profile
