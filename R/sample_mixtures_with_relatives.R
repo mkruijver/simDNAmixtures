@@ -87,6 +87,9 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
       write.csv(x = mixture, file = mixture_path, quote = FALSE, row.names = FALSE)
 
       write_knowns(contributor_genotypes, knowns_dir, sample_name)
+
+      db_path <- file.path(sub_dir, "references.csv")
+      write_knowns_as_reference_db(samples, db_path)
     }
   }
 
