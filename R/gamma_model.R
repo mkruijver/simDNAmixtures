@@ -4,19 +4,20 @@
 #' @param mu Numeric. Expectation of a full heterozygote contributing allele peak height.
 #' @param cv Numeric. Coefficient of variation of a full heterozygote contributing allele peak height
 #' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.
-#' @param locus_names Character vector.
 #' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
-#' @param detection_threshold Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
-#' @param size_regression. Function, see \link{read_size_regression}.
-#' @param stutter_model. Optionally a stutter_model object. See \link{global_stutter_model}.
+#' @param model_settings List. Possible parameters: \itemize{
+#'  \item locus_names. Character vector.
+#'  \item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+#'  \item size_regression. Function, see \link{read_size_regression}.
+#'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
+#'  }
 #' @details Defines a gamma model as described by Bleka et al.
 #' @export
 gamma_model <- function(mixture_proportions, mu, cv,
                         degradation_beta = rep(1., length(mixture_proportions)),
-                        locus_names,
-                        LSAE = setNames(rep(1., length(locus_names)), locus_names),
-                        detection_threshold = setNames(rep(50., length(locus_names)), locus_names),
-                        size_regression, stutter_model){
+                        LSAE = setNames(rep(1., length(model_settings$locus_names)),
+                                        model_settings$locus_names),
+                        model_settings){
 
   if (!is.numeric(mixture_proportions)){
     stop("mixture_proportions should be a numeric vector")
@@ -39,6 +40,11 @@ gamma_model <- function(mixture_proportions, mu, cv,
   if (any(degradation_beta > 1)){
     stop("degradation_beta should not exceed 1")
   }
+
+  locus_names <- model_settings$locus_names
+  detection_threshold <- model_settings$detection_threshold
+  size_regression <- model_settings$size_regression
+  stutter_model <- model_settings$stutter_model
 
   if (!is.character(locus_names)){
     stop("locus_names needs to be a character vector")
@@ -74,7 +80,7 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("cv should be non-negative")
   }
 
-  if (!missing(stutter_model)){
+  if (!is.null(stutter_model)){
     if (!inherits(stutter_model, "stutter_model")){
       stop("stutter_model is not of class stutter_model")
     }
@@ -83,7 +89,7 @@ gamma_model <- function(mixture_proportions, mu, cv,
   model <- list()
 
   model$locus_names <- locus_names
-  model$LSAE <- lsae
+  model$LSAE <- LSAE
   model$detection_threshold <- detection_threshold
 
   parameters <- list(mixture_proportions = mixture_proportions,

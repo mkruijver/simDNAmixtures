@@ -9,11 +9,7 @@ gamma_model(
   mu,
   cv,
   degradation_beta = rep(1, length(mixture_proportions)),
-  locus_names,
-  LSAE = setNames(rep(1, length(locus_names)), locus_names),
-  detection_threshold = setNames(rep(50, length(locus_names)), locus_names),
-  size_regression,
-  stutter_model
+  model_settings
 )
 }
 \arguments{
@@ -25,15 +21,12 @@ gamma_model(
 
 \item{degradation_beta}{Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.}
 
-\item{locus_names}{Character vector.}
-
-\item{LSAE}{Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.}
-
-\item{detection_threshold}{Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.}
-
-\item{size_regression.}{Function, see \link{read_size_regression}.}
-
-\item{stutter_model.}{Optionally a stutter_model object. See \link{global_stutter_model}.}
+\item{model_settings}{List. Possible parameters: \itemize{
+\item locus_names. Character vector.
+\item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+\item size_regression. Function, see \link{read_size_regression}.
+\item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
+}}
 }
 \description{
 Defines a gamma model for peak height variability
