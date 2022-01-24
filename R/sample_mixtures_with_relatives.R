@@ -55,8 +55,8 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     dir.create(sub_dir, recursive = TRUE)
 
-    mixtures_dir <- file.path(sub_dir,"mixtures")
-    dir.create(mixtures_dir,recursive = TRUE)
+    mixtures_csv_dir <- file.path(sub_dir,"mixtures_csv")
+    dir.create(mixtures_csv_dir,recursive = TRUE)
 
     annotated_mixtures_dir <- file.path(sub_dir,"annotated_mixtures")
     dir.create(annotated_mixtures_dir,recursive = TRUE)
@@ -96,7 +96,7 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
       annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name,"_annotated.csv"))
       write.csv(x = annotated_mixture, file = annnotated_path, quote = FALSE, row.names = FALSE)
 
-      mixture_path <- file.path(mixtures_dir, paste0(sample_name,".csv"))
+      mixture_path <- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
       write.csv(x = mixture, file = mixture_path, quote = FALSE, row.names = FALSE)
 
       write_knowns(contributor_genotypes, knowns_dir, sample_name)
@@ -108,15 +108,28 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
   names(samples) <- sample_names
 
+  # prepare additional outputs
   parameter_summary <- get_parameter_summary(samples)
+  smash <- get_SMASH_from_samples(samples)
+  table <- SMASH_to_wide_table(smash)
 
   if (write_to_disk){
     parameter_summary_path <- file.path(sub_dir, "parameter_summary.csv")
     write.csv(parameter_summary, file = parameter_summary_path,
               quote = FALSE, na = "", row.names = FALSE)
+
+    smash_path <- file.path(sub_dir, paste0(tag, " SMASH.csv"))
+    write.csv(smash, file = smash_path,
+              quote = FALSE, na = "", row.names = FALSE)
+
+    table_path <- file.path(sub_dir, paste0(tag, " table.txt"))
+    write.table(x = table,
+                file = table_path, quote = FALSE,
+                sep = "\t", row.names = FALSE, na = "")
   }
 
   list(call = match.call(),
        samples = samples,
+       smash = smash,
        parameter_summary = parameter_summary)
 }
