@@ -90,13 +90,13 @@ gamma_model <- function(mixture_proportions, mu, cv,
   model <- list()
 
   model$locus_names <- locus_names
-  model$LSAE <- LSAE
   model$detection_threshold <- detection_threshold
 
   parameters <- list(mixture_proportions = mixture_proportions,
                      mu = mu,
                      cv = cv,
-                     degradation_beta = degradation_beta)
+                     degradation_beta = degradation_beta,
+                     LSAE = LSAE)
 
   model$parameters <- parameters
   model$size_regression <- size_regression
@@ -157,7 +157,7 @@ gamma_model_build_expected_profile <- function(model, genotypes){
       locus <- g$Locus[i_row]
       ab <- c(g$Allele1[i_row], g$Allele2[i_row])
 
-      lsae <- as.numeric(model$LSAE[locus])
+      lsae <- as.numeric(parameters$LSAE[locus])
 
       for (a in ab){
         size <- size_regression(locus, a)

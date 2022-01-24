@@ -56,7 +56,7 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
                      c2 = c2)
 
   model$locus_names <- model_settings$locus_names
-  model$LSAE <- LSAE
+
   model$detection_threshold <- model_settings$detection_threshold
 
   model$parameters <- parameters
@@ -79,6 +79,8 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
     model$stutter_variability <- model_settings$stutter_variability
     model$parameters$k2 <- k2
   }
+
+  model$parameters$LSAE <- LSAE
 
   class(model) <- "pg_model"
 
@@ -123,7 +125,7 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
       locus <- g$Locus[i_row]
       ab <- c(g$Allele1[i_row], g$Allele2[i_row])
 
-      lsae <- as.numeric(model$LSAE[locus])
+      lsae <- as.numeric(parameters$LSAE[locus])
 
       for (a in ab){
         size <- size_regression(locus, a)
