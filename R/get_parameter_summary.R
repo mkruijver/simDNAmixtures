@@ -23,18 +23,23 @@ get_parameter_summary <- function(samples){
     for (parameter_name in parameter_names){
       values <- parameters[[parameter_name]]
 
-      # pad with NAs if necessary
-      if (max_length_by_parameter_name[[parameter_name]] > length(values)){
-        values <- c(values, rep(NA_real_,
-                                max_length_by_parameter_name[[parameter_name]] - length(values)))
-      }
+      if (is.null(names(values))){
+        # pad with NAs if necessary
+        if (max_length_by_parameter_name[[parameter_name]] > length(values)){
+          values <- c(values, rep(NA_real_,
+                                  max_length_by_parameter_name[[parameter_name]] - length(values)))
+        }
 
-      if (max_length_by_parameter_name[[parameter_name]] > 1){
-        dfs_by_parameter_name[[parameter_name]] <- setNames(data.frame(t(values)),
-                                                            paste0(parameter_name, seq_along(values)))
-      }else{
-        dfs_by_parameter_name[[parameter_name]] <- setNames(data.frame(t(values)),
-                                                            parameter_name)
+        if (max_length_by_parameter_name[[parameter_name]] > 1){
+          dfs_by_parameter_name[[parameter_name]] <- setNames(data.frame(t(values)),
+                                                              paste0(parameter_name, seq_along(values)))
+        }else{
+          dfs_by_parameter_name[[parameter_name]] <- setNames(data.frame(t(values)),
+                                                              parameter_name)
+        }
+      }
+      else{
+        dfs_by_parameter_name[[parameter_name]] <- data.frame(t(values))
       }
     }
 
@@ -44,7 +49,7 @@ get_parameter_summary <- function(samples){
     dfs_by_sample[[i_sample]] <- df_sample
   }
 
-  parameter_summary <- data.frame(sample_name = names(samples),
+  parameter_summary <- data.frame(SampleName = names(samples),
                                   do.call(rbind, dfs_by_sample))
 
 }
