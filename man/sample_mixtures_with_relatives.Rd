@@ -38,3 +38,17 @@ sample_mixtures_with_relatives(
 \description{
 Sample mixtures with random genotypes and random parameters according to priors
 }
+\examples{
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+gf <- get_GlobalFiler_3500_data()
+
+sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
+                           min_cv = 0.05, max_cv = 0.35,
+                           degradation_shape1 = 10, degradation_shape2 = 1)
+
+mixtures <- sample_mixtures_with_relatives(n = 10, contributors = c("U1", "U2"), freqs = freqs,
+                                          sampling_parameters = sampling_parameters,
+                                          model_settings = gf$gamma_settings_no_stutter,
+                                          sample_model = sample_gamma_model)
+
+}

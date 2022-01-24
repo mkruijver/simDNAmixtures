@@ -7,6 +7,7 @@
 #' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
 #' @param model_settings List. Possible parameters: \itemize{
 #'  \item locus_names. Character vector.
+#'  \item LSAE_variance_prior. Numeric of length one.
 #'  \item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
 #'  \item size_regression. Function, see \link{read_size_regression}.
 #'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.

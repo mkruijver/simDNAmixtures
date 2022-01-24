@@ -9,6 +9,19 @@
 #' @param pedigree (optionally) \link[pedtools]{ped} object.
 #' @param results_directory (optionally) Character with path to directory where results are written to disk.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
+#' @examples
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+#' gf <- get_GlobalFiler_3500_data()
+#'
+#' sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
+#'                            min_cv = 0.05, max_cv = 0.35,
+#'                            degradation_shape1 = 10, degradation_shape2 = 1)
+#'
+#' mixtures <- sample_mixtures_with_relatives(n = 10, contributors = c("U1", "U2"), freqs = freqs,
+#'                                           sampling_parameters = sampling_parameters,
+#'                                           model_settings = gf$gamma_settings_no_stutter,
+#'                                           sample_model = sample_gamma_model)
+#'
 #' @export
 sample_mixtures_with_relatives <- function(n, contributors, freqs,
                                            sampling_parameters, model_settings,

@@ -75,6 +75,7 @@ get_GlobalFiler_3500_data <- function() {
   gf$gamma_settings <- list(
     locus_names = gf$autosomal_markers,
     detection_threshold = detection_threshold,
+    LSAE_variance_prior = 0,
     size_regression = gf$size_regression,
     stutter_model = gf$stutter_model
   )
@@ -82,6 +83,7 @@ get_GlobalFiler_3500_data <- function() {
   gf$gamma_settings_no_stutter <- list(
     locus_names = gf$autosomal_markers,
     detection_threshold = detection_threshold,
+    LSAE_variance_prior = 0,
     size_regression = gf$size_regression
   )
 
