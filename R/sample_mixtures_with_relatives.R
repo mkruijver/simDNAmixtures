@@ -108,5 +108,15 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
   names(samples) <- sample_names
 
-  samples
+  parameter_summary <- get_parameter_summary(samples)
+
+  if (write_to_disk){
+    parameter_summary_path <- file.path(sub_dir, "parameter_summary.csv")
+    write.csv(parameter_summary, file = parameter_summary_path,
+              quote = FALSE, na = "", row.names = FALSE)
+  }
+
+  list(call = match.call(),
+       samples = samples,
+       parameter_summary = parameter_summary)
 }
