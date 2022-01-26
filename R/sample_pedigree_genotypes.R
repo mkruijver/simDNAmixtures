@@ -4,10 +4,14 @@
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
 #' @param loci Character vector of locus names (defaults to names attr. of \code{freqs})
 #' @details For each founder, a genotype is sampled randomly by drawing two alleles from allele frequencies.
-#' @examples ped_sibs <- pedtools::nuclearPed(nch = 2,
+#' @examples
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+#'
+#' ped_sibs <- pedtools::nuclearPed(nch = 2,
 #' father = "F", mother = "M",
 #' children = c("S1", "S2"))
-#' sibs_genotypes <- SimMixDNA::sample_pedigree_genotypes(ped = ped_sibs, freqs = freqs)
+#' sibs_genotypes <- SimMixDNA::sample_pedigree_genotypes(ped = ped_sibs,
+#' freqs = freqs, loci = get_GlobalFiler_3500_data()$autosomal_markers)
 #' @export
 sample_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs)){
 

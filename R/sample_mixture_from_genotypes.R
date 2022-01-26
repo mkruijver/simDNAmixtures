@@ -15,7 +15,9 @@
 #'
 #' # sample genotypes for a mixture of S1 + U1 + S2
 #' # where U1 is an unrelated perso
-#' genotypes <- sample_contributor_genotypes(contributors = c("S1","U1","S2"), ped_sibs, freqs)#'
+#' genotypes <- sample_contributor_genotypes(contributors = c("S1","U1","S2"), freqs,
+#' ped_sibs, loci = get_GlobalFiler_3500_data()$autosomal_markers)
+#'
 #' @export
 sample_mixture_from_genotypes <- function(genotypes, model, sample_name = "mixture"){
 

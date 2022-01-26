@@ -14,6 +14,6 @@ Sample log normal stutter variance parameters according to priors
 }
 \examples{
  gf <- get_GlobalFiler_3500_data()
- log_normal_stutter_variability <- gf$log_normal_stutter_variability
+ log_normal_stutter_variability <- gf$log_normal_settings$stutter_variability
  k2 <- sample_log_normal_stutter_variance(log_normal_stutter_variability)
 }
