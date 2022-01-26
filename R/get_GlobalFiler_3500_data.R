@@ -11,6 +11,12 @@ get_GlobalFiler_3500_data <- function() {
   kit_data <- get_kit_data()
   gf$autosomal_markers <- unique(kit_data$GlobalFiler_Panel_v1$Marker[!kit_data$GlobalFiler_Panel_v1$Gender.Marker])
 
+  repeat_length_by_marker <- setNames(kit_data$GlobalFiler_Panel_v1$Repeat[
+    match(gf$autosomal_markers, kit_data$GlobalFiler_Panel_v1$Marker)],
+    gf$autosomal_markers)
+
+  gf$repeat_length_by_marker <- repeat_length_by_marker
+
   # size regression
   filename_size_regression <- system.file("extdata","GlobalFiler_SizeRegression.csv",package = "SimMixDNA")
   gf$size_regression <- read_size_regression(filename_size_regression)
@@ -31,7 +37,6 @@ get_GlobalFiler_3500_data <- function() {
   gf$stutters$BackStutter <- back_stutter
 
   # forward stutter
-
   filename_fs_regression <- system.file("extdata","GlobalFiler_Forward_Stutter_3500.txt",package = "SimMixDNA")
   fs_regression <- read_stutter_regression(filename_fs_regression)
   forward_stutter <- stutter_type(name = "ForwardStutter", delta = 1,
@@ -39,20 +44,42 @@ get_GlobalFiler_3500_data <- function() {
 
   gf$stutters$ForwardStutter <- forward_stutter
 
+  # 2bp back stutter
+  filename_2bp_regression <- system.file("extdata","GlobalFiler_2bp_Stutter_3500.txt",package = "SimMixDNA")
+  regression_2bp <- read_stutter_regression(filename_2bp_regression)
+  gf$stutters[["2bpBackStutter"]] <- stutter_type(name = "2bpBackStutter",
+                                              delta = c(0, -2),
+                                              repeat_length_by_marker = repeat_length_by_marker,
+                                              applies_to_all_loci = FALSE,
+                                              applies_to_loci = c("SE33", "D1S1656"),
+                                              stutter_regression = regression_2bp)
+
+  # double back stutter
+  filename_double_bs_regression <- system.file("extdata","GlobalFiler_Double_Back_Stutter_3500.txt",
+                                               package = "SimMixDNA")
+  double_bs_regression <- read_stutter_regression(filename_double_bs_regression)
+  gf$stutters$DoubleBackStutter <- stutter_type(name = "DoubleBackStutter",
+                                                delta = c(-2),
+                                                applies_to_all_loci = TRUE,
+                                                stutter_regression = double_bs_regression)
 
   gf$stutter_model <- allele_specific_stutter_model(stutter_types = gf$stutters,
                                                     size_regression = gf$size_regression)
 
   # log-normal stutter variability model
   log_normal_stutter_variability <- list(
-    BackStutter = list(k2_prior = c(1.884,7.686),
-                       stutter_max = 0.3,
+    BackStutter = list(k2_prior = c(1.884, 7.686),
                        inversely_proportional_to_parent = TRUE,
                        max_stutter_ratio = 0.3),
-    ForwardStutter = list(k2_prior = c(2.144,4.507),
-                       stutter_max = 0.15,
-                       inversely_proportional_to_parent = FALSE,
-                       max_stutter_ratio = 0.15)
+    ForwardStutter = list(k2_prior = c(2.144, 4.507),
+                          inversely_proportional_to_parent = FALSE,
+                          max_stutter_ratio = 0.15),
+    "2bpBackStutter" = list(k2_prior = c(2.189, 1.431),
+                            inversely_proportional_to_parent = FALSE,
+                            max_stutter_ratio = 0.1),
+    DoubleBackStutter = list(k2_prior = c(3.429, 2.032),
+                            inversely_proportional_to_parent = FALSE,
+                            max_stutter_ratio = 0.05)
   )
 
   detection_threshold <- c(D3S1358 = 50, vWA = 50, D16S539 = 50, CSF1PO = 50, TPOX = 50,

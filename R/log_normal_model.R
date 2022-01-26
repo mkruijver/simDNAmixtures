@@ -182,9 +182,9 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
     stutter <- stutter_model$stutter_types[[i_stutter]]
     stutter_name <- stutter$name
 
-    sr_max <- stutter_variability[[stutter_name]]$stutter_max
+    sr_max <- stutter_variability[[stutter_name]]$max_stutter_ratio
 
-    sr_column_name <- paste0("StutterRate", stutter_name)
+    sr_column_name <- paste0("StutterRatio", stutter_name)
     stutter_product_column_name <- paste0("StutterProduct", stutter_name)
 
     expected_column_name <- paste0("Expected", stutter_name)
@@ -199,7 +199,7 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
                          paste0(x$Marker, x$Allele))
 
     x[[expected_column_name]][idx_targets] <- x$HeightAllele[idx_parents] *
-                                    x$StutterRatioBackStutter[idx_parents]
+                                    x[[sr_column_name]][idx_parents]
 
     x[[stutter_cap_column_name]][idx_targets] <- x$HeightAllele[idx_parents] *
                                     sr_max

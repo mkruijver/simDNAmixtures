@@ -4,16 +4,27 @@
 \alias{stutter_type}
 \title{Defines a stutter type to be used in an allele specific stutter model.}
 \usage{
-stutter_type(name, delta, stutter_regression, stutter_exceptions)
+stutter_type(
+  name,
+  delta,
+  applies_to_all_loci = TRUE,
+  stutter_regression,
+  stutter_exceptions,
+  applies_to_loci
+)
 }
 \arguments{
 \item{name}{Character. Name of the stutter, e.g. "BackStutter"}
 
-\item{delta}{Numeric. Repeat units gained (lost when negative).}
+\item{delta}{Numeric. When length one, repeat units gained (lost when negative). When length two, the second element is the number of base pairs gained (lost).}
+
+\item{applies_to_all_loci}{Logical. Defaults to TRUE.}
 
 \item{stutter_regression}{Function. See \link{read_stutter_regression}.}
 
 \item{stutter_exceptions}{Optionally a list. See \link{read_stutter_exceptions}.}
+
+\item{appleis_to_loci}{Optionally a character vector of locus names to which this stutter type applies.}
 }
 \description{
 Defines a stutter type to be used in an allele specific stutter model.

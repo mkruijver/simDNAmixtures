@@ -39,17 +39,27 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
 
     for (i_row in seq_len(nrow(x))){
       marker <- x$Marker[i_row]
-      parent <- x$Allele[i_row]
-      parent_size <- x$Size[i_row]
 
-      target <- SimMixDNA:::get_stutter_target(parent, stutter$delta)
-      stutter_ratio <- stutter$get_expected_stutter_ratio(marker, parent)
+      if (stutter$applies_to_all_loci | (marker %in% stutter$applies_to_loci)){
+        parent <- x$Allele[i_row]
+        parent_size <- x$Size[i_row]
 
-      # set expected stutter ratio
-      x <- SimMixDNA:::set_or_add_df_variable(x, marker, parent, parent_size, stutter_ratio, sr_column_name)
+        if (length(stutter$delta) == 1){
+          target <- SimMixDNA:::get_stutter_target(parent, stutter$delta)
+        }
+        else{
+          repeat_length <- stutter$repeat_length_by_marker[marker]
+          target <- SimMixDNA:::get_stutter_target(parent, stutter$delta, repeat_length)
+        }
 
-      # set stutter product
-      x <- SimMixDNA:::set_or_add_df_variable(x, marker, parent, parent_size, target, stutter_product_column_name)
+        stutter_ratio <- stutter$get_expected_stutter_ratio(marker, parent)
+
+        # set expected stutter ratio
+        x <- SimMixDNA:::set_or_add_df_variable(x, marker, parent, parent_size, stutter_ratio, sr_column_name)
+
+        # set stutter product
+        x <- SimMixDNA:::set_or_add_df_variable(x, marker, parent, parent_size, target, stutter_product_column_name)
+      }
     }
 
     x$SumOfStutterRatios <- x$SumOfStutterRatios + x[[sr_column_name]]
@@ -59,7 +69,7 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
   x$ExpectedAllele <- x$ExpectedAllelePreStutter / (1 + x$SumOfStutterRatios)
 
   # determine Expected Stutters similarly
-  # note that in the Bright et al. model this is not used downstream;
+  # note that in the Bright et al. (log normal) model this is not used downstream;
   # rather the Expected Stutter is overwritten as being proportional
   # to the _observed_ parent height which is not available at this stge
   x_pre_stutter_products <- x # backup and grow x in place
@@ -82,25 +92,27 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
 
     i_row=1
     for (i_row in seq_len(nrow(x_pre_stutter_products))){
-      marker <- x$Marker[i_row]
-      parent <- x$Allele[i_row]
+      marker <- x_pre_stutter_products$Marker[i_row]
 
-      parent_height <- x$ExpectedAllele[i_row]
+      if (stutter$applies_to_all_loci | (marker %in% stutter$applies_to_loci)){
+        parent <- x_pre_stutter_products$Allele[i_row]
 
-      sr <- x[[sr_column_name]][i_row]
-      target <- x[[stutter_product_column_name]][i_row]
-      target_size <- size_regression(marker, target)
+        parent_height <- x_pre_stutter_products$ExpectedAllele[i_row]
 
-      expected_stutter <- parent_height * sr / (1 + x$SumOfStutterRatios[i_row])
+        sr <- x_pre_stutter_products[[sr_column_name]][i_row]
+        target <- x_pre_stutter_products[[stutter_product_column_name]][i_row]
+        target_size <- size_regression(marker, target)
 
-      # set expected stutter
-      x <- SimMixDNA:::set_or_add_df_variable(x, marker, target, target_size,
-                                              expected_stutter, expected_column_name)
+        expected_stutter <- parent_height * sr / (1 + x_pre_stutter_products$SumOfStutterRatios[i_row])
 
-      # store the parent
-      x <- SimMixDNA:::set_or_add_df_variable(x, marker, target, target_size,
-                                              parent, stutter_parent_column_name)
+        # set expected stutter
+        x <- SimMixDNA:::set_or_add_df_variable(x, marker, target, target_size,
+                                                expected_stutter, expected_column_name)
 
+        # store the parent
+        x <- SimMixDNA:::set_or_add_df_variable(x, marker, target, target_size,
+                                                parent, stutter_parent_column_name)
+      }
     }
   }
 

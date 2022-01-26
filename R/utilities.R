@@ -3,8 +3,39 @@ get_allele_index <- function(x, marker, allele){
   which(x$Marker == marker & x$Allele == allele)
 }
 
-get_stutter_target <- function(parent, delta){
-  as.character(as.numeric(parent) + delta)
+repeats_to_bp <- function(repeats, repeat_length){
+  whole_repeats <- floor(repeats)
+  partials <- 10.0 * (repeats - whole_repeats)
+
+  whole_repeats * repeat_length + partials
+}
+
+bp_to_repeats <- function(bp, repeat_length){
+  if (abs(round(bp)-bp) > 1e-9) stop("Expected integer number of basepairs")
+  bp <- round(bp)
+
+  partials <- bp %% repeat_length
+  whole_repeats <- (bp - partials) / repeat_length
+
+  whole_repeats + 0.1 * partials
+}
+
+get_stutter_target <- function(parent, delta, repeat_length){
+
+  if (length(delta) == 1){
+    return(as.character(as.numeric(parent) + delta))
+  }
+  else if(length(delta) == 2){
+    bp_parent <- repeats_to_bp(as.numeric(parent), repeat_length)
+    bp_target <- bp_parent + delta[1] * repeat_length + delta[2]
+
+    target <- as.character(bp_to_repeats(bp_target, repeat_length))
+
+    return(target)
+  }
+  else{
+    stop("delta is not length one or two")
+  }
 }
 
 add_expected_allelic_peak_height <- function(x, marker, allele, size, expected){
