@@ -51,7 +51,8 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     write_to_disk <- TRUE
 
-    sub_dir <- file.path(results_directory, paste0(format(Sys.time(), "%Y-%m-%d %H_%M"), " ", tag))
+    sub_dir <- file.path(results_directory, paste0(
+      format(Sys.time(), "%Y-%m-%d %H_%M_%S"), " ", tag))
 
     dir.create(sub_dir, recursive = TRUE)
 
@@ -74,16 +75,17 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
   for (i_sample in seq_len(n)){
 
-    sample_name <- paste0("sample", "_", sprintf("%04d", i_sample))
-
-    sample_names[i_sample] <- sample_name
-
     contributor_genotypes <- sample_contributor_genotypes(contributors, freqs, pedigree,
                                                           loci = model_settings$locus_names)
 
     model <- sample_model(number_of_contributors = number_of_contributors,
                           sampling_parameters = sampling_parameters,
                           model_settings = model_settings)
+
+    sample_name <- paste0("sample", "_", sprintf("%04d", i_sample),
+                          "_", model$sample_name_suffix)
+
+    sample_names[i_sample] <- sample_name
 
     annotated_mixture <- sample_mixture_from_genotypes(contributor_genotypes, model, sample_name)
 
@@ -97,7 +99,7 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     if (write_to_disk){
       ## annotated
-      annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," Annotated.csv"))
+      annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," annotated.csv"))
       write.csv(x = annotated_mixture, file = annnotated_path,
                 quote = FALSE, row.names = FALSE, na = "")
 

@@ -74,6 +74,8 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
     x
   }
 
+  model$sample_name_suffix <- log_normal_get_sample_name_suffix(parameters)
+
   if (!is.null(model_settings$stutter_model)){
     model$stutter_model <- model_settings$stutter_model
     model$stutter_variability <- model_settings$stutter_variability
@@ -278,4 +280,18 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
   x$HeightAtOrAboveDetectionThreshold <- round(x$Height) >= x$DetectionThreshold
 
   x
+}
+
+log_normal_get_sample_name_suffix <- function(parameters){
+
+  noc_label <- length(parameters$template)
+  template_label <- paste(round(parameters$template,digits = 0), collapse = "_")
+
+  number_of_buckets <- 5
+  buckets <- findInterval(x = parameters$degradation/0.01,
+                          vec = seq(from = 0, to = 1,
+                                    length = number_of_buckets + 1))
+  deg_label <- paste0(letters[buckets],collapse = "")
+
+  paste0("N", noc_label, "_", template_label,"_",deg_label)
 }

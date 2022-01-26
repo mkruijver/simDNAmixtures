@@ -99,6 +99,9 @@ gamma_model <- function(mixture_proportions, mu, cv,
                      LSAE = LSAE)
 
   model$parameters <- parameters
+
+  model$sample_name_suffix <- gamma_get_sample_name_suffix(parameters)
+
   model$size_regression <- size_regression
 
   model$build_expected_profile_and_sample_peak_heights <- function(genotypes){
@@ -204,4 +207,22 @@ gamma_model_sample_peak_heights <- function(model, x){
   x$HeightAtOrAboveDetectionThreshold <- round(x$Height) >= x$DetectionThreshold
 
   x
+}
+
+gamma_get_sample_name_suffix <- function(parameters){
+
+  noc_label <- length(parameters$mixture_proportions)
+
+  mu_label <- round(parameters$mu)
+
+  mixture_proportions_label <- paste(round(100 * parameters$mixture_proportions),
+                          collapse = "_")
+
+  number_of_buckets <- 5
+  buckets <- findInterval(x = 1-parameters$degradation,
+                          vec = seq(from = 0, to = 1,
+                                    length = number_of_buckets + 1))
+  deg_label <- paste0(letters[buckets],collapse = "")
+
+  paste0("N", noc_label, "_", mu_label, "_", mixture_proportions_label,"_",deg_label)
 }
