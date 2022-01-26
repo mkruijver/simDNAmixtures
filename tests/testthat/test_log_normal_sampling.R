@@ -5,9 +5,9 @@ test_that("Log-Normal sampling (single source, no stutter)", {
   gf <- get_GlobalFiler_3500_data()
   freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
 
-  model <- log_normal_model(template = 1e3,
-                            c2 = 15, locus_names = gf$autosomal_markers,
-                            size_regression = gf$size_regression)
+  k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability)
+  model <- log_normal_model(template = 1e3, c2 = 15, k2 = k2,
+                            model_settings = gf$log_normal_settings)
 
   g <- sample_genotype(freqs = freqs, loci = gf$autosomal_markers)
 
@@ -27,14 +27,14 @@ test_that("Log-Normal sampling (single source, back and forward stutter)", {
   stutter_model <- allele_specific_stutter_model(stutter_types = stutter_types,
                                 size_regression = gf$size_regression)
 
-  k2 <- sample_log_normal_stutter_variance(gf$log_normal_stutter_variability)
+
+  k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability[names(stutter_types)])
+
+  model_settings <- gf$log_normal_settings
+  model_settings$stutter_model <- stutter_model
 
   model <- log_normal_model(template = 1e3,
-                            c2 = 15, k2 = k2,
-                            locus_names = gf$autosomal_markers,
-                            size_regression = gf$size_regression,
-                            stutter_model = stutter_model,
-                            stutter_variability = gf$log_normal_stutter_variability)
+                            c2 = 15, k2 = k2, model_settings = model_settings)
 
   g <- sample_genotype(freqs = freqs, loci = gf$autosomal_markers)
 

@@ -10,7 +10,8 @@ stutter_type(
   applies_to_all_loci = TRUE,
   stutter_regression,
   stutter_exceptions,
-  applies_to_loci
+  applies_to_loci,
+  repeat_length_by_marker
 )
 }
 \arguments{
@@ -24,7 +25,9 @@ stutter_type(
 
 \item{stutter_exceptions}{Optionally a list. See \link{read_stutter_exceptions}.}
 
-\item{appleis_to_loci}{Optionally a character vector of locus names to which this stutter type applies.}
+\item{applies_to_loci}{Optionally a character vector of locus names to which this stutter type applies.}
+
+\item{repeat_length_by_marker}{Optionally a named integer vector with repeat lengths by marker. Only needed when delta is of length two.}
 }
 \description{
 Defines a stutter type to be used in an allele specific stutter model.
