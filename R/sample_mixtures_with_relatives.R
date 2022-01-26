@@ -128,6 +128,8 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
     write.table(x = table,
                 file = table_path, quote = FALSE,
                 sep = "\t", row.names = FALSE, na = "")
+
+    cat("Finished sampling. Output written to", sub_dir, "\n")
   }
 
   list(call = match.call(),
