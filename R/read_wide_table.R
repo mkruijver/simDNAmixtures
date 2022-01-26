@@ -4,7 +4,7 @@
 #' @return Dataframe
 #' @export
 read_wide_table <- function(filename){
-  x <- read.csv(filename,sep = "\t",stringsAsFactors = FALSE,colClasses = "character",check.names = FALSE)
+  x <- utils::read.csv(filename,sep = "\t",stringsAsFactors = FALSE,colClasses = "character",check.names = FALSE)
   stopifnot(all(sapply(x,class)=="character"))
 
   # determine columns per locus

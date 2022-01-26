@@ -17,5 +17,5 @@ Get kit data such as loci, dye, sizes for most standard kits
 kit_data <- get_kit_data()
 gf <- kit_data$GlobalFiler_Panel_v1
 gf_markers <- unique(gf$Marker)
-gf_colour_by_marker <- setNames(gf$Color[match(gf_markers, gf$Marker)], gf_markers)
+gf_colour_by_marker <- stats::setNames(gf$Color[match(gf_markers, gf$Marker)], gf_markers)
 }

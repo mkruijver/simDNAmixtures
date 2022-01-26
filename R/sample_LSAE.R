@@ -8,7 +8,7 @@
 #' can be specified.
 #' @examples
 #'  gf <- get_GlobalFiler_3500_data()
-#'  lsae <- sample_LSAE(gf$log_normal_LSAE_variance, gf$autosomal_markers)
+#'  lsae <- sample_LSAE(gf$log_normal_settings$LSAE_variance_prior, gf$autosomal_markers)
 #' @export
 sample_LSAE <- function(LSAE_variance, locus_names){
 
@@ -28,9 +28,9 @@ sample_LSAE <- function(LSAE_variance, locus_names){
     stop("locus_names needs to be a character vector")
   }
 
-  LSAE <- 10^rnorm(n = length(locus_names),
+  LSAE <- 10 ^ stats::rnorm(n = length(locus_names),
                    mean = 0,
                    sd = sqrt(LSAE_variance))
 
-  setNames(LSAE, locus_names)
+  stats::setNames(LSAE, locus_names)
 }

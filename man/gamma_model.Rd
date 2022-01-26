@@ -9,7 +9,7 @@ gamma_model(
   mu,
   cv,
   degradation_beta = rep(1, length(mixture_proportions)),
-  LSAE = setNames(rep(1, length(model_settings$locus_names)),
+  LSAE = stats::setNames(rep(1, length(model_settings$locus_names)),
     model_settings$locus_names),
   model_settings
 )

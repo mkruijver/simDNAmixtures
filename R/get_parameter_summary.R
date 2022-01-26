@@ -31,10 +31,10 @@ get_parameter_summary <- function(samples){
         }
 
         if (max_length_by_parameter_name[[parameter_name]] > 1){
-          dfs_by_parameter_name[[parameter_name]] <- setNames(data.frame(t(values)),
+          dfs_by_parameter_name[[parameter_name]] <- stats::setNames(data.frame(t(values)),
                                                               paste0(parameter_name, seq_along(values)))
         }else{
-          dfs_by_parameter_name[[parameter_name]] <- setNames(data.frame(t(values)),
+          dfs_by_parameter_name[[parameter_name]] <- stats::setNames(data.frame(t(values)),
                                                               parameter_name)
         }
       }

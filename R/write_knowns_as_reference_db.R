@@ -19,5 +19,5 @@ write_knowns_as_reference_db <- function(samples, path){
 
   db <- get_knowns_as_reference_db(samples)
 
-  write.csv(x = db, file = path, row.names = FALSE, quote = FALSE)
+  utils::write.csv(x = db, file = path, row.names = FALSE, quote = FALSE)
 }

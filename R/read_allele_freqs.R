@@ -14,28 +14,27 @@
 #' filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA")
 #' freqs <- read_allele_freqs(filename)
 #' freqs # the output is just a list with an N attribute
-#' @importFrom utils read.csv
 #' @export
 read_allele_freqs <- function(filename, remove_zeroes = TRUE, normalise = TRUE){
   raw <- readLines(filename)
 
-  df_without_N <- read.csv(file = filename,header = TRUE,
+  df_without_N <- utils::read.csv(file = filename,header = TRUE,
                          nrows = length(raw)-2, check.names=FALSE)
-  df_with_N <- read.csv(file = filename,
+  df_with_N <- utils::read.csv(file = filename,
                       header = TRUE,nrows = length(raw)-1, check.names=FALSE)
 
   freqs <- list()
   alleles <- df_without_N[[1]]
 
   locus_idx <- seq(from=2,to=ncol(df_without_N),by=1)
-  N <- setNames(numeric(length(locus_idx)),nm = names(df_without_N[-1]))
+  N <- stats::setNames(numeric(length(locus_idx)),nm = names(df_without_N[-1]))
 
   for(i_locus in locus_idx){
     f0 <- df_without_N[[i_locus]]
     f0[is.na(f0)] <- 0.
     f <- f0
 
-    freqs[[names(df_without_N)[i_locus]]]  <- setNames(f,nm =  alleles)
+    freqs[[names(df_without_N)[i_locus]]]  <- stats::setNames(f,nm =  alleles)
     N[names(df_without_N)[i_locus]] <- df_with_N[[i_locus]][length(df_with_N[[i_locus]])]
   }
   attr(freqs,"N") <- N

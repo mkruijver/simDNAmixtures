@@ -17,7 +17,7 @@ read_stutter_regression <- function(filename, min_stutter_ratio = 0.001){
     stop("min_stutter_ratio does not have length 1")
   }
 
-  regression_df <- read.csv(filename, colClasses = c("character", "numeric", "numeric"))
+  regression_df <- utils::read.csv(filename, colClasses = c("character", "numeric", "numeric"))
   regression_df_by_locus <- split(regression_df, regression_df$Locus)
 
   f <- function(locus, allele){

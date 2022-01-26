@@ -22,7 +22,7 @@ sample_log_normal_stutter_variance <- function(log_normal_stutter_variability){
   }
 
   k2 <- sapply(log_normal_stutter_variability, function(stutter){
-    rgamma(n = 1, shape = stutter$k2_prior[1], scale = stutter$k2_prior[2])})
+    stats::rgamma(n = 1, shape = stutter$k2_prior[1], scale = stutter$k2_prior[2])})
 
   names(k2) <- paste0("k2", names(log_normal_stutter_variability))
 

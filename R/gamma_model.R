@@ -16,7 +16,7 @@
 #' @export
 gamma_model <- function(mixture_proportions, mu, cv,
                         degradation_beta = rep(1., length(mixture_proportions)),
-                        LSAE = setNames(rep(1., length(model_settings$locus_names)),
+                        LSAE = stats::setNames(rep(1., length(model_settings$locus_names)),
                                         model_settings$locus_names),
                         model_settings){
 
@@ -200,7 +200,7 @@ gamma_model_sample_peak_heights <- function(model, x){
   x$Shape <- 1 / (cv*cv)
   x$Scale <- cv*cv * x$Expected
 
-  x$Height <- rgamma(n = nrow(x), shape = x$Shape, scale = x$Scale)
+  x$Height <- stats::rgamma(n = nrow(x), shape = x$Shape, scale = x$Scale)
 
   # add detection threshold
   x$DetectionThreshold <- model$detection_threshold[x$Marker]

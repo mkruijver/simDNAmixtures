@@ -9,7 +9,7 @@
 #' @export
 read_size_regression <- function(filename){
 
-  regression_df <- read.csv(filename, colClasses = c("character", "numeric", "numeric"))
+  regression_df <- utils::read.csv(filename, colClasses = c("character", "numeric", "numeric"))
   regression_df_by_locus <- split(regression_df, regression_df$Locus)
 
 

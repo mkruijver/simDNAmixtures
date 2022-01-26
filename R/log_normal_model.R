@@ -17,7 +17,7 @@
 #'  }
 #' @export
 log_normal_model <- function(template, degradation = rep(0., length(template)),
-                             LSAE = setNames(rep(1., length(model_settings$locus_names)),
+                             LSAE = stats::setNames(rep(1., length(model_settings$locus_names)),
                                              model_settings$locus_names),
                              c2, k2,
                              model_settings){
@@ -171,7 +171,7 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
   b <- 1000.
   x$VarianceAllele <- c2 / (b / x$ExpectedAllele + x$ExpectedAllele)
 
-  x$HeightAllele <- 10^(log10(x$ExpectedAllele) + rnorm(n = nrow(x),
+  x$HeightAllele <- 10^(log10(x$ExpectedAllele) + stats::rnorm(n = nrow(x),
                                                         mean = 0,
                                                         sd = sqrt(x$VarianceAllele)))
 
@@ -245,7 +245,7 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
       x[[variance_column]][idx_stutter] <- stutter_k2 / (b / observed_parent + observed_parent)
 
       x[[height_uncapped_column]][idx_stutter] <- 10^(log10(x[[expected_column]][idx_stutter]) +
-                                               rnorm(n = sum(idx_stutter),
+                                               stats::rnorm(n = sum(idx_stutter),
                                                      mean = 0,
                                                      sd = sqrt(x[[variance_column]][idx_stutter])))
 
@@ -253,7 +253,7 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
     else{
       x[[variance_column]] <- stutter_k2 / (b / x[[expected_column]] + x[[expected_column]])
 
-      x[[height_uncapped_column]] <- 10^(log10(x[[expected_column]]) + rnorm(n = nrow(x),
+      x[[height_uncapped_column]] <- 10^(log10(x[[expected_column]]) + stats::rnorm(n = nrow(x),
                                                      mean = 0,
                                                      sd = sqrt(x[[variance_column]])))
     }

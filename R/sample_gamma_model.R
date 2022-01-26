@@ -92,19 +92,19 @@ sample_gamma_model <- function(number_of_contributors, sampling_parameters, mode
     stop("min_cv > max_cv")
   }
 
-  mu <- runif(n = 1, min = min_mu, max = max_mu)
+  mu <- stats::runif(n = 1, min = min_mu, max = max_mu)
 
-  cv <- runif(n = 1, min = min_cv, max = max_cv)
+  cv <- stats::runif(n = 1, min = min_cv, max = max_cv)
 
   mixture_proportions_unnormalised <- sort(
-              runif(n = number_of_contributors,
+    stats::runif(n = number_of_contributors,
                     min = 0, max = 1),
               decreasing = TRUE)
 
   mixture_proportions <- mixture_proportions_unnormalised /
     sum(mixture_proportions_unnormalised)
 
-  degradation <- rbeta(n = number_of_contributors,
+  degradation <- stats::rbeta(n = number_of_contributors,
                        shape1 = degradation_shape1, shape2 = degradation_shape2)
 
   LSAE <- sample_LSAE(model_settings$LSAE_variance_prior,

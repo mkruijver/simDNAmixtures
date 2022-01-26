@@ -10,7 +10,7 @@
 read_stutter_exceptions <- function(filename){
 
   exceptions_by_locus <- list()
-  exceptions_table <- read.csv(filename)
+  exceptions_table <- utils::read.csv(filename)
 
   alleles <- exceptions_table$Allele
 
@@ -19,7 +19,7 @@ read_stutter_exceptions <- function(filename){
   for (locus in loci){
     idx <- exceptions_table[[locus]] != 0
 
-    exceptions_locus <- setNames(exceptions_table[[locus]][idx], alleles[idx])
+    exceptions_locus <- stats::setNames(exceptions_table[[locus]][idx], alleles[idx])
 
     if (length(exceptions_locus) != 0){
       exceptions_by_locus[[locus]] <- exceptions_locus

@@ -21,5 +21,5 @@ can be specified.
 }
 \examples{
  gf <- get_GlobalFiler_3500_data()
- lsae <- sample_LSAE(gf$log_normal_LSAE_variance, gf$autosomal_markers)
+ lsae <- sample_LSAE(gf$log_normal_settings$LSAE_variance_prior, gf$autosomal_markers)
 }

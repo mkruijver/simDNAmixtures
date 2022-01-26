@@ -79,17 +79,17 @@ sample_log_normal_model <- function(number_of_contributors, sampling_parameters,
                                      validate_k2 = FALSE,
                                      validate_LSAE = FALSE)
 
-  template <- sort(runif(n = number_of_contributors,
+  template <- sort(stats::runif(n = number_of_contributors,
                          min = min_template, max = max_template),
                    decreasing = TRUE)
 
-  degradation <- pmin(rgamma(n = number_of_contributors,
+  degradation <- pmin(stats::rgamma(n = number_of_contributors,
                              shape = degradation_shape,
                              scale = degradation_scale),
                       model_settings$degradation_parameter_cap)
 
   c2_prior <- model_settings$c2_prior
-  c2 <- rgamma(n = 1, shape = c2_prior[1],
+  c2 <- stats::rgamma(n = 1, shape = c2_prior[1],
                scale = c2_prior[2])
 
   LSAE <- sample_LSAE(model_settings$LSAE_variance_prior,

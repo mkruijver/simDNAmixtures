@@ -7,7 +7,7 @@
 log_normal_model(
   template,
   degradation = rep(0, length(template)),
-  LSAE = setNames(rep(1, length(model_settings$locus_names)),
+  LSAE = stats::setNames(rep(1, length(model_settings$locus_names)),
     model_settings$locus_names),
   c2,
   k2,

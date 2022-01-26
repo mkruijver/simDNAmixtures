@@ -100,12 +100,12 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
     if (write_to_disk){
       ## annotated
       annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," annotated.csv"))
-      write.csv(x = annotated_mixture, file = annnotated_path,
+      utils::write.csv(x = annotated_mixture, file = annnotated_path,
                 quote = FALSE, row.names = FALSE, na = "")
 
       ## csv
       mixture_csv_path<- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
-      write.csv(x = mixture, file = mixture_csv_path,
+      utils::write.csv(x = mixture, file = mixture_csv_path,
                 quote = FALSE, row.names = FALSE, na = "")
 
       smash_sample <- get_SMASH_from_samples(samples[i_sample])
@@ -113,7 +113,7 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
       ## txt (wide table)
       mixture_wide_path <- file.path(mixtures_wide_dir, paste0(sample_name,".txt"))
-      write.table(x = table_sample,
+      utils::write.table(x = table_sample,
                   file = mixture_wide_path, quote = FALSE,
                   sep = "\t", row.names = FALSE, na = "")
 
@@ -131,15 +131,15 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
   if (write_to_disk){
     parameter_summary_path <- file.path(sub_dir, "Parameter Summary.csv")
-    write.csv(parameter_summary, file = parameter_summary_path,
+    utils::write.csv(parameter_summary, file = parameter_summary_path,
               quote = FALSE, na = "", row.names = FALSE)
 
     smash_path <- file.path(sub_dir, paste0(tag, " SMASH.csv"))
-    write.csv(smash, file = smash_path,
+    utils::write.csv(smash, file = smash_path,
               quote = FALSE, na = "", row.names = FALSE)
 
     table_path <- file.path(sub_dir, paste0(tag, " table.txt"))
-    write.table(x = table,
+    utils::write.table(x = table,
                 file = table_path, quote = FALSE,
                 sep = "\t", row.names = FALSE, na = "")
 

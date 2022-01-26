@@ -1,4 +1,3 @@
-
 get_allele_index <- function(x, marker, allele){
   which(x$Marker == marker & x$Allele == allele)
 }

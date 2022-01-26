@@ -7,7 +7,7 @@ get_reference_database <- function(x){
 
   db_rows <- lapply(x_by_profile, function (y){
     data.frame(CaseNumber = y$CaseNumber[1], "Sample Name" = y$`Sample Name`[1] ,
-               data.frame(t(setNames(as.vector(rbind(y$Allele1, y$Allele2)),
+               data.frame(t(stats::setNames(as.vector(rbind(y$Allele1, y$Allele2)),
                                      paste0(rep(y$Locus, each=2),c("","____2____")))
                             # rep(y$Locus, each=2)
                ),

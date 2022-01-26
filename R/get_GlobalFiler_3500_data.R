@@ -11,7 +11,7 @@ get_GlobalFiler_3500_data <- function() {
   kit_data <- get_kit_data()
   gf$autosomal_markers <- unique(kit_data$GlobalFiler_Panel_v1$Marker[!kit_data$GlobalFiler_Panel_v1$Gender.Marker])
 
-  repeat_length_by_marker <- setNames(kit_data$GlobalFiler_Panel_v1$Repeat[
+  repeat_length_by_marker <- stats::setNames(kit_data$GlobalFiler_Panel_v1$Repeat[
     match(gf$autosomal_markers, kit_data$GlobalFiler_Panel_v1$Marker)],
     gf$autosomal_markers)
 
