@@ -82,11 +82,11 @@ get_GlobalFiler_3500_data <- function() {
                             max_stutter_ratio = 0.05)
   )
 
-  detection_threshold <- c(D3S1358 = 50, vWA = 50, D16S539 = 50, CSF1PO = 50, TPOX = 50,
-                           D8S1179 = 50, D21S11 = 50, D18S51 = 50, D2S441 = 50, D19S433 = 50,
-                           TH01 = 50, FGA = 50, D22S1045 = 50, D5S818 = 50, D13S317 = 50,
-                           D7S820 = 50, SE33 = 50, D10S1248 = 50, D1S1656 = 50, D12S391 = 50,
-                           D2S1338 = 50)
+  detection_threshold <- c(D3S1358 = 75, vWA = 75, D16S539 = 75, CSF1PO = 75, TPOX = 75,
+                           D8S1179 = 100, D21S11 = 100, D18S51 = 100, D2S441 = 60, D19S433 = 60,
+                           TH01 = 60, FGA = 60, D22S1045 = 80, D5S818 = 80, D13S317 = 80,
+                           D7S820 = 80, SE33 = 80, D10S1248 = 100, D1S1656 = 100, D12S391 = 100,
+                           D2S1338 = 100)
 
   gf$log_normal_settings <- list(
     locus_names = gf$autosomal_markers,
