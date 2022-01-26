@@ -8,6 +8,8 @@ sample_LSAE(LSAE_variance, locus_names)
 }
 \arguments{
 \item{LSAE_variance}{Numeric. See \link{get_GlobalFiler_3500_data} for an example.}
+
+\item{locus_names}{Character vector.}
 }
 \description{
 Sample Locus Specific Amplification Efficiency (LSAE) according to prior

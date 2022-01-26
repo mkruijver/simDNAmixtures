@@ -9,7 +9,7 @@ allele_specific_stutter_model(stutter_types, size_regression)
 \arguments{
 \item{stutter_types}{List. See \link{stutter_type}.}
 
-\item{size_regression.}{Function, see \link{read_size_regression}.}
+\item{size_regression}{Function, see \link{read_size_regression}.}
 }
 \description{
 Stutter model where the expected stutter rate depends on the allele and locus

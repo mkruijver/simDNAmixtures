@@ -11,7 +11,7 @@ global_stutter_model(back_stutter_rate, forward_stutter_rate, size_regression)
 
 \item{forward_stutter_rate}{Numeric. (Optional)}
 
-\item{size_regression.}{Function, see \link{read_size_regression}.}
+\item{size_regression}{Function, see \link{read_size_regression}.}
 }
 \description{
 Global stutter model where the expected stutter rate is constant across alleles and loci

@@ -2,7 +2,7 @@
 #'
 #' @param back_stutter_rate Numeric. (Optional)
 #' @param forward_stutter_rate Numeric. (Optional)
-#' @param size_regression. Function, see \link{read_size_regression}.
+#' @param size_regression Function, see \link{read_size_regression}.
 #' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
 #' @export
 global_stutter_model <- function(back_stutter_rate, forward_stutter_rate, size_regression){

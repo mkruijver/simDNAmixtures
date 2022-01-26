@@ -1,7 +1,7 @@
 #' @title Stutter model where the expected stutter rate depends on the allele and locus
 #'
 #' @param stutter_types List. See \link{stutter_type}.
-#' @param size_regression. Function, see \link{read_size_regression}.
+#' @param size_regression Function, see \link{read_size_regression}.
 #' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
 #' @export
 allele_specific_stutter_model <- function(stutter_types, size_regression){
