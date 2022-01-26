@@ -94,10 +94,12 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     if (write_to_disk){
       annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name,"_annotated.csv"))
-      write.csv(x = annotated_mixture, file = annnotated_path, quote = FALSE, row.names = FALSE)
+      write.csv(x = annotated_mixture, file = annnotated_path,
+                quote = FALSE, row.names = FALSE, na = "")
 
       mixture_path <- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
-      write.csv(x = mixture, file = mixture_path, quote = FALSE, row.names = FALSE)
+      write.csv(x = mixture, file = mixture_path,
+                quote = FALSE, row.names = FALSE, na = "")
 
       write_knowns(contributor_genotypes, knowns_dir, sample_name)
 
