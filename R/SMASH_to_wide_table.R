@@ -32,7 +32,7 @@ SMASH_to_wide_table <- function(x) {
 
     x_sample_wide <- get_empty_wide_table(length(markers), max_number_of_alleles)
 
-    x_sample_wide$SampleName <- sample_name
+    x_sample_wide[["Sample Name"]] <- sample_name
     x_sample_wide$Marker <- markers
 
     # ensure markers are in order
@@ -62,8 +62,9 @@ get_empty_wide_table <- function(number_of_rows, number_of_alleles){
   empty_character_column <- rep(NA_character_, number_of_rows)
   empty_numeric_column <- rep(NA_real_, number_of_rows)
 
-  wide <- data.frame(SampleName = empty_character_column,
-                     Marker = empty_character_column, stringsAsFactors = FALSE)
+  wide <- data.frame("Sample Name" = empty_character_column,
+                     Marker = empty_character_column,
+                     stringsAsFactors = FALSE, check.names = FALSE)
 
   # Allele1, Allele2, ...
   for (i_allele in seq_len(number_of_alleles)){

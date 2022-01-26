@@ -58,6 +58,9 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
     mixtures_csv_dir <- file.path(sub_dir,"mixtures_csv")
     dir.create(mixtures_csv_dir,recursive = TRUE)
 
+    mixtures_wide_dir <- file.path(sub_dir,"mixtures_table")
+    dir.create(mixtures_wide_dir,recursive = TRUE)
+
     annotated_mixtures_dir <- file.path(sub_dir,"annotated_mixtures")
     dir.create(annotated_mixtures_dir,recursive = TRUE)
 
@@ -93,18 +96,27 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
                                 mixture = mixture)
 
     if (write_to_disk){
+      ## annotated
       annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name,"_annotated.csv"))
       write.csv(x = annotated_mixture, file = annnotated_path,
                 quote = FALSE, row.names = FALSE, na = "")
 
-      mixture_path <- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
-      write.csv(x = mixture, file = mixture_path,
+      ## csv
+      mixture_csv_path<- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
+      write.csv(x = mixture, file = mixture_csv_path,
                 quote = FALSE, row.names = FALSE, na = "")
 
-      write_knowns(contributor_genotypes, knowns_dir, sample_name)
+      smash_sample <- get_SMASH_from_samples(samples[i_sample])
+      table_sample <- SMASH_to_wide_table(smash_sample)
 
-      db_path <- file.path(sub_dir, "references.csv")
-      write_knowns_as_reference_db(samples, db_path)
+      ## txt (wide table)
+      mixture_wide_path <- file.path(mixtures_wide_dir, paste0(sample_name,".txt"))
+      write.table(x = table_sample,
+                  file = mixture_wide_path, quote = FALSE,
+                  sep = "\t", row.names = FALSE, na = "")
+
+      ## knowns (wide table)
+      write_knowns(contributor_genotypes, knowns_dir, sample_name)
     }
   }
 
@@ -128,6 +140,10 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
     write.table(x = table,
                 file = table_path, quote = FALSE,
                 sep = "\t", row.names = FALSE, na = "")
+
+    ## all knowns as single db (csv)
+    db_path <- file.path(sub_dir, "references.csv")
+    write_knowns_as_reference_db(samples, db_path)
 
     cat("Finished sampling. Output written to", sub_dir, "\n")
   }
