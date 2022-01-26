@@ -45,20 +45,20 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
         parent_size <- x$Size[i_row]
 
         if (length(stutter$delta) == 1){
-          target <- SimMixDNA:::get_stutter_target(parent, stutter$delta)
+          target <- SimMixDNA::get_stutter_target(parent, stutter$delta)
         }
         else{
           repeat_length <- stutter$repeat_length_by_marker[marker]
-          target <- SimMixDNA:::get_stutter_target(parent, stutter$delta, repeat_length)
+          target <- SimMixDNA::get_stutter_target(parent, stutter$delta, repeat_length)
         }
 
         stutter_ratio <- stutter$get_expected_stutter_ratio(marker, parent)
 
         # set expected stutter ratio
-        x <- SimMixDNA:::set_or_add_df_variable(x, marker, parent, parent_size, stutter_ratio, sr_column_name)
+        x <- SimMixDNA::set_or_add_df_variable(x, marker, parent, parent_size, stutter_ratio, sr_column_name)
 
         # set stutter product
-        x <- SimMixDNA:::set_or_add_df_variable(x, marker, parent, parent_size, target, stutter_product_column_name)
+        x <- SimMixDNA::set_or_add_df_variable(x, marker, parent, parent_size, target, stutter_product_column_name)
       }
     }
 
@@ -106,11 +106,11 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
         expected_stutter <- parent_height * sr / (1 + x_pre_stutter_products$SumOfStutterRatios[i_row])
 
         # set expected stutter
-        x <- SimMixDNA:::set_or_add_df_variable(x, marker, target, target_size,
+        x <- SimMixDNA::set_or_add_df_variable(x, marker, target, target_size,
                                                 expected_stutter, expected_column_name)
 
         # store the parent
-        x <- SimMixDNA:::set_or_add_df_variable(x, marker, target, target_size,
+        x <- SimMixDNA::set_or_add_df_variable(x, marker, target, target_size,
                                                 parent, stutter_parent_column_name)
       }
     }
