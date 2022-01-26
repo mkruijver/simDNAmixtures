@@ -55,16 +55,16 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     dir.create(sub_dir, recursive = TRUE)
 
-    mixtures_csv_dir <- file.path(sub_dir,"mixtures_csv")
+    mixtures_csv_dir <- file.path(sub_dir,"Mixtures csv")
     dir.create(mixtures_csv_dir,recursive = TRUE)
 
-    mixtures_wide_dir <- file.path(sub_dir,"mixtures_table")
+    mixtures_wide_dir <- file.path(sub_dir,"Mixtures table")
     dir.create(mixtures_wide_dir,recursive = TRUE)
 
-    annotated_mixtures_dir <- file.path(sub_dir,"annotated_mixtures")
+    annotated_mixtures_dir <- file.path(sub_dir,"Mixtures annotated")
     dir.create(annotated_mixtures_dir,recursive = TRUE)
 
-    knowns_dir <- file.path(sub_dir,"knowns")
+    knowns_dir <- file.path(sub_dir,"References by mixture")
     dir.create(knowns_dir,recursive = TRUE)
   }
 
@@ -97,7 +97,7 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
 
     if (write_to_disk){
       ## annotated
-      annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name,"_annotated.csv"))
+      annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," Annotated.csv"))
       write.csv(x = annotated_mixture, file = annnotated_path,
                 quote = FALSE, row.names = FALSE, na = "")
 
@@ -128,7 +128,7 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
   table <- SMASH_to_wide_table(smash)
 
   if (write_to_disk){
-    parameter_summary_path <- file.path(sub_dir, "parameter_summary.csv")
+    parameter_summary_path <- file.path(sub_dir, "Parameter Summary.csv")
     write.csv(parameter_summary, file = parameter_summary_path,
               quote = FALSE, na = "", row.names = FALSE)
 
@@ -142,7 +142,7 @@ sample_mixtures_with_relatives <- function(n, contributors, freqs,
                 sep = "\t", row.names = FALSE, na = "")
 
     ## all knowns as single db (csv)
-    db_path <- file.path(sub_dir, "references.csv")
+    db_path <- file.path(sub_dir, "References DB.csv")
     write_knowns_as_reference_db(samples, db_path)
 
     cat("Finished sampling. Output written to", sub_dir, "\n")
