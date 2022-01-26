@@ -6,7 +6,7 @@
 #' @param sampling_parameters List. Passed to the sample_model function.
 #' @param model_settings List. Passed to the sample_model function.
 #' @param sample_model Function such as \link{sample_log_normal_model}.
-#' @param pedigree (optionally) \link[pedtools]{ped} object.
+#' @param pedigree (optionally) \link[pedtools]{ped} object. Contributors can be named pedigree members.
 #' @param results_directory (optionally) Character with path to directory where results are written to disk.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
 #' @examples
@@ -17,17 +17,17 @@
 #'                            min_cv = 0.05, max_cv = 0.35,
 #'                            degradation_shape1 = 10, degradation_shape2 = 1)
 #'
-#' mixtures <- sample_mixtures_with_relatives(n = 10, contributors = c("U1", "U2"), freqs = freqs,
-#'                                           sampling_parameters = sampling_parameters,
-#'                                           model_settings = gf$gamma_settings_no_stutter,
-#'                                           sample_model = sample_gamma_model)
+#' mixtures <- sample_mixtures(n = 10, contributors = c("U1", "U2"), freqs = freqs,
+#'                             sampling_parameters = sampling_parameters,
+#'                             model_settings = gf$gamma_settings_no_stutter,
+#'                             sample_model = sample_gamma_model)
 #'
 #' @export
-sample_mixtures_with_relatives <- function(n, contributors, freqs,
-                                           sampling_parameters, model_settings,
-                                           sample_model, pedigree,
-                                           results_directory,
-                                           tag = "simulation"){
+sample_mixtures <- function(n, contributors, freqs,
+                            sampling_parameters, model_settings,
+                            sample_model, pedigree,
+                            results_directory,
+                            tag = "simulation"){
 
   if (length(n) != 1){
     stop("n needs to have length 1")
