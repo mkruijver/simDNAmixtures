@@ -203,8 +203,8 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
     x[[expected_column_name]][idx_targets] <- x$HeightAllele[idx_parents] *
                                     x[[sr_column_name]][idx_parents]
 
-    x[[stutter_cap_column_name]][idx_targets] <- x$HeightAllele[idx_parents] *
-                                    sr_max
+    x[[stutter_cap_column_name]][idx_targets] <-
+        round(round(x$HeightAllele[idx_parents]) * sr_max)
   }
 
   # sample stutter heights
