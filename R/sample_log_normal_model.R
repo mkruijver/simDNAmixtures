@@ -59,19 +59,25 @@ sample_log_normal_model <- function(number_of_contributors, sampling_parameters,
   degradation_shape <- sampling_parameters$degradation_shape
   degradation_scale <- sampling_parameters$degradation_scale
 
-  if ((!is.numeric(min_template)) | (length(min_template) != 1)){
-    stop("min_template needs to be a numeric of length 1")
+  if ((!is.numeric(min_template)) |
+      ((length(min_template) != 1) && (length(min_template) != number_of_contributors))){
+    stop("min_template needs to be a numeric of length 1 or number_of_contributors")
   }
-  if ((!is.numeric(max_template)) | (length(max_template) != 1)){
-    stop("max_template needs to be a numeric of length 1")
+  if ((!is.numeric(max_template)) |
+      ((length(max_template) != 1) && (length(max_template) != number_of_contributors))){
+    stop("max_template needs to be a numeric of length 1 or number_of_contributors")
   }
-  if (min_template <= 0){
+
+  if (length(min_template) == 1) min_template <- rep(min_template, number_of_contributors)
+  if (length(max_template) == 1) max_template <- rep(max_template, number_of_contributors)
+
+  if (any(min_template <= 0)){
     stop("min_template needs to be positive")
   }
-  if (max_template <= 0){
+  if (any(max_template <= 0)){
     stop("max_template needs to be positive")
   }
-  if (min_template > max_template){
+  if (any(min_template > max_template)){
     stop("min_template > max_template")
   }
 

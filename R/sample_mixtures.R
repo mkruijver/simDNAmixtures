@@ -8,6 +8,7 @@
 #' @param sample_model Function such as \link{sample_log_normal_model}.
 #' @param pedigree (optionally) \link[pedtools]{ped} object. Contributors can be named pedigree members.
 #' @param results_directory (optionally) Character with path to directory where results are written to disk.
+#' @param seed (optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
 #' @examples
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
@@ -27,6 +28,7 @@ sample_mixtures <- function(n, contributors, freqs,
                             sampling_parameters, model_settings,
                             sample_model, pedigree,
                             results_directory,
+                            seed,
                             tag = "simulation"){
 
   if (length(n) != 1){
@@ -39,6 +41,33 @@ sample_mixtures <- function(n, contributors, freqs,
 
   if (as.character(n) != as.character(as.integer(n))){
     stop("n needs to be integer valued")
+  }
+
+  if (!missing(seed)){
+
+    if (length(seed) != 1){
+      stop("seed needs to have length 1")
+    }
+
+    if (!(is.numeric(seed) | is.integer(seed))){
+      stop("seed needs to be integer valued")
+    }
+
+    if (as.character(seed) != as.character(as.integer(seed))){
+      stop("seed needs to be integer valued")
+    }
+
+    seed <- as.integer(seed)
+
+    set.seed(seed)
+  }
+  else{
+
+    # pick a seed up to 1 million
+    # and return this seed for reproducible results even if no seed provided
+    seed <- sample.int(n = 1e6, size = 1)
+
+    set.seed(seed)
   }
 
   number_of_contributors <- length(contributors)
@@ -55,6 +84,15 @@ sample_mixtures <- function(n, contributors, freqs,
       format(Sys.time(), "%Y-%m-%d %H_%M_%S"), " ", tag))
 
     dir.create(sub_dir, recursive = TRUE)
+
+    run_details_file <- file.path(sub_dir, "Run Info.txt");
+    write(c(paste0("Simulation started at ", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
+                 "Call: ",
+                 deparse(match.call()),"",
+                 paste0("Seed: ", seed)
+                 ),
+                 file = run_details_file)
+
 
     mixtures_csv_dir <- file.path(sub_dir,"Mixtures csv")
     dir.create(mixtures_csv_dir,recursive = TRUE)
@@ -146,6 +184,9 @@ sample_mixtures <- function(n, contributors, freqs,
     ## all knowns as single db (csv)
     db_path <- file.path(sub_dir, "References DB.csv")
     write_knowns_as_reference_db(samples, db_path)
+
+    write(c(paste0("Simulation finished at ", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))),
+          file = run_details_file, append = TRUE)
 
     cat("Finished sampling. Output written to", sub_dir, "\n")
   }

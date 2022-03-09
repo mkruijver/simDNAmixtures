@@ -13,6 +13,7 @@ sample_mixtures(
   sample_model,
   pedigree,
   results_directory,
+  seed,
   tag = "simulation"
 )
 }
@@ -32,6 +33,8 @@ sample_mixtures(
 \item{pedigree}{(optionally) \link[pedtools]{ped} object. Contributors can be named pedigree members.}
 
 \item{results_directory}{(optionally) Character with path to directory where results are written to disk.}
+
+\item{seed}{(optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.}
 
 \item{tag}{Character. Used for sub directory name when results_directory is provided.}
 }
