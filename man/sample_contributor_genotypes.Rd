@@ -8,7 +8,8 @@ sample_contributor_genotypes(
   contributors,
   freqs,
   pedigree,
-  loci = names(freqs)
+  loci = names(freqs),
+  return_non_contributors = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ sample_contributor_genotypes(
 \item{pedigree}{(optionally) \link[pedtools]{ped} object}
 
 \item{loci}{Character vector of locus names (defaults to names attr. of \code{freqs})}
+
+\item{return_non_contributors}{Logical. Should genotypes of non-contributing pedigree members also be returned?}
 }
 \description{
 Sample genotypes for mixture contributors according to allele frequencies

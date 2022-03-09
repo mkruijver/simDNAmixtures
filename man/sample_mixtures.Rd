@@ -14,6 +14,7 @@ sample_mixtures(
   pedigree,
   results_directory,
   seed,
+  write_non_contributors = FALSE,
   tag = "simulation"
 )
 }
@@ -35,6 +36,8 @@ sample_mixtures(
 \item{results_directory}{(optionally) Character with path to directory where results are written to disk.}
 
 \item{seed}{(optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.}
+
+\item{write_non_contributors}{Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.}
 
 \item{tag}{Character. Used for sub directory name when results_directory is provided.}
 }

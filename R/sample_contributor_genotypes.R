@@ -4,6 +4,7 @@
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
 #' @param pedigree (optionally) \link[pedtools]{ped} object
 #' @param loci Character vector of locus names (defaults to names attr. of \code{freqs})
+#' @param return_non_contributors Logical. Should genotypes of non-contributing pedigree members also be returned?
 #' @details For each founder, a genotype is sampled randomly by drawing two alleles from allele frequencies.
 #' @examples
 #'
@@ -20,10 +21,18 @@
 #'
 #' sample_contributor_genotypes(contributors = c("S1","U1","S2"), freqs, ped_sibs)
 #' @export
-sample_contributor_genotypes <- function(contributors, freqs, pedigree, loci = names(freqs)){
+sample_contributor_genotypes <- function(contributors, freqs, pedigree,
+                                         loci = names(freqs), return_non_contributors = FALSE){
 
   if (!is.character(contributors)){
     stop("contributors should be a character vector")
+  }
+
+  if (!is.logical(return_non_contributors)){
+    stop("return_non_contributors should be a logical")
+  }
+  if (length(return_non_contributors) != 1){
+    stop("return_non_contributors should be a logical of length 1")
   }
 
   if (!missing(pedigree)){
@@ -73,7 +82,15 @@ sample_contributor_genotypes <- function(contributors, freqs, pedigree, loci = n
   }
 
   # reorder
-  genotypes <- genotypes[contributors]
+  if (return_non_contributors){
+
+    non_contributors_in_ped <- ped_names[!ped_names %in% contributors]
+
+    genotypes <- genotypes[c(contributors, non_contributors_in_ped)]
+  }
+  else{
+    genotypes <- genotypes[contributors]
+  }
 
   genotypes
 }

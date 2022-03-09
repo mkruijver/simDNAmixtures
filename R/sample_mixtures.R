@@ -9,6 +9,7 @@
 #' @param pedigree (optionally) \link[pedtools]{ped} object. Contributors can be named pedigree members.
 #' @param results_directory (optionally) Character with path to directory where results are written to disk.
 #' @param seed (optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.
+#' @param write_non_contributors Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
 #' @examples
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
@@ -29,6 +30,7 @@ sample_mixtures <- function(n, contributors, freqs,
                             sample_model, pedigree,
                             results_directory,
                             seed,
+                            write_non_contributors = FALSE,
                             tag = "simulation"){
 
   if (length(n) != 1){
@@ -41,6 +43,14 @@ sample_mixtures <- function(n, contributors, freqs,
 
   if (as.character(n) != as.character(as.integer(n))){
     stop("n needs to be integer valued")
+  }
+
+  if (!is.logical(write_non_contributors)){
+    stop("write_non_contributors needs to be a logical")
+  }
+
+  if (length(write_non_contributors) != 1){
+    stop("write_non_contributors needs to be a logical of length 1")
   }
 
   if (!missing(seed)){
@@ -113,8 +123,11 @@ sample_mixtures <- function(n, contributors, freqs,
 
   for (i_sample in seq_len(n)){
 
-    contributor_genotypes <- sample_contributor_genotypes(contributors, freqs, pedigree,
-                                                          loci = model_settings$locus_names)
+    all_genotypes <- sample_contributor_genotypes(contributors, freqs, pedigree,
+                                                          loci = model_settings$locus_names,
+                                                          return_non_contributors = write_non_contributors)
+
+    contributor_genotypes <- all_genotypes[contributors]
 
     model <- sample_model(number_of_contributors = number_of_contributors,
                           sampling_parameters = sampling_parameters,
@@ -156,7 +169,14 @@ sample_mixtures <- function(n, contributors, freqs,
                   sep = "\t", row.names = FALSE, na = "")
 
       ## knowns (wide table)
-      write_knowns(contributor_genotypes, knowns_dir, sample_name)
+      if (write_non_contributors){
+        write_knowns(all_genotypes, knowns_dir, sample_name)
+      }
+      else{
+        write_knowns(contributor_genotypes, knowns_dir, sample_name)
+      }
+
+
     }
   }
 
