@@ -103,6 +103,11 @@ sample_mixtures <- function(n, contributors, freqs,
                  ),
                  file = run_details_file)
 
+    if (!missing(pedigree)){
+      utils::write.csv(as.data.frame(pedigree),
+                       file = file.path(sub_dir,"Pedigree.csv"),
+                       quote = FALSE, row.names = FALSE)
+    }
 
     mixtures_csv_dir <- file.path(sub_dir,"Mixtures csv")
     dir.create(mixtures_csv_dir,recursive = TRUE)
