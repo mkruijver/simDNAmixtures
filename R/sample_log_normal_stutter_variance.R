@@ -11,7 +11,7 @@ sample_log_normal_stutter_variance <- function(log_normal_stutter_variability){
   if (!is.list(log_normal_stutter_variability)){
     stop("log_normal_stutter_variability is not a list")
   }
-  if (is.null(names(log_normal_stutter_variability))){
+  if (length(names(log_normal_stutter_variability)) != length(log_normal_stutter_variability)){
     stop("log_normal_stutter_variability is not a named list")
   }
 
