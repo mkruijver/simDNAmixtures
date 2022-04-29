@@ -191,14 +191,17 @@ gamma_model_sample_peak_heights <- function(model, x){
 
   parameters <- model$parameters
 
-  # shape is constant (1 / cv^2)
-  # scale is determined by expected peak height
+  # scale is constant (mu * cv^2)
+  # shape is determined by expected peak height
+  # by using that for a gamma distribution,
+  # the mean is equal to shape*scale
+  # so shape is obtained as expected / scale
 
   cv <- parameters$cv
 
   x$cv <- cv
-  x$Shape <- 1 / (cv*cv)
-  x$Scale <- cv*cv * x$Expected
+  x$Scale <- parameters$mu * cv^2
+  x$Shape <- x$Expected / x$Scale
 
   x$Height <- stats::rgamma(n = nrow(x), shape = x$Shape, scale = x$Scale)
 
