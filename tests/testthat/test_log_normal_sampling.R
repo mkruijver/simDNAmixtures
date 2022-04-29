@@ -1,9 +1,10 @@
-library(SimMixDNA)
+library(simDNAmixtures)
 
 test_that("Log-Normal sampling (single source, no stutter)", {
 
   gf <- get_GlobalFiler_3500_data()
-  freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+  freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+                                         package = "simDNAmixtures"))
 
   k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability)
   model <- log_normal_model(template = 1e3, c2 = 15, k2 = k2,
@@ -19,7 +20,8 @@ test_that("Log-Normal sampling (single source, no stutter)", {
 test_that("Log-Normal sampling (single source, back and forward stutter)", {
 
   gf <- get_GlobalFiler_3500_data()
-  freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+  freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+                                         package = "simDNAmixtures"))
 
   stutter_types <- list(BackStutter = gf$stutters$BackStutter,
                         ForwardStutter = gf$stutters$ForwardStutter)

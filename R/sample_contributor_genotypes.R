@@ -9,7 +9,8 @@
 #' @examples
 #'
 #' # read allele frequencies
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#'                            package = "simDNAmixtures"))
 #'
 #' # define a pedigree of siblings S1 and S2 (and their parents)
 #' ped_sibs <- pedtools::nuclearPed(nch = 2,

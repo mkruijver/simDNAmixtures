@@ -16,7 +16,8 @@ Reads a stutter exceptions file with overrides for expected stutter ratios
 Reads the file from disk and returns a named numeric vector with stutter ratio exceptions for a given locus and allele.
 }
 \examples{
-filename <- system.file("extdata","GlobalFiler_Stutter_Exceptions_3500.csv",package = "SimMixDNA")
+filename <- system.file("extdata","GlobalFiler_Stutter_Exceptions_3500.csv",
+                        package = "simDNAmixtures")
 exceptions <- read_stutter_exceptions(filename)
 exceptions$TH01["9.3"]
 }

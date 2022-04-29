@@ -16,7 +16,7 @@ Reads a size regression file
 Reads the file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
 }
 \examples{
-filename <- system.file("extdata","GlobalFiler_SizeRegression.csv",package = "SimMixDNA")
+filename <- system.file("extdata","GlobalFiler_SizeRegression.csv",package = "simDNAmixtures")
 regression <- read_size_regression(filename)
 regression("vWA", 12)
 }

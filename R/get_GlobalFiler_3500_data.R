@@ -18,17 +18,20 @@ get_GlobalFiler_3500_data <- function() {
   gf$repeat_length_by_marker <- repeat_length_by_marker
 
   # size regression
-  filename_size_regression <- system.file("extdata","GlobalFiler_SizeRegression.csv",package = "SimMixDNA")
+  filename_size_regression <- system.file("extdata","GlobalFiler_SizeRegression.csv",
+                                          package = "simDNAmixtures")
   gf$size_regression <- read_size_regression(filename_size_regression)
 
   # stutters
   gf$stutters <- list()
 
   # back stutter
-  filename_bs_exceptions <- system.file("extdata","GlobalFiler_Stutter_Exceptions_3500.csv",package = "SimMixDNA")
+  filename_bs_exceptions <- system.file("extdata","GlobalFiler_Stutter_Exceptions_3500.csv",
+                                        package = "simDNAmixtures")
   bs_exceptions <- read_stutter_exceptions(filename_bs_exceptions)
 
-  filename_bs_regression <- system.file("extdata","GlobalFiler_Stutter_3500.txt",package = "SimMixDNA")
+  filename_bs_regression <- system.file("extdata","GlobalFiler_Stutter_3500.txt",
+                                        package = "simDNAmixtures")
   bs_regression <- read_stutter_regression(filename_bs_regression)
   back_stutter <- stutter_type(name = "BackStutter", delta = -1,
                               stutter_regression = bs_regression,
@@ -37,7 +40,8 @@ get_GlobalFiler_3500_data <- function() {
   gf$stutters$BackStutter <- back_stutter
 
   # forward stutter
-  filename_fs_regression <- system.file("extdata","GlobalFiler_Forward_Stutter_3500.txt",package = "SimMixDNA")
+  filename_fs_regression <- system.file("extdata","GlobalFiler_Forward_Stutter_3500.txt",
+                                        package = "simDNAmixtures")
   fs_regression <- read_stutter_regression(filename_fs_regression)
   forward_stutter <- stutter_type(name = "ForwardStutter", delta = 1,
                               stutter_regression = fs_regression)
@@ -45,7 +49,7 @@ get_GlobalFiler_3500_data <- function() {
   gf$stutters$ForwardStutter <- forward_stutter
 
   # 2bp back stutter
-  filename_2bp_regression <- system.file("extdata","GlobalFiler_2bp_Stutter_3500.txt",package = "SimMixDNA")
+  filename_2bp_regression <- system.file("extdata","GlobalFiler_2bp_Stutter_3500.txt",package = "simDNAmixtures")
   regression_2bp <- read_stutter_regression(filename_2bp_regression)
   gf$stutters[["2bpBackStutter"]] <- stutter_type(name = "2bpBackStutter",
                                               delta = c(0, -2),
@@ -56,7 +60,7 @@ get_GlobalFiler_3500_data <- function() {
 
   # double back stutter
   filename_double_bs_regression <- system.file("extdata","GlobalFiler_Double_Back_Stutter_3500.txt",
-                                               package = "SimMixDNA")
+                                               package = "simDNAmixtures")
   double_bs_regression <- read_stutter_regression(filename_double_bs_regression)
   gf$stutters$DoubleBackStutter <- stutter_type(name = "DoubleBackStutter",
                                                 delta = c(-2),

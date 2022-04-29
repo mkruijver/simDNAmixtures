@@ -12,7 +12,8 @@
 #' @param write_non_contributors Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
 #' @examples
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA"))
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#'                            package = "simDNAmixtures"))
 #' gf <- get_GlobalFiler_3500_data()
 #'
 #' sampling_parameters <- list(min_mu = 50., max_mu = 5e3,

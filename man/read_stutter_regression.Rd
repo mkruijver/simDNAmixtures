@@ -18,7 +18,8 @@ Reads a stutter regression file
 Reads the file from disk and returns a function that provides the expected stutter ratio for a given locus and allele.
 }
 \examples{
-filename <- system.file("extdata","GlobalFiler_Stutter_3500.txt",package = "SimMixDNA")
+filename <- system.file("extdata","GlobalFiler_Stutter_3500.txt",
+                        package = "simDNAmixtures")
 regression <- read_stutter_regression(filename)
 regression("vWA", 12)
 }

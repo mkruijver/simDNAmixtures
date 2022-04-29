@@ -1,4 +1,4 @@
 library(testthat)
-library(SimMixDNA)
+library(simDNAmixtures)
 
-test_check("SimMixDNA")
+test_check("simDNAmixtures")

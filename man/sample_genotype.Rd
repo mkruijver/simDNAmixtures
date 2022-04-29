@@ -21,7 +21,8 @@ A genotype is sampled randomly by drawing two alleles from allele frequencies.
 }
 \examples{
 # below we read an allele freqs and sample a genotype
-filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "SimMixDNA")
+filename <- system.file("extdata","FBI_extended_Cauc.csv",
+                        package = "simDNAmixtures")
 freqs <- read_allele_freqs(filename)
 sample_genotype(freqs, loci = c("D3S1358", "vWA"))
 }

@@ -10,11 +10,11 @@
 #' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
 #' @examples
 #' filename_bs_exceptions <- system.file("extdata",
-#' "GlobalFiler_Stutter_Exceptions_3500.csv",package = "SimMixDNA")
+#' "GlobalFiler_Stutter_Exceptions_3500.csv",package = "simDNAmixtures")
 #' bs_exceptions <- read_stutter_exceptions(filename_bs_exceptions)
 #'
 #' filename_bs_regression <- system.file("extdata",
-#' "GlobalFiler_Stutter_3500.txt",package = "SimMixDNA")
+#' "GlobalFiler_Stutter_3500.txt",package = "simDNAmixtures")
 #' bs_regression <- read_stutter_regression(filename_bs_regression)
 #'
 #' backstutter <- stutter_type(name = "BackStutter", delta = -1,
