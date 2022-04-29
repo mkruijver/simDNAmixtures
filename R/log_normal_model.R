@@ -105,6 +105,19 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
          length(genotypes), " genotypes")
   }
 
+  # determine deg_starts_at as minimal size
+  genotypes_bound <- do.call(rbind, genotypes)
+  genotypes_bound$Size1 <- genotypes_bound$Size2 <-
+    numeric(nrow(genotypes_bound))
+
+  for (i_row in seq_len(nrow(genotypes_bound))){
+    genotypes_bound$Size1[i_row] <- size_regression(
+      genotypes_bound$Locus[i_row], genotypes_bound$Allele1[i_row])
+    genotypes_bound$Size2[i_row] <- size_regression(
+      genotypes_bound$Locus[i_row], genotypes_bound$Allele2[i_row])
+  }
+  min_size <- min(min(genotypes_bound$Size1), min(genotypes_bound$Size2))
+
   degradation <- parameters$degradation
 
   x <- data.frame(
@@ -132,7 +145,7 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
       for (a in ab){
         size <- size_regression(locus, a)
 
-        deg <- exp(-degradation[i_contributor] * (size - 80.))
+        deg <- exp(-degradation[i_contributor] * (size - min_size))
 
         amount <- lsae * deg * template_contributor
 
@@ -261,17 +274,23 @@ log_normal_model_sample_peak_heights <- function(model, x, stutter_variability){
 
   }
 
-  # add up stutters
-  x$HeightUncappedStutter <- rowSums(x[paste0("HeightUncapped", names(stutter_types))])
+  if (!is.null(stutter_types)){
+    # add up stutters
+    x$HeightUncappedStutter <- rowSums(x[paste0("HeightUncapped", names(stutter_types))])
 
-  x$StutterCap <- do.call(pmax, x[paste0("StutterCap", names(stutter_types))])
+    x$StutterCap <- do.call(pmax, x[paste0("StutterCap", names(stutter_types))])
 
-  x$HeightStutter <- pmin(x$HeightUncappedStutter, x$StutterCap)
+    x$HeightStutter <- pmin(x$HeightUncappedStutter, x$StutterCap)
 
-  x$Height <- x$HeightAllele + x$HeightStutter
+    x$Height <- x$HeightAllele + x$HeightStutter
 
-  # fix expected stutter total
-  x$ExpectedStutter <- rowSums(x[paste0("Expected", names(stutter_types))])
+    # fix expected stutter total
+    x$ExpectedStutter <- rowSums(x[paste0("Expected", names(stutter_types))])
+  }
+  else{
+    x$Height <- x$HeightAllele
+    x$ExpectedStutter <- 0.
+  }
 
   x$Expected <- x$ExpectedStutter + x$ExpectedAllele
 
