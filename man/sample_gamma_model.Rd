@@ -28,7 +28,7 @@ When \code{length(number_of_contributors)==1}, a single \link{gamma_model} of cl
 Sample gamma model(s) with parameters according to priors
 }
 \details{
-In simulation studies involving many mixed DNA profiles, one often needs to generate various samples with different model parameters. This function samples a gamma model with parameters according to prior distributions. The mean peak height parameter \code{mu} is sampled uniformly between \code{min_mu} and \code{max_mu}. Likewise, the variability parameter \code{cv} is sampled unfiromly between \code{min_cv} and \code{max_cv}. The degradation slope parameter \code{beta} is sampled according to a Beta distribution with parameters \code{degradation_shape1} and \code{degradation_shape2}.
+In simulation studies involving many mixed DNA profiles, one often needs to generate various samples with different model parameters. This function samples a gamma model with parameters according to prior distributions. The mean peak height parameter \code{mu} is sampled uniformly between \code{min_mu} and \code{max_mu}. Likewise, the variability parameter \code{cv} is sampled uniformly between \code{min_cv} and \code{max_cv}. The degradation slope parameter \code{beta} is sampled according to a Beta distribution with parameters \code{degradation_shape1} and \code{degradation_shape2}.
 }
 \examples{
 data(gf)
