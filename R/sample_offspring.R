@@ -2,8 +2,9 @@
 #'
 #' @param father DataFrame (see \link{sample_genotype})
 #' @param mother DataFrame (see \link{sample_genotype})
-#' @param label Character SampleName of child
-#' @details A genotype is sampled according to Mendelian inheritance.
+#' @param label SampleName of child (character)
+#' @details A genotype is sampled according to Mendelian inheritance. That is, one of two alleles of a parent is passed down to the offspring.
+#' @return DataFrame (see \link{sample_genotype})
 #' @examples
 #' # below we read an allele freqs and sample a genotype
 #' filename <- system.file("extdata","FBI_extended_Cauc.csv",

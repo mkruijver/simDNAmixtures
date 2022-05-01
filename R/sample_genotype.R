@@ -1,7 +1,7 @@
 #' @title Sample a genotype according to allele frequencies
 #'
-#' @param freqs Allele frquencies (see \link{read_allele_freqs})
-#' @param loci Character vector of locus names (defaults to names attr. of \code{freqs})
+#' @param freqs Allele frequencies (see \link{read_allele_freqs})
+#' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
 #' @param label Sample name
 #' @details A genotype is sampled randomly by drawing two alleles from allele frequencies.
 #' @examples

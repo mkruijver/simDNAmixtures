@@ -7,11 +7,29 @@
 SMASH_to_wide_table(x)
 }
 \arguments{
-\item{x}{DataFrame.}
+\item{x}{DataFrame with SampleName, Marker, Allele, Size, Height columns}
 }
 \value{
-DataFrame
+DataFrame with columns: Sample Name, Marker, Allele 1, Allele 2, ..., Size 1, Size 2, ..., Height 1, Height 2, ...
 }
 \description{
 Converts SMASH (SampleName, Marker, Allele, Size, Height) data to a wide table
+}
+\examples{
+# generate example data in SMASH form
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+package = "simDNAmixtures"))
+gf <- get_GlobalFiler_3500_data()
+
+sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
+                            min_cv = 0.05, max_cv = 0.35,
+                            degradation_shape1 = 10, degradation_shape2 = 1)
+
+mixtures <- sample_mixtures(n = 2, contributors = c("U1"), freqs = freqs,
+                            sampling_parameters = sampling_parameters,
+                            model_settings = gf$gamma_settings_no_stutter,
+                            sample_model = sample_gamma_model)
+
+# convert from SMASH to wide table
+wide_table <- SMASH_to_wide_table(mixtures$smash)
 }

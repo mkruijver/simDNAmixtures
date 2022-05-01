@@ -1,10 +1,19 @@
 #' @title Reads a size regression file
 #'
-#' @param filename Character. Path to file.
-#' @details Reads the file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
+#' @param filename Path to file (character).
+#' @details
+#' Read a regression file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
+#'
+#' DNA profiles consist of the observed peaks (alleles or stutter products) at several loci as well as the peak heights and sizes. The size refers to the fragment length (bp). A linear relationship exists between the size of a peak and the size. When peaks are sampled in the \link{sample_mixture_from_genotypes} function, a size is assigned using a size regression. The \code{read_size_regression} function reads such a regression from disk.
+#' @return A function that takes a locus name and allele as arguments and returns the size.
 #' @examples
-#' filename <- system.file("extdata","GlobalFiler_SizeRegression.csv",package = "simDNAmixtures")
+#' filename <- system.file("extdata",
+#'                         "GlobalFiler_SizeRegression.csv",
+#'                         package = "simDNAmixtures")
+#'
 #' regression <- read_size_regression(filename)
+#'
+#' # obtain size for the 12 allele at the vWA locus
 #' regression("vWA", 12)
 #' @export
 read_size_regression <- function(filename){

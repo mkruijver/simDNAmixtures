@@ -2,8 +2,8 @@
 #'
 #' @param contributors Character vector with unique names of contributors. Valid names are "U1", "U2", ... for unrelated contributors or the names of pedigree members for related contributors.
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
-#' @param pedigree (optionally) \link[pedtools]{ped} object
-#' @param loci Character vector of locus names (defaults to names attr. of \code{freqs})
+#' @param pedigree (optionally) [ped][pedtools::ped] object
+#' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
 #' @param return_non_contributors Logical. Should genotypes of non-contributing pedigree members also be returned?
 #' @details For each founder, a genotype is sampled randomly by drawing two alleles from allele frequencies.
 #' @examples

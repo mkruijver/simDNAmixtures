@@ -11,13 +11,16 @@ sample_offspring(father, mother, label = "Child")
 
 \item{mother}{DataFrame (see \link{sample_genotype})}
 
-\item{label}{Character SampleName of child}
+\item{label}{SampleName of child (character)}
+}
+\value{
+DataFrame (see \link{sample_genotype})
 }
 \description{
 Sample offspring from two parental genotypes
 }
 \details{
-A genotype is sampled according to Mendelian inheritance.
+A genotype is sampled according to Mendelian inheritance. That is, one of two alleles of a parent is passed down to the offspring.
 }
 \examples{
 # below we read an allele freqs and sample a genotype

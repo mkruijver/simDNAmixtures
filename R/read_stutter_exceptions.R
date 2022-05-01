@@ -2,6 +2,7 @@
 #'
 #' @param filename Character. Path to file.
 #' @details Reads the file from disk and returns a named numeric vector with stutter ratio exceptions for a given locus and allele.
+#' @return A named list with the stutter exceptions by locus. For each loucs, the exceptions are given as a named numeric with the names corresponding to the parent alleles and the expected stutter rates given as the values.
 #' @examples
 #' filename <- system.file("extdata","GlobalFiler_Stutter_Exceptions_3500.csv",
 #'                         package = "simDNAmixtures")

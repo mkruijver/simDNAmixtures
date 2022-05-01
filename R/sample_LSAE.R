@@ -7,9 +7,14 @@
 #' called the LSAEs (Locus Specific Amplification Efficiencies). In the model,
 #' the prior for the log10 of LSAE is normal with mean 0. The variance
 #' can be specified.
+#' @return Named numeric with LSAEs for each locus (names).
 #' @examples
-#'  gf <- get_GlobalFiler_3500_data()
-#'  lsae <- sample_LSAE(gf$log_normal_settings$LSAE_variance_prior, gf$autosomal_markers)
+#' gf <- get_GlobalFiler_3500_data()
+#' lsae <- sample_LSAE(LSAE_variance = gf$log_normal_settings$LSAE_variance_prior,
+#'                      locus_names = gf$autosomal_markers)
+#'
+#' # the barplot shows that some loci amplify better than others
+#' barplot(lsae, las=2)
 #' @export
 sample_LSAE <- function(LSAE_variance, locus_names){
 

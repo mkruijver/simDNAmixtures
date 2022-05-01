@@ -1,4 +1,4 @@
-#' @title Read allele frequencies in STRmix a.k.a FSIgen format (.csv)
+#' @title Read allele frequencies in FSIgen format (.csv)
 #'
 #' @param filename Path to csv file.
 #' @param remove_zeroes Logical. Should frequencies of 0 be removed from the return value? Default is TRUE.
@@ -8,12 +8,12 @@
 #'          one column per locus. The last row should be the number of observations.
 #'          No error checking is done since the file format is only loosely defined,
 #'          e.g. we do not restrict the first column name or the last row name.
-#' @return list
+#' @return Named list with frequencies by locus. The frequencies at a locus are returned as a named numeric vector with names corresponding to alleles.
 #' @examples
 #' # below we read an allele freqs file that comes with the package
 #' filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "simDNAmixtures")
 #' freqs <- read_allele_freqs(filename)
-#' freqs # the output is just a list with an N attribute
+#' freqs # the output is a list with an attribute named \code{N} giving the sample size.
 #' @export
 read_allele_freqs <- function(filename, remove_zeroes = TRUE, normalise = TRUE){
   raw <- readLines(filename)

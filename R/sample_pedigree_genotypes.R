@@ -1,16 +1,16 @@
-#' @title Sample genotypes for pedigree according to allele frequencies
+#' @title Sample genotypes for pedigree according to allele frequencies by allele dropping.
 #'
-#' @param pedigree Ped object
+#' @param pedigree [ped][pedtools::ped] object
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
-#' @param loci Character vector of locus names (defaults to names attr. of \code{freqs})
-#' @details For each founder, a genotype is sampled randomly by drawing two alleles from allele frequencies.
+#' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
+#' @details For each founder, a genotype is sampled randomly by drawing two alleles according to allele frequencies. Alleles for the rest of the pedigree are then obtained by allele dropping: \link{sample_offspring} is invoked for each non-founder.
+#' @return List of DataFrames with genotypes for each pedigree member. See \link{sample_genotype} for the DataFrame format.
 #' @examples
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
 #'                            package = "simDNAmixtures"))
 #'
-#' ped_sibs <- pedtools::nuclearPed(nch = 2,
-#' father = "F", mother = "M",
-#' children = c("S1", "S2"))
+#' ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
+#'
 #' sibs_genotypes <- sample_pedigree_genotypes(ped = ped_sibs,
 #' freqs = freqs, loci = get_GlobalFiler_3500_data()$autosomal_markers)
 #' @export

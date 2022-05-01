@@ -7,9 +7,9 @@
 sample_genotype(freqs, loci = names(freqs), label = "U")
 }
 \arguments{
-\item{freqs}{Allele frquencies (see \link{read_allele_freqs})}
+\item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
 
-\item{loci}{Character vector of locus names (defaults to names attr. of \code{freqs})}
+\item{loci}{Character vector of locus names (defaults to \code{names} attribute of \code{freqs})}
 
 \item{label}{Sample name}
 }

@@ -6,7 +6,7 @@
 #' @param sampling_parameters List. Passed to the sample_model function.
 #' @param model_settings List. Passed to the sample_model function.
 #' @param sample_model Function such as \link{sample_log_normal_model}.
-#' @param pedigree (optionally) \link[pedtools]{ped} object. Contributors can be named pedigree members.
+#' @param pedigree (optionally) [ped][pedtools::ped] object. Contributors can be named pedigree members.
 #' @param results_directory (optionally) Character with path to directory where results are written to disk.
 #' @param seed (optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.
 #' @param write_non_contributors Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.

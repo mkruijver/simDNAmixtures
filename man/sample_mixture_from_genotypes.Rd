@@ -17,21 +17,29 @@ sample_mixture_from_genotypes(genotypes, model, sample_name = "mixture")
 Sample mixture profile with provided genotypes
 }
 \details{
-A mixture profile is sampled according to the provided pg_model.
+A mixture profile is sampled according to the provided \code{pg_model} (see \link{gamma_model}, \link{log_normal_model} and genotypes.
 }
 \examples{
-# read allele frequencies
+# read allele frequencies and kit data
 freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
                            package = "simDNAmixtures"))
+gf <- get_GlobalFiler_3500_data()
 
 # define a pedigree of siblings S1 and S2 (and their parents)
-ped_sibs <- pedtools::nuclearPed(nch = 2,
-father = "F", mother = "M",
-children = c("S1", "S2"))
+ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 
 # sample genotypes for a mixture of S1 + U1 + S2
-# where U1 is an unrelated perso
-genotypes <- sample_contributor_genotypes(contributors = c("S1","U1","S2"), freqs,
-ped_sibs, loci = get_GlobalFiler_3500_data()$autosomal_markers)
+# where U1 is an unrelated person
+genotypes <- sample_contributor_genotypes(contributors = c("S1","U1","S2"),
+freqs, ped_sibs, loci = gf$autosomal_markers)
 
+# define a gamma model for peak heights
+gamma_model <- gamma_model(mixture_proportions = c(0.5, 0.3, 0.2), mu = 1000.,
+                    cv = 0.1, model_settings = gf$gamma_settings_no_stutter)
+
+# sample mixture from genotypes
+mix <- sample_mixture_from_genotypes(genotypes, gamma_model)
+}
+\seealso{
+\link{sample_mixtures} for a function that samples many mixtures in one go.
 }

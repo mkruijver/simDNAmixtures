@@ -3,7 +3,20 @@
 #' @param back_stutter_rate Numeric. (Optional)
 #' @param forward_stutter_rate Numeric. (Optional)
 #' @param size_regression Function, see \link{read_size_regression}.
-#' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
+#' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied. In the global stutter model, the expected stutter rate is constant across all loci and for all parent alleles.
+#' @return Object of class \code{stutter_model} to be used by e.g. \link{gamma_model}.
+#' @seealso \link{allele_specific_stutter_model} for a stutter model where the expected stutter rate depends on the allele and locus.
+#' @examples
+#' # the stutter model needs a size regression to determine fragment length
+#' # of stutter products
+#' size_regression <- read_size_regression(system.file("extdata",
+#' "GlobalFiler_SizeRegression.csv",package = "simDNAmixtures"))
+#'
+#' # define a stutter model with an expected back stutter rate of 10%
+#' stutter_model <- global_stutter_model(back_stutter_rate = 0.1,
+#'                                      size_regression = size_regression)
+#'
+#' stutter_model
 #' @export
 global_stutter_model <- function(back_stutter_rate, forward_stutter_rate, size_regression){
 

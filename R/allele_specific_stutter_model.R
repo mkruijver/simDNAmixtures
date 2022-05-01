@@ -2,7 +2,32 @@
 #'
 #' @param stutter_types List. See \link{stutter_type}.
 #' @param size_regression Function, see \link{read_size_regression}.
-#' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
+#' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied. The allele specific stutter model is commonly used with a log normal model. The expected stutter ratio for a parent allele at a locus is obtained from a linear regression of observed stutter ratios against allele length. For some loci or alleles the linear model may not be satisfactory. To override the expected stutter rates for specific alleles, a list of exceptions can be used. See \link{stutter_type} for more detail.
+#' @return Object of class \code{stutter_model} to be used by e.g. \link{log_normal_model}.
+#' @seealso \link{global_stutter_model} for a stutter model where the expected stutter ratio does not depend on the locus or parent allele.
+#' @examples
+#' # we will define an allele specific stutter model for back stutter only
+#'
+#' # prepare stutter regression
+#' filename_bs_regression <- system.file("extdata",
+#' "GlobalFiler_Stutter_3500.txt",package = "simDNAmixtures")
+#' bs_regression <- read_stutter_regression(filename_bs_regression)
+#'
+#' # prepare exceptions, i.e. where does the regression not apply?
+#' filename_bs_exceptions <- system.file("extdata",
+#' "GlobalFiler_Stutter_Exceptions_3500.csv",package = "simDNAmixtures")
+#' bs_exceptions <- read_stutter_exceptions(filename_bs_exceptions)
+#'
+#' # prepare a stutter type
+#' backstutter <- stutter_type(name = "BackStutter", delta = -1,
+#'                             stutter_regression = bs_regression,
+#'                             stutter_exceptions = bs_exceptions)
+#'
+#' # assign stutter model
+#' size_regression <- read_size_regression(system.file("extdata",
+#' "GlobalFiler_SizeRegression.csv",package = "simDNAmixtures"))
+#' bs_model <- allele_specific_stutter_model(list(backstutter), size_regression)
+#' bs_model
 #' @export
 allele_specific_stutter_model <- function(stutter_types, size_regression){
 

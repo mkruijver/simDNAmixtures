@@ -31,7 +31,7 @@ sample_mixtures(
 
 \item{sample_model}{Function such as \link{sample_log_normal_model}.}
 
-\item{pedigree}{(optionally) \link[pedtools]{ped} object. Contributors can be named pedigree members.}
+\item{pedigree}{(optionally) \link[pedtools:ped]{ped} object. Contributors can be named pedigree members.}
 
 \item{results_directory}{(optionally) Character with path to directory where results are written to disk.}
 

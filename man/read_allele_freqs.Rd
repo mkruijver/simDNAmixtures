@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_allele_freqs.R
 \name{read_allele_freqs}
 \alias{read_allele_freqs}
-\title{Read allele frequencies in STRmix a.k.a FSIgen format (.csv)}
+\title{Read allele frequencies in FSIgen format (.csv)}
 \usage{
 read_allele_freqs(filename, remove_zeroes = TRUE, normalise = TRUE)
 }
@@ -14,10 +14,10 @@ read_allele_freqs(filename, remove_zeroes = TRUE, normalise = TRUE)
 \item{normalise}{Logical. Should frequencies be normalised to sum to 1? Default is TRUE.}
 }
 \value{
-list
+Named list with frequencies by locus. The frequencies at a locus are returned as a named numeric vector with names corresponding to alleles.
 }
 \description{
-Read allele frequencies in STRmix a.k.a FSIgen format (.csv)
+Read allele frequencies in FSIgen format (.csv)
 }
 \details{
 Reads allele frequencies from a .csv file. The file should be in FSIgen format, i.e.
@@ -30,5 +30,5 @@ e.g. we do not restrict the first column name or the last row name.
 # below we read an allele freqs file that comes with the package
 filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "simDNAmixtures")
 freqs <- read_allele_freqs(filename)
-freqs # the output is just a list with an N attribute
+freqs # the output is a list with an attribute named \code{N} giving the sample size.
 }

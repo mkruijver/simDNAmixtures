@@ -9,6 +9,9 @@ read_stutter_exceptions(filename)
 \arguments{
 \item{filename}{Character. Path to file.}
 }
+\value{
+A named list with the stutter exceptions by locus. For each loucs, the exceptions are given as a named numeric with the names corresponding to the parent alleles and the expected stutter rates given as the values.
+}
 \description{
 Reads a stutter exceptions file with overrides for expected stutter ratios
 }

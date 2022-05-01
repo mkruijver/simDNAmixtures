@@ -1,18 +1,47 @@
 #' @title Defines a gamma model for peak height variability
 #'
-#' @param mixture_proportions Numeric vector
+#' @param mixture_proportions Numeric vector with the mixture proportion for each contributor.
 #' @param mu Numeric. Expectation of a full heterozygote contributing allele peak height.
 #' @param cv Numeric. Coefficient of variation of a full heterozygote contributing allele peak height
-#' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor.
+#' @param degradation_beta Numeric Vector of same length as mixture_proportions. Degradation slope parameters for each contributor. Defaults to 1 for each contributor (i.e. not degraded)
 #' @param LSAE Numeric vector (named) with Locus Specific Amplification Efficiencies. See \link{sample_LSAE}. Defaults to 1 for each locus.
 #' @param model_settings List. Possible parameters: \itemize{
 #'  \item locus_names. Character vector.
-#'  \item LSAE_variance_prior. Numeric of length one.
-#'  \item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
+#'  \item detection_threshold. Numeric vector (named) with Detection Thresholds.
 #'  \item size_regression. Function, see \link{read_size_regression}.
 #'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
 #'  }
-#' @details Defines a gamma model as described by Bleka et al.
+#' @details Define a gamma model for peak height variability with the parametrisation as described by Bleka et al. The model may then be used to sample DNA profiles using the \link{sample_mixture_from_genotypes} function. Alternatively, to sample many models and profiles in one go with parameters according to a specified distribution, the \link{sample_mixtures} function can be used.
+#' @return Object of class \code{pg_model}.
+#' @seealso \link{log_normal_model}.
+#' @examples
+#' # read allele frequencies
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#'                                        package = "simDNAmixtures"))
+#'
+#' gf <- get_GlobalFiler_3500_data()
+#'
+#' # define the gamma model for peak heights
+#' model <- gamma_model(mixture_proportions = 1, mu = 1000.,
+#'                     cv = 0.1, model_settings = gf$gamma_settings_no_stutter)
+#'
+#' # sample a single source profile (1-person 'mixture')
+#' u1 <- sample_contributor_genotypes("U1", freqs, loci = gf$autosomal_markers)
+#' sample <- sample_mixture_from_genotypes(u1, model)
+#'
+#' # peaks follow a gamma distribution with an expected height of
+#' # 1,000 for heterozygous alleles; 2,000 for homozygotes
+#' hist(sample$Height)
+#'
+#' # the gamma distribution is more obvious if many samples are taken
+#' \dontrun{
+#' samples <- replicate(n = 1e2,
+#'                      sample_mixture_from_genotypes(u1, model),
+#'                      simplify = FALSE)
+#'
+#' hist(sapply(samples, function(x) x$Height))}
+#' @references
+#' Bleka, Ø., Storvik, G., & Gill, P. (2016). EuroForMix: An open source software based on a continuous model to evaluate STR DNA profiles from a mixture of contributors with artefacts. Forensic Science International: Genetics, 21, 35-44. \doi{10.1016/j.fsigen.2015.11.008}
 #' @export
 gamma_model <- function(mixture_proportions, mu, cv,
                         degradation_beta = rep(1., length(mixture_proportions)),

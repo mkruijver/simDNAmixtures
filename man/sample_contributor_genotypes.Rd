@@ -17,9 +17,9 @@ sample_contributor_genotypes(
 
 \item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
 
-\item{pedigree}{(optionally) \link[pedtools]{ped} object}
+\item{pedigree}{(optionally) \link[pedtools:ped]{ped} object}
 
-\item{loci}{Character vector of locus names (defaults to names attr. of \code{freqs})}
+\item{loci}{Character vector of locus names (defaults to \code{names} attribute of \code{freqs})}
 
 \item{return_non_contributors}{Logical. Should genotypes of non-contributing pedigree members also be returned?}
 }

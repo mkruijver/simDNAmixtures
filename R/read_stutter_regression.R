@@ -3,10 +3,13 @@
 #' @param filename Character. Path to file.
 #' @param min_stutter_ratio Numeric.
 #' @details Reads the file from disk and returns a function that provides the expected stutter ratio for a given locus and allele.
+#' @return A function that takes a locus name and allele as arguments and returns the expected stutter ratio.
 #' @examples
 #' filename <- system.file("extdata","GlobalFiler_Stutter_3500.txt",
 #'                         package = "simDNAmixtures")
 #' regression <- read_stutter_regression(filename)
+#'
+#' # obtain the expected stutter ratio for a 12 parent allele at the vWA locus
 #' regression("vWA", 12)
 #' @export
 read_stutter_regression <- function(filename, min_stutter_ratio = 0.001){
