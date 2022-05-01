@@ -1,4 +1,4 @@
-#' @title Defines a stutter type to be used in an allele specific stutter model.
+#' @title Defines a stutter type to be used in the allele specific stutter model.
 #'
 #' @param name Character. Name of the stutter, e.g. "BackStutter"
 #' @param delta Numeric. When length one, repeat units gained (lost when negative). When length two, the second element is the number of base pairs gained (lost).
@@ -7,7 +7,8 @@
 #' @param stutter_exceptions Optionally a list. See \link{read_stutter_exceptions}.
 #' @param applies_to_loci Optionally a character vector of locus names to which this stutter type applies.
 #' @param repeat_length_by_marker Optionally a named integer vector with repeat lengths by marker. Only needed when delta is of length two.
-#' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
+#' @details When a pg_model is constructed (see \link{log_normal_model}), a stutter model can optionally be applied.
+#' @return Object of class \code{stutter_type} to be passed to \link{allele_specific_stutter_model}.
 #' @examples
 #' filename_bs_exceptions <- system.file("extdata",
 #' "GlobalFiler_Stutter_Exceptions_3500.csv",package = "simDNAmixtures")

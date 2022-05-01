@@ -8,16 +8,9 @@
 #'  \item degradation_shape. Numeric of length one.
 #'  \item degradation_scale. Numeric of length one.
 #' }
-#' @param model_settings List. Possible parameters: \itemize{
-#'  \item locus_names. Character vector.
-#'  \item degradation_parameter_cap. Numeric.
-#'  \item c2_prior. Numeric of length two with shape and scale.
-#'  \item LSAE_variance_prior. Numeric of length one.
-#'  \item detection_threshold. Numeric vector (named) with Detection Thresholds. Defaults to 50 for each locus.
-#'  \item size_regression. Function, see \link{read_size_regression}.
-#'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
-#'  \item stutter_variability. Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
-#' }
+#' @param model_settings List. See \link{log_normal_model}.
+#' @details In simulation studies involving many mixed DNA profiles, one often needs to generate various samples with different model parameters. This function samples a log normal model with parameters according to prior distributions. The template parameter for each contributor is sampled uniformly between \code{min_template} and \code{max_template}. The degradation parameter for each contributor is sampled from a gamma distribution with parameters \code{degradation_shape} and \code{degradation_scale}.
+#' @return When \code{length(number_of_contributors)==1}, a single \link{log_normal_model} of class \code{pg_model}. Otherwise, a list of these.
 #' @examples
 #' gf <- get_GlobalFiler_3500_data()
 #'

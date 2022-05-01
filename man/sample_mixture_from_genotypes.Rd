@@ -13,11 +13,14 @@ sample_mixture_from_genotypes(genotypes, model, sample_name = "mixture")
 
 \item{sample_name}{Character. Defaults to "mixture".}
 }
+\value{
+DataFrame with at least SMASH columns (see \link{SMASH_to_wide_table}). Depending on the chosen \code{pg_model} (e.g. \link{gamma_model} or \link{log_normal_model}), other columns with further details about the simulation are returned as well.
+}
 \description{
 Sample mixture profile with provided genotypes
 }
 \details{
-A mixture profile is sampled according to the provided \code{pg_model} (see \link{gamma_model}, \link{log_normal_model} and genotypes.
+A mixture profile is sampled according to the provided \code{pg_model} (see \link{gamma_model}, \link{log_normal_model} and genotypes (see \link{sample_contributor_genotypes}).
 }
 \examples{
 # read allele frequencies and kit data

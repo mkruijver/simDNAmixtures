@@ -15,6 +15,21 @@
 #'  \item stutter_model. Optionally a stutter_model object that gives expected stutter heights. See \link{global_stutter_model}.
 #'  \item stutter_variability. Optionally peak height variability parameters for stutters. Required when stutter_model is supplied.
 #'  }
+#' @details Define a log normal model for peak height variability with the parametrisation as described by Bright et al. The model may then be used to sample DNA profiles using the \link{sample_mixture_from_genotypes} function. Alternatively, to sample many models and profiles in one go with parameters according to a specified distribution, the \link{sample_mixtures} function can be used.
+#' @return Object of class \code{pg_model}.
+#' @seealso \link{gamma_model}.
+#' @references
+#' Bright, J.A. et al. (2016). Developmental validation of STRmix™, expert software for the interpretation of forensic DNA profiles. Forensic Science International: Genetics, 23, 226-239. \doi{10.1016/j.fsigen.2016.05.007}
+#' @examples
+#' gf <- get_GlobalFiler_3500_data()
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#'                            package = "simDNAmixtures"))
+#'
+#' k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability)
+#'
+#' model <- log_normal_model(template = 1e3, c2 = 15, k2 = k2,
+#'                           model_settings = gf$log_normal_settings)
+#' model
 #' @export
 log_normal_model <- function(template, degradation = rep(0., length(template)),
                              LSAE = stats::setNames(rep(1., length(model_settings$locus_names)),

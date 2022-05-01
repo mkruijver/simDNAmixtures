@@ -23,11 +23,14 @@ sample_contributor_genotypes(
 
 \item{return_non_contributors}{Logical. Should genotypes of non-contributing pedigree members also be returned?}
 }
+\value{
+List of DataFrames with genotypes for each pedigree member. See \link{sample_genotype} for the DataFrame format.
+}
 \description{
 Sample genotypes for mixture contributors according to allele frequencies
 }
 \details{
-For each founder, a genotype is sampled randomly by drawing two alleles from allele frequencies.
+For each founder or unrelated person, a genotype is sampled randomly by drawing two alleles from allele frequencies. The non-founders get genotypes by allele dropping, see \link{sample_pedigree_genotypes} for details.
 }
 \examples{
 
@@ -36,9 +39,7 @@ freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
                            package = "simDNAmixtures"))
 
 # define a pedigree of siblings S1 and S2 (and their parents)
-ped_sibs <- pedtools::nuclearPed(nch = 2,
-father = "F", mother = "M",
-children = c("S1", "S2"))
+ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 
 # sample genotypes for a mixture of S1 + U1 + S2
 # where U1 is an unrelated person

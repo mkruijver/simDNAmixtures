@@ -11,6 +11,14 @@
 #' @param seed (optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.
 #' @param write_non_contributors Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
+#' @return If \code{results_directory} is provided, this function has the side effect of writing results to disk.
+#'
+#' Return value is a list with simulation results:\itemize{
+#' \item \code{call} matched call
+#' \item \code{smash} DataFrame with all samples in SMASH format (see \link{SMASH_to_wide_table})
+#' \item \code{samples} Detailed results for each sample
+#' \item \code{parameter_summary} DataFrame with parameters for each sample
+#' }
 #' @examples
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
 #'                            package = "simDNAmixtures"))
@@ -20,7 +28,7 @@
 #'                            min_cv = 0.05, max_cv = 0.35,
 #'                            degradation_shape1 = 10, degradation_shape2 = 1)
 #'
-#' mixtures <- sample_mixtures(n = 10, contributors = c("U1", "U2"), freqs = freqs,
+#' mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
 #'                             sampling_parameters = sampling_parameters,
 #'                             model_settings = gf$gamma_settings_no_stutter,
 #'                             sample_model = sample_gamma_model)

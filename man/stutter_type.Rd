@@ -2,7 +2,7 @@
 % Please edit documentation in R/stutter_type.R
 \name{stutter_type}
 \alias{stutter_type}
-\title{Defines a stutter type to be used in an allele specific stutter model.}
+\title{Defines a stutter type to be used in the allele specific stutter model.}
 \usage{
 stutter_type(
   name,
@@ -29,11 +29,14 @@ stutter_type(
 
 \item{repeat_length_by_marker}{Optionally a named integer vector with repeat lengths by marker. Only needed when delta is of length two.}
 }
+\value{
+Object of class \code{stutter_type} to be passed to \link{allele_specific_stutter_model}.
+}
 \description{
-Defines a stutter type to be used in an allele specific stutter model.
+Defines a stutter type to be used in the allele specific stutter model.
 }
 \details{
-When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied.
+When a pg_model is constructed (see \link{log_normal_model}), a stutter model can optionally be applied.
 }
 \examples{
 filename_bs_exceptions <- system.file("extdata",

@@ -13,11 +13,14 @@ sample_genotype(freqs, loci = names(freqs), label = "U")
 
 \item{label}{Sample name}
 }
+\value{
+DataFrame with columns \code{Sample Name}, \code{Locus}, \code{Allele1} and \code{Allele2}.
+}
 \description{
 Sample a genotype according to allele frequencies
 }
 \details{
-A genotype is sampled randomly by drawing two alleles from allele frequencies.
+A genotype is sampled randomly by drawing two alleles from allele frequencies for each locus.
 }
 \examples{
 # below we read an allele freqs and sample a genotype

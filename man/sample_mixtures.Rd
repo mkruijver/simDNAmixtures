@@ -41,6 +41,16 @@ sample_mixtures(
 
 \item{tag}{Character. Used for sub directory name when results_directory is provided.}
 }
+\value{
+If \code{results_directory} is provided, this function has the side effect of writing results to disk.
+
+Return value is a list with simulation results:\itemize{
+\item \code{call} matched call
+\item \code{smash} DataFrame with all samples in SMASH format (see \link{SMASH_to_wide_table})
+\item \code{samples} Detailed results for each sample
+\item \code{parameter_summary} DataFrame with parameters for each sample
+}
+}
 \description{
 Sample mixtures with random genotypes and random parameters according to priors
 }
@@ -53,7 +63,7 @@ sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
                            min_cv = 0.05, max_cv = 0.35,
                            degradation_shape1 = 10, degradation_shape2 = 1)
 
-mixtures <- sample_mixtures(n = 10, contributors = c("U1", "U2"), freqs = freqs,
+mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
                             sampling_parameters = sampling_parameters,
                             model_settings = gf$gamma_settings_no_stutter,
                             sample_model = sample_gamma_model)

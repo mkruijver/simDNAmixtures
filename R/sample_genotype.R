@@ -3,7 +3,8 @@
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
 #' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
 #' @param label Sample name
-#' @details A genotype is sampled randomly by drawing two alleles from allele frequencies.
+#' @details A genotype is sampled randomly by drawing two alleles from allele frequencies for each locus.
+#' @return DataFrame with columns \code{Sample Name}, \code{Locus}, \code{Allele1} and \code{Allele2}.
 #' @examples
 #' # below we read an allele freqs and sample a genotype
 #' filename <- system.file("extdata","FBI_extended_Cauc.csv",

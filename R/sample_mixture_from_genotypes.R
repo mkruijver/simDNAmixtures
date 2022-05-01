@@ -3,7 +3,8 @@
 #' @param genotypes List of contributor genotypes. See \link{sample_contributor_genotypes}.
 #' @param model pg_model object.
 #' @param sample_name Character. Defaults to "mixture".
-#' @details A mixture profile is sampled according to the provided \code{pg_model} (see \link{gamma_model}, \link{log_normal_model} and genotypes.
+#' @details A mixture profile is sampled according to the provided \code{pg_model} (see \link{gamma_model}, \link{log_normal_model} and genotypes (see \link{sample_contributor_genotypes}).
+#' @return DataFrame with at least SMASH columns (see \link{SMASH_to_wide_table}). Depending on the chosen \code{pg_model} (e.g. \link{gamma_model} or \link{log_normal_model}), other columns with further details about the simulation are returned as well.
 #' @seealso \link{sample_mixtures} for a function that samples many mixtures in one go.
 #' @examples
 #' # read allele frequencies and kit data
