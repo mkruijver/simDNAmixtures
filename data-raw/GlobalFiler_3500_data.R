@@ -96,6 +96,36 @@ gf$log_normal_settings <- list(
   stutter_variability = log_normal_stutter_variability
 )
 
+stutter_model_bwfw <- allele_specific_stutter_model(stutter_types = gf$stutters[c(
+  "BackStutter", "ForwardStutter")],
+  size_regression = gf$size_regression)
+
+detection_threshold_75 <- c(D3S1358 = 75, vWA = 75, D16S539 = 75, CSF1PO = 75, TPOX = 75,
+                         D8S1179 = 75, D21S11 = 75, D18S51 = 75, D2S441 = 75, D19S433 = 75,
+                         TH01 = 75, FGA = 75, D22S1045 = 75, D5S818 = 75, D13S317 = 75,
+                         D7S820 = 75, SE33 = 75, D10S1248 = 75, D1S1656 = 75, D12S391 = 75,
+                         D2S1338 = 75)
+
+log_normal_stutter_variability_bwfw <- list(
+  BackStutter = list(k2_prior = c(3.499, 4.803),
+                     inversely_proportional_to_parent = TRUE,
+                     max_stutter_ratio = 0.3),
+  ForwardStutter = list(k2_prior = c(4.865, 3.101),
+                        inversely_proportional_to_parent = FALSE,
+                        max_stutter_ratio = 0.15))
+
+
+gf$log_normal_bwfw_settings <- list(
+  locus_names = gf$autosomal_markers,
+  degradation_parameter_cap = 0.01,
+  c2_prior = c(4.865, 3.101),
+  LSAE_variance_prior = 0.0217,
+  detection_threshold = detection_threshold_75,
+  size_regression = gf$size_regression,
+  stutter_model = stutter_model_bwfw,
+  stutter_variability = log_normal_stutter_variability_bwfw
+)
+
 gf$gamma_settings <- list(
   locus_names = gf$autosomal_markers,
   detection_threshold = detection_threshold,
