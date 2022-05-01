@@ -8,11 +8,12 @@
 #' @examples
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
 #'                            package = "simDNAmixtures"))
+#' data(gf)
 #'
 #' ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 #'
 #' sibs_genotypes <- sample_pedigree_genotypes(ped = ped_sibs,
-#' freqs = freqs, loci = get_GlobalFiler_3500_data()$autosomal_markers)
+#' freqs = freqs, loci = gf$autosomal_markers)
 #' @export
 sample_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs)){
 

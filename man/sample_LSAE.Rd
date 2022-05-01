@@ -7,7 +7,7 @@
 sample_LSAE(LSAE_variance, locus_names)
 }
 \arguments{
-\item{LSAE_variance}{Numeric. See \link{get_GlobalFiler_3500_data} for an example.}
+\item{LSAE_variance}{Numeric. See \link{gf} for an example.}
 
 \item{locus_names}{Character vector.}
 }
@@ -25,7 +25,7 @@ the prior for the log10 of LSAE is normal with mean 0. The variance
 can be specified.
 }
 \examples{
-gf <- get_GlobalFiler_3500_data()
+data(gf)
 lsae <- sample_LSAE(LSAE_variance = gf$log_normal_settings$LSAE_variance_prior,
                      locus_names = gf$autosomal_markers)
 

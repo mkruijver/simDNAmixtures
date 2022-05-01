@@ -1,6 +1,6 @@
 #' @title Sample Locus Specific Amplification Efficiency (LSAE) according to prior
 #'
-#' @param LSAE_variance Numeric. See \link{get_GlobalFiler_3500_data} for an example.
+#' @param LSAE_variance Numeric. See \link{gf} for an example.
 #' @param locus_names Character vector.
 #' @details In the Bright et al. log normal model, the expected peak height
 #' includes a multiplicative factor for the locus (marker). These factors are
@@ -9,7 +9,7 @@
 #' can be specified.
 #' @return Named numeric with LSAEs for each locus (names).
 #' @examples
-#' gf <- get_GlobalFiler_3500_data()
+#' data(gf)
 #' lsae <- sample_LSAE(LSAE_variance = gf$log_normal_settings$LSAE_variance_prior,
 #'                      locus_names = gf$autosomal_markers)
 #'

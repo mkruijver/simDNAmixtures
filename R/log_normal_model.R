@@ -21,7 +21,7 @@
 #' @references
 #' Bright, J.A. et al. (2016). Developmental validation of STRmix™, expert software for the interpretation of forensic DNA profiles. Forensic Science International: Genetics, 23, 226-239. \doi{10.1016/j.fsigen.2016.05.007}
 #' @examples
-#' gf <- get_GlobalFiler_3500_data()
+#' data(gf)
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
 #'                            package = "simDNAmixtures"))
 #'

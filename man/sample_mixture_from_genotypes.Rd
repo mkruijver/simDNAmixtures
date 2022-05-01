@@ -26,7 +26,7 @@ A mixture profile is sampled according to the provided \code{pg_model} (see \lin
 # read allele frequencies and kit data
 freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
                            package = "simDNAmixtures"))
-gf <- get_GlobalFiler_3500_data()
+data(gf)
 
 # define a pedigree of siblings S1 and S2 (and their parents)
 ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))

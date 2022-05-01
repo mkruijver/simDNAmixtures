@@ -7,7 +7,7 @@
 sample_log_normal_stutter_variance(log_normal_stutter_variability)
 }
 \arguments{
-\item{log_normal_stutter_variability}{List of variability parameters. See \link{get_GlobalFiler_3500_data} for an example.}
+\item{log_normal_stutter_variability}{List of variability parameters. See \link{gf} for an example.}
 }
 \value{
 Named numeric with stutter variance parameter for all stutter types. Names are \code{k2} concatenated with the name of the stuter type. See example.
@@ -16,7 +16,7 @@ Named numeric with stutter variance parameter for all stutter types. Names are \
 Sample log normal stutter variance parameters according to priors
 }
 \examples{
- gf <- get_GlobalFiler_3500_data()
+ data(gf)
  log_normal_stutter_variability <- gf$log_normal_settings$stutter_variability
  k2 <- sample_log_normal_stutter_variance(log_normal_stutter_variability)
 }
