@@ -1,0 +1,87 @@
+---
+title: "Getting started"
+author: "Maarten Kruijver"
+date: "`r Sys.Date()`"
+bibliography: refs.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+require(simDNAmixtures)
+```
+
+Simulation studies are often used in forensic genetics to study the behaviour of probabilistic genotyping software. In many cases, researchers use simplified models that ignore complexities such as peak height variability and stutters. The goal of this package is to make it straightforward to use probabilistic genotyping models in simulation studies.
+
+For a general introduction to forensic genetics and probabilistic genotyping, see [@buckleton2018forensic]. See also [@gill2021review] for a recent review of probabilistic genotyping systems.
+
+## Basic log normal example
+
+Below, we load allele frequencies provided with the package and demonstrate how mixtures can be sampled using a log normal model for peak heights (refer to [@taylor2013interpretation] for details on the model). The template parameters for each contributor are picked uniformly between 50 and 10,000. The degradation parameter is picked from a gamma distribution with shape 2.5 and scale 0.001.
+
+```{r}
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+                                       package = "simDNAmixtures"))
+data(gf)
+
+sampling_parameters <- list(min_template = 50., max_template = 10000.,
+                            degradation_shape = 2.5, degradation_scale = 1e-3)
+```
+
+After the setup, a single function call is sufficient to generate a set of samples. We set `n=2` to generate two samples. The contributors to the sample are named `U1` and `U2` which means that each mixed sample has two unrelated contributors.
+```{r}
+set.seed(1)
+mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
+                            sampling_parameters = sampling_parameters,
+                            model_settings = gf$log_normal_bwfw_settings,
+                            sample_model = sample_log_normal_model)
+```
+The `mixtures` object contains the simulation results. The `sample_mixtures` function has an optional `results_directory` argument. If the path to a directory is provided, then all simulation results will be persisted on disk in file formats that are readily imported in probabilistic genotyping software. We inspect the `parameter_summary` property of the result of `sample_mixtures`.
+```{r}
+knitr::kable(mixtures$parameter_summary[1:5])
+```
+
+The first sample is in approximately a 2:1 ratio. We print the first 10 peaks of the profile below.
+
+```{r, results='asis'}
+knitr::kable(head(mixtures$samples[[1]]$mixture, 10))
+```
+
+## Basic gamma example
+We repeat the example above with a gamma distribution for peak heights instead of a log normal one. The mean peak height parameter `mu` is chosen uniformly between 50 and 5,000. The variance parameter `cv` parameter ($\sigma$ in [@bleka2016euroformix]) is chosen uniformly between 0.05 and 0.35. The degradation parameter is sampled from a Beta distribution with parameters 10 and 1, which means most profile will be only mildly degraded.
+```{r}
+gamma_sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
+                            min_cv = 0.05, max_cv = 0.35,
+                            degradation_shape1 = 10, degradation_shape2 = 1)
+```
+We now invoke the `sample_mixtures` function again to sample two mixtures; both consisting of two unrelated contributors. We do not sample stutters.
+```{r}
+set.seed(2)
+mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
+                            sampling_parameters = gamma_sampling_parameters,
+                            model_settings = gf$gamma_settings_no_stutter,
+                            sample_model = sample_gamma_model)
+```
+
+We see that the first sample has $\mu$ around 1,236 and is in a 65:35 ratio. 
+```{r}
+knitr::kable(mixtures$parameter_summary[1:4]) 
+```
+The coefficient of variation for a full heterozygote is about 9% for the first sample.
+```{r}
+knitr::kable(mixtures$parameter_summary[c(1,5:7)])
+```
+We print the first 10 peaks of the profile below.
+
+```{r, results='asis'}
+knitr::kable(head(mixtures$samples[[1]]$mixture, 10))
+```
+
+## References
