@@ -34,12 +34,11 @@
 #' hist(sample$Height)
 #'
 #' # the gamma distribution is more obvious if many samples are taken
-#' \dontrun{
-#' samples <- replicate(n = 1e2,
-#'                      sample_mixture_from_genotypes(u1, model),
-#'                      simplify = FALSE)
+#' many_samples <- replicate(n = 1e2,
+#'                           sample_mixture_from_genotypes(u1, model),
+#'                           simplify = FALSE)
 #'
-#' hist(sapply(samples, function(x) x$Height))}
+#' hist(sapply(many_samples, function(x) x$Height))
 #' @references
 #' Bleka, Ø., Storvik, G., & Gill, P. (2016). EuroForMix: An open source software based on a continuous model to evaluate STR DNA profiles from a mixture of contributors with artefacts. Forensic Science International: Genetics, 21, 35-44. \doi{10.1016/j.fsigen.2015.11.008}
 #' @export
