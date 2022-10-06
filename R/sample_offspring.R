@@ -45,13 +45,14 @@ sample_offspring <- function(father, mother, label = "Child"){
     a_i <- a[[i_locus]]
     b_i <- b[[i_locus]]
 
-    a_i_numeric <- as.numeric(a_i)
-    b_i_numeric <- as.numeric(b_i)
+    a_i_numeric <- suppressWarnings(as.numeric(a_i))
+    b_i_numeric <- suppressWarnings(as.numeric(b_i))
 
-    a_i_is_numeric <- as.character(a_i_numeric) == a_i
-    b_i_is_numeric <- as.character(b_i_numeric) == b_i
+    a_i_is_numeric <- isTRUE(as.character(a_i_numeric) == a_i)
+    b_i_is_numeric <- isTRUE(as.character(b_i_numeric) == b_i)
 
-    if (a_i_is_numeric && b_i_is_numeric && (a_i_numeric > b_i_numeric)){
+    if ((a_i_is_numeric && b_i_is_numeric && (a_i_numeric > b_i_numeric)) ||
+       ( (!a_i_is_numeric)&&(!b_i_is_numeric)&&(a_i>b_i))){
       a[i_locus] <- b_i
       b[i_locus] <- a_i
     }
