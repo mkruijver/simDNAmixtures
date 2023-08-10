@@ -78,9 +78,8 @@ sample_log_normal_model <- function(number_of_contributors, sampling_parameters,
                                      validate_k2 = FALSE,
                                      validate_LSAE = FALSE)
 
-  template <- sort(stats::runif(n = number_of_contributors,
-                         min = min_template, max = max_template),
-                   decreasing = TRUE)
+  template <- stats::runif(n = number_of_contributors,
+                         min = min_template, max = max_template)
 
   degradation <- pmin(stats::rgamma(n = number_of_contributors,
                              shape = degradation_shape,

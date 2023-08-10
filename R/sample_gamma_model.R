@@ -98,10 +98,8 @@ sample_gamma_model <- function(number_of_contributors, sampling_parameters, mode
 
   cv <- stats::runif(n = 1, min = min_cv, max = max_cv)
 
-  mixture_proportions_unnormalised <- sort(
-    stats::runif(n = number_of_contributors,
-                    min = 0, max = 1),
-              decreasing = TRUE)
+  mixture_proportions_unnormalised <- stats::runif(n = number_of_contributors,
+                                                   min = 0, max = 1)
 
   mixture_proportions <- mixture_proportions_unnormalised /
     sum(mixture_proportions_unnormalised)
