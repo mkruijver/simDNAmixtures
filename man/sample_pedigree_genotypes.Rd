@@ -32,3 +32,6 @@ ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 sibs_genotypes <- sample_pedigree_genotypes(ped = ped_sibs,
 freqs = freqs, loci = gf$autosomal_markers)
 }
+\seealso{
+\link{sample_many_pedigree_genotypes} for a function that takes linkage into account.
+}

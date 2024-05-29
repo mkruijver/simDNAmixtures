@@ -14,17 +14,7 @@
 #' @export
 sample_genotype <- function(freqs, loci = names(freqs), label = "U"){
 
-  if (!is.list(freqs)){
-    stop("freqs should be a list")
-  }
-  if (!all(sapply(freqs, is.numeric))){
-    stop("freqs should be a list of numeric vectors")
-  }
-  for (locus in loci){
-    if (!(locus %in% names(freqs))){
-      stop(paste0("freqs not available for locus "), locus)
-    }
-  }
+  .validate_freqs(freqs, loci)
 
   number_of_loci <- length(loci)
 

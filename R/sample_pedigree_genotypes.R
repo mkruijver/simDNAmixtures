@@ -14,23 +14,13 @@
 #'
 #' sibs_genotypes <- sample_pedigree_genotypes(ped = ped_sibs,
 #' freqs = freqs, loci = gf$autosomal_markers)
+#' @seealso \link{sample_many_pedigree_genotypes} for a function that takes linkage into account.
 #' @export
 sample_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs)){
-
   if (!inherits(pedigree, "ped")){
     stop("pedigree should be of class ped")
   }
-  if (!is.list(freqs)){
-    stop("freqs should be a list")
-  }
-  if (!all(sapply(freqs, is.numeric))){
-    stop("freqs should be a list of numeric vectors")
-  }
-  for (locus in loci){
-    if (!(locus %in% names(freqs))){
-      stop(paste0("freqs not available for locus "), locus)
-    }
-  }
+  .validate_freqs(freqs, loci)
 
   # sample founders
   profiles_by_id <- list()
