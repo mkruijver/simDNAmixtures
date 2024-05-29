@@ -25,7 +25,7 @@ the prior for the log10 of LSAE is normal with mean 0. The variance
 can be specified.
 }
 \examples{
-data(gf)
+gf <- gf_configuration()
 lsae <- sample_LSAE(LSAE_variance = gf$log_normal_settings$LSAE_variance_prior,
                      locus_names = gf$autosomal_markers)
 

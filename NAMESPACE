@@ -3,6 +3,7 @@
 export(SMASH_to_wide_table)
 export(allele_specific_stutter_model)
 export(gamma_model)
+export(gf_configuration)
 export(global_stutter_model)
 export(log_normal_model)
 export(read_allele_freqs)

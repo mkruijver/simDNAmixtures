@@ -33,7 +33,7 @@ Sample log normal model(s) with parameters according to priors
 In simulation studies involving many mixed DNA profiles, one often needs to generate various samples with different model parameters. This function samples a log normal model with parameters according to prior distributions. The template parameter for each contributor is sampled uniformly between \code{min_template} and \code{max_template}. The degradation parameter for each contributor is sampled from a gamma distribution with parameters \code{degradation_shape} and \code{degradation_scale}.
 }
 \examples{
-data(gf)
+gf <- gf_configuration()
 
 sampling_parameters <- list(min_template = 50., max_template = 1000.,
                             degradation_shape = 2.5, degradation_scale = 1e-3)

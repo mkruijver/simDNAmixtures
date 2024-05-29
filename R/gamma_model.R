@@ -19,7 +19,7 @@
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
 #'                                        package = "simDNAmixtures"))
 #'
-#' data(gf)
+#' gf <- gf_configuration()
 #'
 #' # define the gamma model for peak heights
 #' model <- gamma_model(mixture_proportions = 1, mu = 1000.,

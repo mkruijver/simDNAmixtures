@@ -16,7 +16,7 @@ Named numeric with stutter variance parameter for all stutter types. Names are \
 Sample log normal stutter variance parameters according to priors
 }
 \examples{
- data(gf)
- log_normal_stutter_variability <- gf$log_normal_settings$stutter_variability
- k2 <- sample_log_normal_stutter_variance(log_normal_stutter_variability)
+gf <- gf_configuration()
+log_normal_stutter_variability <- gf$log_normal_settings$stutter_variability
+k2 <- sample_log_normal_stutter_variance(log_normal_stutter_variability)
 }

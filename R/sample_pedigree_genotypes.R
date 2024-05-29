@@ -8,7 +8,7 @@
 #' @examples
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
 #'                            package = "simDNAmixtures"))
-#' data(gf)
+#' gf <- gf_configuration()
 #'
 #' ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 #'

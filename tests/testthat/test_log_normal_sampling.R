@@ -2,7 +2,7 @@ library(simDNAmixtures)
 
 test_that("Log-Normal sampling (single source, no stutter)", {
 
-  data(gf)
+  gf <- gf_configuration()
   freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
                                          package = "simDNAmixtures"))
 
@@ -19,7 +19,7 @@ test_that("Log-Normal sampling (single source, no stutter)", {
 
 test_that("Log-Normal sampling (single source, back and forward stutter)", {
 
-  data(gf)
+  gf <- gf_configuration()
   freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
                                          package = "simDNAmixtures"))
 

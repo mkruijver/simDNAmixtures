@@ -9,7 +9,7 @@
 #' can be specified.
 #' @return Named numeric with LSAEs for each locus (names).
 #' @examples
-#' data(gf)
+#' gf <- gf_configuration()
 #' lsae <- sample_LSAE(LSAE_variance = gf$log_normal_settings$LSAE_variance_prior,
 #'                      locus_names = gf$autosomal_markers)
 #'
