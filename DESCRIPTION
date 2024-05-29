@@ -8,12 +8,14 @@ Description: Mixed DNA profiles can be sampled according to models for probabili
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-Imports: dplyr, readr, pedtools
+RoxygenNote: 7.2.1
+Imports: dplyr
 Suggests: 
     rmarkdown,
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    readr,
+    pedtools
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
