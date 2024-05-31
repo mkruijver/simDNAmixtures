@@ -17,9 +17,7 @@
 #' @seealso \link{sample_many_pedigree_genotypes} for a function that takes linkage into account.
 #' @export
 sample_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs)){
-  if (!inherits(pedigree, "ped")){
-    stop("pedigree should be of class ped")
-  }
+  .validate_pedigree(pedigree)
   .validate_freqs(freqs, loci)
 
   # sample founders

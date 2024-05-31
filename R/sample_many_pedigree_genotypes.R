@@ -1,0 +1,112 @@
+#' @title Sample (many) genotypes for pedigree members according to allele frequencies by allele dropping and possibly taking linkage into account by simulating recombination.
+#'
+#' @param pedigree [ped][pedtools::ped] object
+#' @param freqs Allele frequencies (see \link{read_allele_freqs})
+#' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
+#' @param linkage_map A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent.
+#' @param number_of_replicates An integer specifying the number of replicate genotype samples to generate. Defaults to 1.
+#'
+#' @seealso \link{read_allele_freqs}
+#' @export
+sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
+                                           linkage_map = NULL,
+                                           number_of_replicates = 1L){
+
+  .validate_pedigree(pedigree)
+  .validate_freqs(freqs, loci)
+
+  if (!is.null(linkage_map)) .validate_linkage_map(linkage_map)
+
+  # sample founders
+  x <- .sample_many_founders(pedigree, number_of_replicates = number_of_replicates,
+                             freqs = freqs, loci = loci)
+
+
+  # prepare indices for dropping alleles
+  ped_row_is_founder <- ped$FIDX == 0 & ped$MIDX == 0
+  ped_row_is_non_founder <- !ped_row_is_founder
+
+  ped_non_founder_row_idx <- which(ped_row_is_non_founder)
+  ped_non_founder_fidx <- ped$FIDX[ped_non_founder_row_idx]
+  ped_non_founder_midx <- ped$MIDX[ped_non_founder_row_idx]
+
+  transmissions <- data.frame(non_founder_row = rep(ped_non_founder_row_idx, each = 2),
+                              fidx = rep(ped_non_founder_fidx, each = 2),
+                              midx = rep(ped_non_founder_midx, each = 2),
+                              allele = c(1, 2))
+
+  number_of_persons <- length(ped$ID)
+
+  replicate_row_offsets <- rep(seq(from = 0, to = number_of_replicates - 1),
+                               each = nrow(transmissions)) * number_of_persons
+
+  # for every locus we will adjust column 2 here
+  to_idx <- cbind(rep(transmissions$non_founder_row, times = number_of_replicates) + replicate_row_offsets,
+                  NA)
+  # for every locus we adjust column 2 here based on the transmission_vectors and the locus idx
+  from_idx <- cbind(rep(ifelse(transmissions$allele == 1L,
+                               transmissions$midx,
+                               transmissions$fidx),
+                        times = number_of_replicates) +
+                      replicate_row_offsets,
+                    NA)
+
+  # split the linkage map by chromosome
+  if (!is.null(linkage_map)){
+    linkage_map_by_chromosome <- split(linkage_map, linkage_map$chromosome)
+    chromosomes <- c(gtools::mixedsort(names(linkage_map_by_chromosome)), NA)
+  }
+  else{
+    chromosomes <- NA
+  }
+
+  # start sampling data by chromosome
+  for (chromosome in chromosomes){
+
+
+    # prepare linkage map for this chromosome
+    linkage_map_chromosome <- linkage_map_by_chromosome[[chromosome]]
+    linkage_map_chromosome$recombination_rate <- NA_real_
+
+    for (i_row in seq_len(nrow(linkage_map_chromosome))[-1]){
+      delta_position <- linkage_map_chromosome$position[i_row] - linkage_map_chromosome$position[i_row - 1]
+
+      linkage_map_chromosome$recombination_rate[i_row] <- pedprobr::haldane(cM = delta_position)
+    }
+
+    # sample locus-by-locus
+    chromosome_i_locus <- 1L
+    for (chromosome_i_locus in seq_len(nrow(linkage_map_chromosome))){
+
+      locus_idx <- linkage_map_chromosome$locus_idx[chromosome_i_locus]
+
+      # sample a starting transmission vector for each replicate
+      if (chromosome_i_locus == 1){
+        transmission_vectors <- matrix(sample.int(n = 2,
+                                                  size = nrow(transmissions) * number_of_replicates,
+                                                  replace = TRUE),
+                                       nrow = nrow(transmissions))
+      }else{
+        recombination_rate <- linkage_map_chromosome$recombination_rate[chromosome_i_locus]
+
+        swapped <- c(2,1)[transmission_vectors]
+        swap <- sample(c(TRUE, FALSE),
+                       size = length(transmission_vectors), replace = TRUE,
+                       prob = c(recombination_rate, 1.0 - recombination_rate))
+
+        transmission_vectors <- matrix(ifelse(swap, yes = swapped, no = transmission_vectors),
+                                       nrow = nrow(transmissions))
+      }
+
+      # drop alleles down the pedigree for this locus
+      from_idx[, 2] <- as.vector(transmission_vectors) + (2 * (locus_idx - 1))
+      to_idx[, 2] <- rep(transmissions$allele, times = number_of_replicates) + (2 * (locus_idx - 1))
+
+      for (i in seq_len(nrow(to_idx))){
+        x[to_idx[i, , drop = FALSE]] <- x[from_idx[i, , drop=FALSE]]
+      }
+    }
+  }
+
+  x
+}
