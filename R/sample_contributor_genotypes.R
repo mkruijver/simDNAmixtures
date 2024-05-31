@@ -36,20 +36,9 @@ sample_contributor_genotypes <- function(contributors, freqs, pedigree,
   }
 
   if (!missing(pedigree)){
-    if (!inherits(pedigree, "ped")){
-      stop("pedigree should be of class ped")
-    }
+    .validate_pedigree(pedigree, disallow_U_names = TRUE)
 
     ped_names <- pedigree$ID
-
-    forbidden_names <- paste0("U", seq_len(10))
-
-    forbidden_names_in_ped <- intersect(ped_names, forbidden_names)
-
-    if (length(forbidden_names_in_ped) > 0){
-      stop("Pedigree contains illegal name(s): ", paste(forbidden_names_in_ped, collapse = ", "))
-    }
-
   }
   else{
     ped_names <- character()
