@@ -15,7 +15,16 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
   .validate_pedigree(pedigree)
   .validate_freqs(freqs, loci)
 
+  locus_idx_by_name <- setNames(seq_along(loci), loci)
+
   if (!is.null(linkage_map)) .validate_linkage_map(linkage_map)
+
+  # add missing loci to linkage map
+  missing_loci <- loci[!loci %in% linkage_map$locus]
+  linkage_map_used <- rbind(linkage_map,
+                            data.frame(chromosome = rep("missing", length(missing_loci)),
+                                       locus = missing_loci,
+                                       position = rep(NA, length(missing_loci))))
 
   # sample founders
   x <- .sample_many_founders(pedigree, number_of_replicates = number_of_replicates,
@@ -23,19 +32,19 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
 
 
   # prepare indices for dropping alleles
-  ped_row_is_founder <- ped$FIDX == 0 & ped$MIDX == 0
+  ped_row_is_founder <- pedigree$FIDX == 0 & pedigree$MIDX == 0
   ped_row_is_non_founder <- !ped_row_is_founder
 
   ped_non_founder_row_idx <- which(ped_row_is_non_founder)
-  ped_non_founder_fidx <- ped$FIDX[ped_non_founder_row_idx]
-  ped_non_founder_midx <- ped$MIDX[ped_non_founder_row_idx]
+  ped_non_founder_fidx <- pedigree$FIDX[ped_non_founder_row_idx]
+  ped_non_founder_midx <- pedigree$MIDX[ped_non_founder_row_idx]
 
   transmissions <- data.frame(non_founder_row = rep(ped_non_founder_row_idx, each = 2),
                               fidx = rep(ped_non_founder_fidx, each = 2),
                               midx = rep(ped_non_founder_midx, each = 2),
                               allele = c(1, 2))
 
-  number_of_persons <- length(ped$ID)
+  number_of_persons <- length(pedigree$ID)
 
   replicate_row_offsets <- rep(seq(from = 0, to = number_of_replicates - 1),
                                each = nrow(transmissions)) * number_of_persons
@@ -52,17 +61,12 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                     NA)
 
   # split the linkage map by chromosome
-  if (!is.null(linkage_map)){
-    linkage_map_by_chromosome <- split(linkage_map, linkage_map$chromosome)
-    chromosomes <- c(gtools::mixedsort(names(linkage_map_by_chromosome)), NA)
-  }
-  else{
-    chromosomes <- NA
-  }
+  linkage_map_by_chromosome <- split(linkage_map_used, linkage_map_used$chromosome)
+  chromosomes <- gtools::mixedsort(names(linkage_map_by_chromosome))
 
+  chromosome = chromosomes[1]
   # start sampling data by chromosome
   for (chromosome in chromosomes){
-
 
     # prepare linkage map for this chromosome
     linkage_map_chromosome <- linkage_map_by_chromosome[[chromosome]]
@@ -71,15 +75,13 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
     for (i_row in seq_len(nrow(linkage_map_chromosome))[-1]){
       delta_position <- linkage_map_chromosome$position[i_row] - linkage_map_chromosome$position[i_row - 1]
 
-      linkage_map_chromosome$recombination_rate[i_row] <- pedprobr::haldane(cM = delta_position)
+      linkage_map_chromosome$recombination_rate[i_row] <- if (is.na(delta_position))
+        0.5 else pedprobr::haldane(cM = delta_position)
     }
 
     # sample locus-by-locus
     chromosome_i_locus <- 1L
     for (chromosome_i_locus in seq_len(nrow(linkage_map_chromosome))){
-
-      locus_idx <- linkage_map_chromosome$locus_idx[chromosome_i_locus]
-
       # sample a starting transmission vector for each replicate
       if (chromosome_i_locus == 1){
         transmission_vectors <- matrix(sample.int(n = 2,
@@ -98,6 +100,8 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                                        nrow = nrow(transmissions))
       }
 
+      # determine the index of the loci in the output
+      locus_idx <- as.integer(locus_idx_by_name[linkage_map_chromosome$locus[chromosome_i_locus]])
       # drop alleles down the pedigree for this locus
       from_idx[, 2] <- as.vector(transmission_vectors) + (2 * (locus_idx - 1))
       to_idx[, 2] <- rep(transmissions$allele, times = number_of_replicates) + (2 * (locus_idx - 1))
