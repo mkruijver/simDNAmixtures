@@ -1,6 +1,11 @@
-.sample_many_founders <- function(ped, freqs, number_of_replicates = 1L, loci = names(freqs)){
+.sample_many_founders <- function(ped, freqs,
+                                  number_of_extra_unrelateds = 0L,
+                                  number_of_replicates = 1L, loci = names(freqs)){
 
-  number_of_persons <- length(ped$ID)
+  number_of_persons <- length(ped$ID) + number_of_extra_unrelateds
+  u_names <- if (number_of_extra_unrelateds==0) NULL else
+    paste0("U", seq_len(number_of_extra_unrelateds))
+
   number_of_loci <- length(loci)
 
   # set up an allele matrix for all persons for all replicates across all loci
@@ -8,14 +13,18 @@
               nrow = number_of_persons * number_of_replicates,
               ncol = 2 * number_of_loci)
 
-  x_rownames <- paste0(rep(seq_len(number_of_replicates), each = number_of_persons), "_",
-                       rep(ped$ID, number_of_replicates))
+  x_rownames <- paste0(if (number_of_replicates > 1) "rep" else "",
+                       rep(seq_len(number_of_replicates), each = number_of_persons), "_",
+                       rep(c(ped$ID, u_names), number_of_replicates))
   rownames(x) <- x_rownames
   x_colnames <- paste0(rep(loci, each = 2), c("", "(2)"))
   colnames(x) <- x_colnames
 
   # sample founder alleles for all replicates
-  ped_founder_row_idx <- which(ped$FIDX == 0L & ped$MIDX == 0L)
+  idx_u_names <- if (number_of_extra_unrelateds==0) NULL else
+     length(ped$FIDX) + seq_len(number_of_extra_unrelateds)
+  ped_founder_row_idx <- c(which(ped$FIDX == 0L & ped$MIDX == 0L),
+                           idx_u_names) # and extra unrelateds
   number_of_founders <- length(ped_founder_row_idx)
 
   replicate_row_offsets <- rep(seq(from = 0, to = number_of_replicates - 1),

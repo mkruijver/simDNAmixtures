@@ -9,10 +9,11 @@
 #' @seealso \link{read_allele_freqs}
 #' @export
 sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
+                                           number_of_extra_unrelateds = 0L,
                                            linkage_map = NULL,
                                            number_of_replicates = 1L){
 
-  .validate_pedigree(pedigree)
+  .validate_pedigree(pedigree, disallow_U_names = TRUE)
   .validate_freqs(freqs, loci)
 
   locus_idx_by_name <- setNames(seq_along(loci), loci)
@@ -28,6 +29,7 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
 
   # sample founders
   x <- .sample_many_founders(pedigree, number_of_replicates = number_of_replicates,
+                             number_of_extra_unrelateds = number_of_extra_unrelateds,
                              freqs = freqs, loci = loci)
 
 
@@ -44,7 +46,7 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                               midx = rep(ped_non_founder_midx, each = 2),
                               allele = c(1, 2))
 
-  number_of_persons <- length(pedigree$ID)
+  number_of_persons <- length(pedigree$ID) + number_of_extra_unrelateds
 
   replicate_row_offsets <- rep(seq(from = 0, to = number_of_replicates - 1),
                                each = nrow(transmissions)) * number_of_persons

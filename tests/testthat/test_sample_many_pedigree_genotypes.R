@@ -38,3 +38,20 @@ test_that("Basic example works with linkage", {
 })
 
 
+test_that("Extra unrelated persons can be added", {
+
+  # sample genotypes based on frequencies and linkage map
+  x <- sample_many_pedigree_genotypes(pedigree = ped_fs,
+                                      freqs = freqs,
+                                      number_of_extra_unrelateds = 5,
+                                      number_of_replicates = 2,
+                                      linkage_map = linkage_map)
+
+  x
+
+  # check results are sensible
+  expect_identical(nrow(x), 18L)
+  expect_identical(ncol(x), 4L)
+  expect_true(all(as.vector(x) %in% c("a", "b")))
+})
+
