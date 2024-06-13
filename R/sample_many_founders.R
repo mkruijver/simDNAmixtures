@@ -13,9 +13,11 @@
               nrow = number_of_persons * number_of_replicates,
               ncol = 2 * number_of_loci)
 
-  x_rownames <- paste0(if (number_of_replicates > 1) "rep" else "",
-                       rep(seq_len(number_of_replicates), each = number_of_persons), "_",
-                       rep(c(ped$ID, u_names), number_of_replicates))
+  prefix <- if (number_of_replicates > 1) paste0("rep",
+                                              rep(seq_len(number_of_replicates), each = number_of_persons), "
+                                              _") else ""
+
+  x_rownames <- paste0(prefix, rep(c(ped$ID, u_names), number_of_replicates))
   rownames(x) <- x_rownames
   x_colnames <- paste0(rep(loci, each = 2), c("", "(2)"))
   colnames(x) <- x_colnames
