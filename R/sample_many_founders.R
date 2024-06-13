@@ -14,8 +14,7 @@
               ncol = 2 * number_of_loci)
 
   prefix <- if (number_of_replicates > 1) paste0("rep",
-                                              rep(seq_len(number_of_replicates), each = number_of_persons), "
-                                              _") else ""
+                                              rep(seq_len(number_of_replicates), each = number_of_persons), "_") else ""
 
   x_rownames <- paste0(prefix, rep(c(ped$ID, u_names), number_of_replicates))
   rownames(x) <- x_rownames
