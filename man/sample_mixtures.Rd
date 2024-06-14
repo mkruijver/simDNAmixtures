@@ -26,7 +26,7 @@ sample_mixtures(
 
 \item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
 
-\item{linkage_map}{A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent. See also \link{sample_many_pedigree_genotypes}.}
+\item{linkage_map}{(optional) A linkage map specifying the recombination fractions between loci. If missing, loci are assumed to be independent. See also \link{sample_many_pedigree_genotypes}.}
 
 \item{sampling_parameters}{List. Passed to the sample_model function.}
 
