@@ -10,7 +10,7 @@
 #' @export
 sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                                            number_of_extra_unrelateds = 0L,
-                                           linkage_map = NULL,
+                                           linkage_map,
                                            number_of_replicates = 1L){
 
   .validate_pedigree(pedigree, disallow_U_names = TRUE)
@@ -18,6 +18,7 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
 
   locus_idx_by_name <- setNames(seq_along(loci), loci)
 
+  if (missing(linkage_map)) linkage_map <- NULL
   if (!is.null(linkage_map)) .validate_linkage_map(linkage_map)
 
   # add missing loci to linkage map

@@ -3,6 +3,7 @@
 #' @param n Integer. Number of samples.
 #' @param contributors Character vector with unique names of contributors. Valid names are "U1", "U2", ... for unrelated contributors or the names of pedigree members for related contributors.
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
+#' @param linkage_map (optional) A linkage map specifying the recombination fractions between loci. If missing, loci are assumed to be independent. See also \link{sample_many_pedigree_genotypes}.
 #' @param sampling_parameters List. Passed to the sample_model function.
 #' @param model_settings List. Passed to the sample_model function.
 #' @param sample_model Function such as \link{sample_log_normal_model}.
@@ -32,9 +33,25 @@
 #'                             sampling_parameters = sampling_parameters,
 #'                             model_settings = gf$gamma_settings_no_stutter,
 #'                             sample_model = sample_gamma_model)
+#'# sample a mixture of two siblings taking into account
+# linkage between vWA and D12
 #'
+#' linkage_map <- data.frame(chromosome = c("12","12"),
+#'                           locus = c("vWA", "D12391"),
+#'                           position = c(16.56662766, 29.48590551))
+#'
+#' ped_sibs <- pedtools::nuclearPed(children = c("Sib1", "Sib2"))
+#'
+#' sibs_mix <- sample_mixtures(n = 1, contributors = c("Sib1", "Sib2"),
+#'                             freqs = freqs,
+#'                             linkage_map = linkage_map,
+#'                             pedigree = ped_sibs,
+#'                             sampling_parameters = sampling_parameters,
+#'                             model_settings = gf$gamma_settings_no_stutter,
+#'                             sample_model = sample_gamma_model)
 #' @export
 sample_mixtures <- function(n, contributors, freqs,
+                            linkage_map,
                             sampling_parameters, model_settings,
                             sample_model, pedigree,
                             results_directory,
@@ -137,9 +154,11 @@ sample_mixtures <- function(n, contributors, freqs,
 
   for (i_sample in seq_len(n)){
 
-    all_genotypes <- sample_contributor_genotypes(contributors, freqs, pedigree,
-                                                          loci = model_settings$locus_names,
-                                                          return_non_contributors = write_non_contributors)
+    all_genotypes <- sample_contributor_genotypes(contributors, freqs,
+                                                  linkage_map = linkage_map,
+                                                  pedigree = pedigree,
+                                                  loci = model_settings$locus_names,
+                                                  return_non_contributors = write_non_contributors)
 
     contributor_genotypes <- all_genotypes[contributors]
 

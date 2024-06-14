@@ -8,6 +8,7 @@ sample_mixtures(
   n,
   contributors,
   freqs,
+  linkage_map,
   sampling_parameters,
   model_settings,
   sample_model,
@@ -24,6 +25,8 @@ sample_mixtures(
 \item{contributors}{Character vector with unique names of contributors. Valid names are "U1", "U2", ... for unrelated contributors or the names of pedigree members for related contributors.}
 
 \item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
+
+\item{linkage_map}{A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent. See also \link{sample_many_pedigree_genotypes}.}
 
 \item{sampling_parameters}{List. Passed to the sample_model function.}
 
@@ -67,5 +70,19 @@ mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
                             sampling_parameters = sampling_parameters,
                             model_settings = gf$gamma_settings_no_stutter,
                             sample_model = sample_gamma_model)
+# sample a mixture of two siblings taking into account
 
+linkage_map <- data.frame(chromosome = c("12","12"),
+                          locus = c("vWA", "D12391"),
+                          position = c(16.56662766, 29.48590551))
+
+ped_sibs <- pedtools::nuclearPed(children = c("Sib1", "Sib2"))
+
+sibs_mix <- sample_mixtures(n = 1, contributors = c("Sib1", "Sib2"),
+                            freqs = freqs,
+                            linkage_map = linkage_map,
+                            pedigree = ped_sibs,
+                            sampling_parameters = sampling_parameters,
+                            model_settings = gf$gamma_settings_no_stutter,
+                            sample_model = sample_gamma_model)
 }

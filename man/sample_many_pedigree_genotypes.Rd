@@ -8,7 +8,8 @@ sample_many_pedigree_genotypes(
   pedigree,
   freqs,
   loci = names(freqs),
-  linkage_map = NULL,
+  number_of_extra_unrelateds = 0L,
+  linkage_map,
   number_of_replicates = 1L
 )
 }
