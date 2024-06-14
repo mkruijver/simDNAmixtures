@@ -7,6 +7,7 @@
 sample_contributor_genotypes(
   contributors,
   freqs,
+  linkage_map,
   pedigree,
   loci = names(freqs),
   return_non_contributors = FALSE
@@ -16,6 +17,8 @@ sample_contributor_genotypes(
 \item{contributors}{Character vector with unique names of contributors. Valid names are "U1", "U2", ... for unrelated contributors or the names of pedigree members for related contributors.}
 
 \item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
+
+\item{linkage_map}{A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent. See also \link{sample_many_pedigree_genotypes}.}
 
 \item{pedigree}{(optionally) \link[pedtools:ped]{ped} object}
 
