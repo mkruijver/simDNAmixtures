@@ -10,6 +10,7 @@
 #' @param pedigree (optionally) [ped][pedtools::ped] object. Contributors can be named pedigree members.
 #' @param results_directory (optionally) Character with path to directory where results are written to disk.
 #' @param seed (optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.
+#' @param number_of_replicates Integer. Number of replicate simulations for each sample.
 #' @param write_non_contributors Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
 #' @return If \code{results_directory} is provided, this function has the side effect of writing results to disk.
@@ -33,6 +34,7 @@
 #'                             sampling_parameters = sampling_parameters,
 #'                             model_settings = gf$gamma_settings_no_stutter,
 #'                             sample_model = sample_gamma_model)
+#'
 #'# sample a mixture of two siblings taking into account
 # linkage between vWA and D12
 #'
@@ -56,20 +58,11 @@ sample_mixtures <- function(n, contributors, freqs,
                             sample_model, pedigree,
                             results_directory,
                             seed,
+                            number_of_replicates = 1L,
                             write_non_contributors = FALSE,
                             tag = "simulation"){
 
-  if (length(n) != 1){
-    stop("n needs to have length 1")
-  }
-
-  if (!(is.numeric(n) | is.integer(n))){
-    stop("n needs to be integer valued")
-  }
-
-  if (as.character(n) != as.character(as.integer(n))){
-    stop("n needs to be integer valued")
-  }
+  .validate_integer(n, "n")
 
   if (!is.logical(write_non_contributors)){
     stop("write_non_contributors needs to be a logical")
@@ -105,6 +98,9 @@ sample_mixtures <- function(n, contributors, freqs,
 
     set.seed(seed)
   }
+
+  .validate_integer(number_of_replicates, "number_of_replicates",
+                    require_strictly_positive = TRUE)
 
   number_of_contributors <- length(contributors)
 
@@ -148,10 +144,12 @@ sample_mixtures <- function(n, contributors, freqs,
     dir.create(knowns_dir,recursive = TRUE)
   }
 
-  samples <- list()
+  samples <- vector(mode = "list", length = n * number_of_replicates)
 
-  sample_names <- character(n)
+  sample_names <- character(n * number_of_replicates)
 
+  # keep track of sample index even if replicates are used
+  i_sample_out <- 1L
   for (i_sample in seq_len(n)){
 
     all_genotypes <- sample_contributor_genotypes(contributors, freqs,
@@ -166,50 +164,56 @@ sample_mixtures <- function(n, contributors, freqs,
                           sampling_parameters = sampling_parameters,
                           model_settings = model_settings)
 
-    sample_name <- paste0("sample", "_", sprintf("%04d", i_sample),
-                          "_", model$sample_name_suffix)
+    for (i_rep in seq_len(number_of_replicates)){
+      replicate_label <- if (number_of_replicates > 1) paste0("_rep", i_rep) else ""
 
-    sample_names[i_sample] <- sample_name
+      sample_name <- paste0("sample", "_", sprintf("%04d", i_sample),
+                            "_", model$sample_name_suffix, replicate_label)
 
-    annotated_mixture <- sample_mixture_from_genotypes(contributor_genotypes, model, sample_name)
+      sample_names[i_sample_out] <- sample_name
 
-    mixture <- get_bare_mixture(annotated_mixture)
+      annotated_mixture <- sample_mixture_from_genotypes(contributor_genotypes, model, sample_name)
 
-    samples[[i_sample]] <- list(sample_name = sample_name,
-                                contributor_genotypes = contributor_genotypes,
-                                model = model,
-                                annotated_mixture = annotated_mixture,
-                                mixture = mixture)
+      mixture <- get_bare_mixture(annotated_mixture)
 
-    if (write_to_disk){
-      ## annotated
-      annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," annotated.csv"))
-      utils::write.csv(x = annotated_mixture, file = annnotated_path,
-                quote = FALSE, row.names = FALSE, na = "")
+      samples[[i_sample_out]] <- list(sample_name = sample_name,
+                                  contributor_genotypes = contributor_genotypes,
+                                  model = model,
+                                  annotated_mixture = annotated_mixture,
+                                  mixture = mixture)
 
-      ## csv
-      mixture_csv_path<- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
-      utils::write.csv(x = mixture, file = mixture_csv_path,
-                quote = FALSE, row.names = FALSE, na = "")
+      if (write_to_disk){
+        ## annotated
+        annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," annotated.csv"))
+        utils::write.csv(x = annotated_mixture, file = annnotated_path,
+                  quote = FALSE, row.names = FALSE, na = "")
 
-      smash_sample <- get_SMASH_from_samples(samples[i_sample])
-      table_sample <- SMASH_to_wide_table(smash_sample)
+        ## csv
+        mixture_csv_path<- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
+        utils::write.csv(x = mixture, file = mixture_csv_path,
+                  quote = FALSE, row.names = FALSE, na = "")
 
-      ## txt (wide table)
-      mixture_wide_path <- file.path(mixtures_wide_dir, paste0(sample_name,".txt"))
-      utils::write.table(x = table_sample,
-                  file = mixture_wide_path, quote = FALSE,
-                  sep = "\t", row.names = FALSE, na = "")
+        smash_sample <- get_SMASH_from_samples(samples[i_sample_out])
+        table_sample <- SMASH_to_wide_table(smash_sample)
 
-      ## knowns (wide table)
-      if (write_non_contributors){
-        write_knowns(all_genotypes, knowns_dir, sample_name)
+        ## txt (wide table)
+        mixture_wide_path <- file.path(mixtures_wide_dir, paste0(sample_name,".txt"))
+        utils::write.table(x = table_sample,
+                    file = mixture_wide_path, quote = FALSE,
+                    sep = "\t", row.names = FALSE, na = "")
+
+        ## knowns (wide table)
+        if (write_non_contributors){
+          write_knowns(all_genotypes, knowns_dir, sample_name)
+        }
+        else{
+          write_knowns(contributor_genotypes, knowns_dir, sample_name)
+        }
+
+
       }
-      else{
-        write_knowns(contributor_genotypes, knowns_dir, sample_name)
-      }
 
-
+      i_sample_out <- i_sample_out + 1L
     }
   }
 

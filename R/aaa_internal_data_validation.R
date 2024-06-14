@@ -71,6 +71,26 @@
     }
   }
 }
+
+.validate_integer <- function(n, param_name, require_strictly_positive = FALSE){
+
+  if (length(n) != 1){
+    stop(param_name, " needs to have length 1")
+  }
+
+  if (!(is.numeric(n) | is.integer(n))){
+    stop(param_name, " needs to be integer valued")
+  }
+
+  if (as.character(n) != as.character(as.integer(n))){
+    stop(param_name, " needs to be integer valued")
+  }
+
+  if (require_strictly_positive & (n <= 0)){
+    stop(param_name, " needs to be strictly positive")
+  }
+}
+
 #
 #   if (!is.null(loci)){
 #     missing_loci <- loci[!loci %in% linkage_map$locus]
