@@ -18,7 +18,7 @@
 #' # sample genotypes for a mixture of S1 + U1 + S2
 #' # where U1 is an unrelated person
 #' genotypes <- sample_contributor_genotypes(contributors = c("S1","U1","S2"),
-#' freqs, ped_sibs, loci = gf$autosomal_markers)
+#' freqs, pedigree = ped_sibs, loci = gf$autosomal_markers)
 #'
 #' # define a gamma model for peak heights
 #' gamma_model <- gamma_model(mixture_proportions = c(0.5, 0.3, 0.2), mu = 1000.,

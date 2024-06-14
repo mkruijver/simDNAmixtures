@@ -20,7 +20,8 @@
 #' # sample genotypes for a mixture of S1 + U1 + S2
 #' # where U1 is an unrelated person
 #'
-#' sample_contributor_genotypes(contributors = c("S1","U1","S2"), freqs, ped_sibs)
+#' sample_contributor_genotypes(contributors = c("S1","U1","S2"),
+#'                              freqs, pedigree = ped_sibs)
 #' @export
 sample_contributor_genotypes <- function(contributors, freqs, linkage_map, pedigree,
                                          loci = names(freqs), return_non_contributors = FALSE){
