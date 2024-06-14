@@ -29,13 +29,14 @@ Below, we load allele frequencies provided with the package and demonstrate how 
 ```{r}
 freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
                                        package = "simDNAmixtures"))
-data(gf)
+gf <- gf_configuration()
 
 sampling_parameters <- list(min_template = 50., max_template = 10000.,
                             degradation_shape = 2.5, degradation_scale = 1e-3)
 ```
 
 After the setup, a single function call is sufficient to generate a set of samples. We set `n=2` to generate two samples. The contributors to the sample are named `U1` and `U2` which means that each mixed sample has two unrelated contributors.
+
 ```{r}
 set.seed(1)
 mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
@@ -43,7 +44,9 @@ mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
                             model_settings = gf$log_normal_bwfw_settings,
                             sample_model = sample_log_normal_model)
 ```
+
 The `mixtures` object contains the simulation results. The `sample_mixtures` function has an optional `results_directory` argument. If the path to a directory is provided, then all simulation results will be persisted on disk in file formats that are readily imported in probabilistic genotyping software. We inspect the `parameter_summary` property of the result of `sample_mixtures`.
+
 ```{r}
 knitr::kable(mixtures$parameter_summary[1:5])
 ```
@@ -55,13 +58,17 @@ knitr::kable(head(mixtures$samples[[1]]$mixture, 10))
 ```
 
 ## Basic gamma example
+
 We repeat the example above with a gamma distribution for peak heights instead of a log normal one. The mean peak height parameter `mu` is chosen uniformly between 50 and 5,000. The variance parameter `cv` parameter ($\sigma$ in [@bleka2016euroformix]) is chosen uniformly between 0.05 and 0.35. The degradation parameter is sampled from a Beta distribution with parameters 10 and 1, which means most profile will be only mildly degraded.
+
 ```{r}
 gamma_sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
                             min_cv = 0.05, max_cv = 0.35,
                             degradation_shape1 = 10, degradation_shape2 = 1)
 ```
+
 We now invoke the `sample_mixtures` function again to sample two mixtures; both consisting of two unrelated contributors. We do not sample stutters.
+
 ```{r}
 set.seed(2)
 mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
@@ -70,14 +77,18 @@ mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
                             sample_model = sample_gamma_model)
 ```
 
-We see that the first sample has $\mu$ around 1,236 and is in a 65:35 ratio. 
+We see that the first sample has $\mu$ around 1,236 and is in a 65:35 ratio.
+
 ```{r}
 knitr::kable(mixtures$parameter_summary[1:4]) 
 ```
+
 The coefficient of variation for a full heterozygote is about 9% for the first sample.
+
 ```{r}
 knitr::kable(mixtures$parameter_summary[c(1,5:7)])
 ```
+
 We print the first 10 peaks of the profile below.
 
 ```{r, results='asis'}
