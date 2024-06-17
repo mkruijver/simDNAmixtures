@@ -15,6 +15,7 @@ sample_mixtures(
   pedigree,
   results_directory,
   seed,
+  number_of_replicates = 1L,
   write_non_contributors = FALSE,
   tag = "simulation"
 )
@@ -39,6 +40,8 @@ sample_mixtures(
 \item{results_directory}{(optionally) Character with path to directory where results are written to disk.}
 
 \item{seed}{(optionally) Integer seed value that can be used to get reproducible runs. If results are written to disk, the 'Run details.txt' file will contain a seed that can be used for reproducing the result.}
+
+\item{number_of_replicates}{Integer. Number of replicate simulations for each sample.}
 
 \item{write_non_contributors}{Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.}
 
@@ -70,6 +73,7 @@ mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
                             sampling_parameters = sampling_parameters,
                             model_settings = gf$gamma_settings_no_stutter,
                             sample_model = sample_gamma_model)
+
 # sample a mixture of two siblings taking into account
 
 linkage_map <- data.frame(chromosome = c("12","12"),
