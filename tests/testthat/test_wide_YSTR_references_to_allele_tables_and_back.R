@@ -36,3 +36,28 @@ test_that("Wide YSTR references (df) convert to allele tables", {
   expect_equal(x["K2", "DYF387S1"],
                 paste0(unname(tabs$K2[tabs$K2$Locus=="DYF387S1",][3:4]), collapse = ","))
 })
+
+test_that("Wide YSTR references to allele tables roundtrip", {
+
+  wide_in <- structure(list(DYS576 = c("18", "17"), DYS389I = c("13", "13"),
+                      DYS635 = c("23", "23"), DYS389II = c("29", "29"),
+                      DYS627 = c("22", "21"), DYS460 = c("11", "10"),
+                      DYS458 = c("17", "17"), DYS19 = c("14", "14"),
+                      YGATAH4 = c("11", "12"),DYS448 = c("19", "19"),
+                      DYS391 = c("11", "11"), DYS456 = c("16", "15"),
+                      DYS390 = c("24", "23"), DYS438 = c("12", "12"),
+                      DYS392 = c("13", "13"), DYS518 = c("41", "40"),
+                      DYS570 = c("18", "18"), DYS437 = c("15", "15"),
+                      DYS385 = c("12,13", "11,14"), DYS449 = c("29", "28"),
+                      DYS393 = c("13", "13"), DYS439 = c("11", "12"),
+                      DYS481 = c("22", "22"), DYF387S1 = c("34,36", "35,36"),
+                      DYS533 = c("12", "11")),
+                 row.names = c("K1", "K2"), class = "data.frame")
+  # convert
+  tabs_out <- .wide_YSTR_references_to_allele_tables(wide_in)
+
+  # back
+  wide_out <- .YSTR_allele_tables_to_wide_references(tabs_out)
+
+  expect_identical(wide_in, wide_out)
+})
