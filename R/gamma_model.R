@@ -183,20 +183,26 @@ gamma_model_build_expected_profile <- function(model, genotypes){
 
     g <- genotypes[[i_contributor]]
 
-    for (i_row in seq_len(nrow(g))){
+    # extract allele columns
+    allele_columns <- .get_allele_columns(g)
+
+    for (i_row in seq_len(nrow(allele_columns))){
 
       locus <- g$Locus[i_row]
-      ab <- c(g$Allele1[i_row], g$Allele2[i_row])
 
       lsae <- as.numeric(parameters$LSAE[locus])
 
-      for (a in ab){
-        size <- size_regression(locus, a)
+      for (i_allele in seq_len(ncol(allele_columns))){
+        a <- allele_columns[i_row, i_allele]
 
-        deg <- beta[i_contributor] ^ ((size - 125.) / 100.)
+        if (!is.na(a)){
+          size <- size_regression(locus, a)
 
-        amount <- lsae * deg * mu_contributor
-        x <- add_expected_allelic_peak_height(x, locus, a, size, amount)
+          deg <- beta[i_contributor] ^ ((size - 125.) / 100.)
+
+          amount <- lsae * deg * mu_contributor
+          x <- add_expected_allelic_peak_height(x, locus, a, size, amount)
+        }
       }
 
     }

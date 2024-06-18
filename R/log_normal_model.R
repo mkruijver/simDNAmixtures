@@ -121,17 +121,7 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
   }
 
   # determine deg_starts_at as minimal size
-  genotypes_bound <- do.call(rbind, genotypes)
-  genotypes_bound$Size1 <- genotypes_bound$Size2 <-
-    numeric(nrow(genotypes_bound))
-
-  for (i_row in seq_len(nrow(genotypes_bound))){
-    genotypes_bound$Size1[i_row] <- size_regression(
-      genotypes_bound$Locus[i_row], genotypes_bound$Allele1[i_row])
-    genotypes_bound$Size2[i_row] <- size_regression(
-      genotypes_bound$Locus[i_row], genotypes_bound$Allele2[i_row])
-  }
-  min_size <- min(min(genotypes_bound$Size1), min(genotypes_bound$Size2))
+  min_size <- .get_deg_starts_at(genotypes, size_regression)
 
   degradation <- parameters$degradation
 
@@ -150,21 +140,27 @@ log_normal_model_build_expected_profile <- function(model, genotypes){
 
     g <- genotypes[[i_contributor]]
 
-    for (i_row in seq_len(nrow(g))){
+    # extract allele columns
+    allele_columns <- .get_allele_columns(g)
+
+    for (i_row in seq_len(nrow(allele_columns))){
 
       locus <- g$Locus[i_row]
-      ab <- c(g$Allele1[i_row], g$Allele2[i_row])
 
       lsae <- as.numeric(parameters$LSAE[locus])
 
-      for (a in ab){
-        size <- size_regression(locus, a)
+      for (i_allele in seq_len(ncol(allele_columns))){
+        a <- allele_columns[i_row, i_allele]
 
-        deg <- exp(-degradation[i_contributor] * (size - min_size))
+        if (!is.na(a)){
+          size <- size_regression(locus, a)
 
-        amount <- lsae * deg * template_contributor
+          deg <- exp(-degradation[i_contributor] * (size - min_size))
 
-        x <- add_expected_allelic_peak_height(x, locus, a, size, amount)
+          amount <- lsae * deg * template_contributor
+
+          x <- add_expected_allelic_peak_height(x, locus, a, size, amount)
+        }
       }
     }
   }
