@@ -91,6 +91,15 @@
   }
 }
 
+.parse_STRmix_boolean <- function(x){
+  isTRUE(x[[1]] == "Y")
+}
+
+.parse_STRmix_double <- function(x){
+  as.numeric(strsplit(x, split = ",")[[1]])
+}
+
+
 #
 #   if (!is.null(loci)){
 #     missing_loci <- loci[!loci %in% linkage_map$locus]
