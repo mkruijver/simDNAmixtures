@@ -5,11 +5,9 @@
   locus_names <- tabs[[1]]$Locus
   if (is.null(locus_names)) stop("A column named locus is needed")
 
-  sample_names <- names(tabs)
-
   wide_rows <- lapply(tabs, function (y){
     data.frame(t(stats::setNames(
-      apply(y[startsWith(names(y), "Allele")], 1, function(x)
+      apply(.get_allele_columns(y), 1, function(x)
         {
         # collapse vector into single character
         paste0(x[!is.na(x)], collapse = ",")
