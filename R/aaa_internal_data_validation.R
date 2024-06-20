@@ -72,6 +72,16 @@
   }
 }
 
+.validate_logical <- function(x, param_name){
+  if (!is.logical(x)){
+    stop(param_name, " needs to be a logical")
+  }
+
+  if (length(x) != 1){
+    stop(param_name, " needs to be a logical of length 1")
+  }
+}
+
 .validate_integer <- function(n, param_name, require_strictly_positive = FALSE){
 
   if (length(n) != 1){
@@ -88,6 +98,34 @@
 
   if (require_strictly_positive & (n <= 0)){
     stop(param_name, " needs to be strictly positive")
+  }
+}
+
+.validate_or_generate_seed <- function(seed){
+  if (!missing(seed)){
+
+    if (length(seed) != 1){
+      stop("seed needs to have length 1")
+    }
+
+    if (!(is.numeric(seed) | is.integer(seed))){
+      stop("seed needs to be integer valued")
+    }
+
+    if (as.character(seed) != as.character(as.integer(seed))){
+      stop("seed needs to be integer valued")
+    }
+
+    seed <- as.integer(seed)
+    return(seed)
+  }
+  else{
+
+    # pick a seed up to 1 million
+    # and return this seed for reproducible results even if no seed provided
+    seed <- sample.int(n = 1e6, size = 1)
+
+    return(seed)
   }
 }
 

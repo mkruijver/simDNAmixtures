@@ -17,7 +17,8 @@ sample_mixtures(
   seed,
   number_of_replicates = 1L,
   write_non_contributors = FALSE,
-  tag = "simulation"
+  tag = "simulation",
+  silent = FALSE
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ sample_mixtures(
 \item{write_non_contributors}{Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.}
 
 \item{tag}{Character. Used for sub directory name when results_directory is provided.}
+
+\item{silent}{Logical. If TRUE, then no message will be printed about where the output (if any) was written to disk.}
 }
 \value{
 If \code{results_directory} is provided, this function has the side effect of writing results to disk.

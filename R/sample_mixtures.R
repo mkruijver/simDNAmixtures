@@ -13,6 +13,7 @@
 #' @param number_of_replicates Integer. Number of replicate simulations for each sample.
 #' @param write_non_contributors Logical. If TRUE, sampled genotypes for non-contributing pedigree members will also be written to disk. Defaults to FALSE.
 #' @param tag Character. Used for sub directory name when results_directory is provided.
+#' @param silent Logical. If TRUE, then no message will be printed about where the output (if any) was written to disk.
 #' @return If \code{results_directory} is provided, this function has the side effect of writing results to disk.
 #'
 #' Return value is a list with simulation results:\itemize{
@@ -60,98 +61,35 @@ sample_mixtures <- function(n, contributors, freqs,
                             seed,
                             number_of_replicates = 1L,
                             write_non_contributors = FALSE,
-                            tag = "simulation"){
+                            tag = "simulation", silent = FALSE){
 
-  .validate_integer(n, "n")
-
-  if (!is.logical(write_non_contributors)){
-    stop("write_non_contributors needs to be a logical")
-  }
-
-  if (length(write_non_contributors) != 1){
-    stop("write_non_contributors needs to be a logical of length 1")
-  }
-
-  if (!missing(seed)){
-
-    if (length(seed) != 1){
-      stop("seed needs to have length 1")
-    }
-
-    if (!(is.numeric(seed) | is.integer(seed))){
-      stop("seed needs to be integer valued")
-    }
-
-    if (as.character(seed) != as.character(as.integer(seed))){
-      stop("seed needs to be integer valued")
-    }
-
-    seed <- as.integer(seed)
-
-    set.seed(seed)
-  }
-  else{
-
-    # pick a seed up to 1 million
-    # and return this seed for reproducible results even if no seed provided
-    seed <- sample.int(n = 1e6, size = 1)
-
-    set.seed(seed)
-  }
-
+  # validate inputs
+  .validate_integer(n, "n", require_strictly_positive = TRUE)
+  .validate_logical(write_non_contributors, "write_non_contributors")
   .validate_integer(number_of_replicates, "number_of_replicates",
                     require_strictly_positive = TRUE)
 
+  # if seed is missing we obtain one here
+  seed_validated <- .validate_or_generate_seed(seed)
+  set.seed(seed_validated)
+
   number_of_contributors <- length(contributors)
 
+  # init results dir if used
   write_to_disk <- FALSE
   if (!missing(results_directory)){
-    if (!dir.exists(results_directory)){
-      dir.create(results_directory, recursive = TRUE)
-    }
-
     write_to_disk <- TRUE
 
-    sub_dir <- file.path(results_directory, paste0(
-      format(Sys.time(), "%Y-%m-%d %H_%M_%S"), " ", tag))
-
-    dir.create(sub_dir, recursive = TRUE)
-
-    run_details_file <- file.path(sub_dir, "Run Info.txt");
-    write(c(paste0("Simulation started at ", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
-                 "Call: ",
-                 deparse(match.call()),"",
-                 paste0("Seed: ", seed)
-                 ),
-                 file = run_details_file)
-
-    if (!missing(pedigree)){
-      utils::write.csv(as.data.frame(pedigree),
-                       file = file.path(sub_dir,"Pedigree.csv"),
-                       quote = FALSE, row.names = FALSE)
-    }
-
-    mixtures_csv_dir <- file.path(sub_dir,"Mixtures csv")
-    dir.create(mixtures_csv_dir,recursive = TRUE)
-
-    mixtures_wide_dir <- file.path(sub_dir,"Mixtures table")
-    dir.create(mixtures_wide_dir,recursive = TRUE)
-
-    annotated_mixtures_dir <- file.path(sub_dir,"Mixtures annotated")
-    dir.create(annotated_mixtures_dir,recursive = TRUE)
-
-    knowns_dir <- file.path(sub_dir,"References by mixture")
-    dir.create(knowns_dir,recursive = TRUE)
+    results_dirs <- .init_results_directory(results_directory, tag, seed_validated, pedigree)
   }
 
+  # pre allocate list for sampling results and sample names
   samples <- vector(mode = "list", length = n * number_of_replicates)
-
   sample_names <- character(n * number_of_replicates)
 
   # keep track of sample index even if replicates are used
   i_sample_out <- 1L
   for (i_sample in seq_len(n)){
-
     all_genotypes <- sample_contributor_genotypes(contributors, freqs,
                                                   linkage_map = linkage_map,
                                                   pedigree = pedigree,
@@ -183,34 +121,15 @@ sample_mixtures <- function(n, contributors, freqs,
                                   mixture = mixture)
 
       if (write_to_disk){
-        ## annotated
-        annnotated_path <- file.path(annotated_mixtures_dir, paste0(sample_name," annotated.csv"))
-        utils::write.csv(x = annotated_mixture, file = annnotated_path,
-                  quote = FALSE, row.names = FALSE, na = "")
-
-        ## csv
-        mixture_csv_path<- file.path(mixtures_csv_dir, paste0(sample_name,".csv"))
-        utils::write.csv(x = mixture, file = mixture_csv_path,
-                  quote = FALSE, row.names = FALSE, na = "")
-
-        smash_sample <- get_SMASH_from_samples(samples[i_sample_out])
-        table_sample <- SMASH_to_wide_table(smash_sample)
-
-        ## txt (wide table)
-        mixture_wide_path <- file.path(mixtures_wide_dir, paste0(sample_name,".txt"))
-        utils::write.table(x = table_sample,
-                    file = mixture_wide_path, quote = FALSE,
-                    sep = "\t", row.names = FALSE, na = "")
+        .write_mixture(samples[[i_sample_out]], results_dirs)
 
         ## knowns (wide table)
         if (write_non_contributors){
-          write_knowns(all_genotypes, knowns_dir, sample_name)
+          write_knowns(all_genotypes, results_dirs$knowns_dir, sample_name)
         }
         else{
-          write_knowns(contributor_genotypes, knowns_dir, sample_name)
+          write_knowns(contributor_genotypes, results_dirs$knowns_dir, sample_name)
         }
-
-
       }
 
       i_sample_out <- i_sample_out + 1L
@@ -220,36 +139,19 @@ sample_mixtures <- function(n, contributors, freqs,
   names(samples) <- sample_names
 
   # prepare additional outputs
-  parameter_summary <- get_parameter_summary(samples)
-  smash <- get_SMASH_from_samples(samples)
-  table <- SMASH_to_wide_table(smash)
+  summaries <- .prepare_summaries(samples)
 
   if (write_to_disk){
-    parameter_summary_path <- file.path(sub_dir, "Parameter Summary.csv")
-    utils::write.csv(parameter_summary, file = parameter_summary_path,
-              quote = FALSE, na = "", row.names = FALSE)
-
-    smash_path <- file.path(sub_dir, paste0(tag, " SMASH.csv"))
-    utils::write.csv(smash, file = smash_path,
-              quote = FALSE, na = "", row.names = FALSE)
-
-    table_path <- file.path(sub_dir, paste0(tag, " table.txt"))
-    utils::write.table(x = table,
-                file = table_path, quote = FALSE,
-                sep = "\t", row.names = FALSE, na = "")
-
-    ## all knowns as single db (csv)
-    db_path <- file.path(sub_dir, "References DB.csv")
-    write_knowns_as_reference_db(samples, db_path)
+    .write_summaries(summaries, tag, results_dirs)
 
     write(c(paste0("Simulation finished at ", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))),
-          file = run_details_file, append = TRUE)
+          file = results_dirs$run_details_file, append = TRUE)
 
-    cat("Finished sampling. Output written to", sub_dir, "\n")
+    if (!silent) cat("Finished sampling. Output written to", results_dirs$sub_dir, "\n")
   }
 
   list(call = match.call(),
        samples = samples,
-       smash = smash,
-       parameter_summary = parameter_summary)
+       smash = summaries$smash,
+       parameter_summary = summaries$parameter_summary)
 }
