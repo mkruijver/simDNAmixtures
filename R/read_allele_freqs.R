@@ -27,15 +27,18 @@ read_allele_freqs <- function(filename, remove_zeroes = TRUE, normalise = TRUE){
   alleles <- df_without_N[[1]]
 
   locus_idx <- seq(from=2,to=ncol(df_without_N),by=1)
-  N <- stats::setNames(numeric(length(locus_idx)),nm = names(df_without_N[-1]))
+  N <- numeric() #stats::setNames(numeric(length(locus_idx)),nm = names(df_without_N[-1]))
 
   for(i_locus in locus_idx){
     f0 <- df_without_N[[i_locus]]
     f0[is.na(f0)] <- 0.
     f <- f0
 
-    freqs[[names(df_without_N)[i_locus]]]  <- stats::setNames(f,nm =  alleles)
-    N[names(df_without_N)[i_locus]] <- df_with_N[[i_locus]][length(df_with_N[[i_locus]])]
+    # skip empty loci
+    if (sum(f > 0) > 0){
+      freqs[[names(df_without_N)[i_locus]]]  <- stats::setNames(f,nm =  alleles)
+      N[names(df_without_N)[i_locus]] <- df_with_N[[i_locus]][length(df_with_N[[i_locus]])]
+    }
   }
 
   if (remove_zeroes){
