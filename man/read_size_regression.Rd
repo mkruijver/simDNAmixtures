@@ -4,10 +4,12 @@
 \alias{read_size_regression}
 \title{Reads a size regression file}
 \usage{
-read_size_regression(filename)
+read_size_regression(filename, exceptions)
 }
 \arguments{
 \item{filename}{Path to file (character).}
+
+\item{size_exceptions}{Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.}
 }
 \value{
 A function that takes a locus name and allele as arguments and returns the size.
@@ -29,4 +31,10 @@ regression <- read_size_regression(filename)
 
 # obtain size for the 12 allele at the vWA locus
 regression("vWA", 12)
+
+# now add AMEL sizes
+regression_with_AMEL <- read_size_regression(filename, exceptions = list(
+                          AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
+# check that we can obtain size for X at AMEL
+stopifnot(regression_with_AMEL("AMEL", "X") == 98.5)
 }

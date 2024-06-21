@@ -1,6 +1,7 @@
 #' @title Reads a size regression file
 #'
 #' @param filename Path to file (character).
+#' @param size_exceptions Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.
 #' @details
 #' Read a regression file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
 #'
@@ -15,14 +16,33 @@
 #'
 #' # obtain size for the 12 allele at the vWA locus
 #' regression("vWA", 12)
+#'
+#' # now add AMEL sizes
+#' regression_with_AMEL <- read_size_regression(filename, exceptions = list(
+#'                           AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
+#' # check that we can obtain size for X at AMEL
+#' stopifnot(regression_with_AMEL("AMEL", "X") == 98.5)
 #' @export
-read_size_regression <- function(filename){
+read_size_regression <- function(filename, exceptions){
 
   regression_df <- utils::read.csv(filename, colClasses = c("character", "numeric", "numeric"))
   regression_df_by_locus <- split(regression_df, regression_df$Locus)
 
+  has_exceptions <- !missing(exceptions)
 
   f <- function(locus, allele){
+
+    # first check if there is an override (used for AMEL)
+    if (has_exceptions){
+      locus_exceptions <- exceptions[[locus]]
+
+      if (!is.null(locus_exceptions)){
+        if (allele %in% names(locus_exceptions)){
+          size <- locus_exceptions[[allele]]
+          return(size)
+        }
+      }
+    }
 
     regression_locus <- regression_df_by_locus[[locus]]
 
