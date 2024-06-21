@@ -1,6 +1,6 @@
 # used by the sample_mixtures and sample_mixtures_from_genotypes functions
 # to store "user friendly" outputs generated from simulation results
-.init_results_directory <- function(results_directory, tag, seed_validated, pedigree){
+.init_results_directory <- function(results_directory, tag, seed_validated, pedigree, call){
 
   if (!dir.exists(results_directory)){
     dir.create(results_directory, recursive = TRUE)
@@ -14,7 +14,7 @@
   run_details_file <- file.path(sub_dir, "Run Info.txt");
   write(c(paste0("Simulation started at ", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
           "Call: ",
-          deparse(match.call()),"",
+          call,"",
           paste0("Seed: ", seed_validated)
   ),
   file = run_details_file)

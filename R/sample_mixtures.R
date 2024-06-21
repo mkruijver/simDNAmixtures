@@ -80,7 +80,8 @@ sample_mixtures <- function(n, contributors, freqs,
   if (!missing(results_directory)){
     write_to_disk <- TRUE
 
-    results_dirs <- .init_results_directory(results_directory, tag, seed_validated, pedigree)
+    results_dirs <- .init_results_directory(results_directory, tag,
+                                            seed_validated, pedigree, deparse(match.call()))
   }
 
   # pre allocate list for sampling results and sample names

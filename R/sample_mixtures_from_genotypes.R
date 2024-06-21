@@ -96,7 +96,8 @@ sample_mixtures_from_genotypes <- function(n,
   if (!missing(results_directory)){
     write_to_disk <- TRUE
 
-    results_dirs <- .init_results_directory(results_directory, tag, seed_validated)
+    results_dirs <- .init_results_directory(results_directory, tag,
+                                            seed_validated, call = deparse(match.call()))
   }
 
   samples <- vector(mode = "list", length = n * number_of_replicates)
