@@ -7,7 +7,7 @@
 sample_LSAE(LSAE_variance, locus_names)
 }
 \arguments{
-\item{LSAE_variance}{Numeric. See \link{gf} for an example.}
+\item{LSAE_variance}{Numeric. See \link{gf_configuration} for an example.}
 
 \item{locus_names}{Character vector.}
 }

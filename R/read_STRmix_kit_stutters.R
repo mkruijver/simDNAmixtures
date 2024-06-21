@@ -6,7 +6,7 @@
   # load general settings
   locus_names <- as.character(sapply(kit_xml$profilingKit$loci, function(x) attr(x,"name")))
 
-  repeat_length_by_locus <- setNames(
+  repeat_length_by_locus <- stats::setNames(
     sapply(kit_xml$profilingKit$loci, function(x) as.numeric(x$repeatLength[[1]])),
     sapply(kit_xml$profilingKit$loci, function(x) attr(x, "name")))
 

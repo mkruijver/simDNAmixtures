@@ -1,6 +1,6 @@
 #' @title Sample Locus Specific Amplification Efficiency (LSAE) according to prior
 #'
-#' @param LSAE_variance Numeric. See \link{gf} for an example.
+#' @param LSAE_variance Numeric. See \link{gf_configuration} for an example.
 #' @param locus_names Character vector.
 #' @details In the Bright et al. log normal model, the expected peak height
 #' includes a multiplicative factor for the locus (marker). These factors are

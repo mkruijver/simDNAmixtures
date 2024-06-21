@@ -33,7 +33,7 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
   locus_names <- as.character(sapply(kit_xml$profilingKit$loci,
                                      function(x) attr(x, "name")))
 
-  detection_threshold <- setNames(sapply(kit_xml$profilingKit$kitSettings$detectionThresholds, function(x) as.numeric(x[[1]])),
+  detection_threshold <- stats::setNames(sapply(kit_xml$profilingKit$kitSettings$detectionThresholds, function(x) as.numeric(x[[1]])),
                                   sapply(kit_xml$profilingKit$kitSettings$detectionThresholds, function(x) attr(x, "locus")))
 
   degradation_parameter_cap <- .parse_STRmix_double(kit_xml$profilingKit$kitSettings$degradationMax[[1]])

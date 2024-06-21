@@ -10,7 +10,8 @@ sample_many_pedigree_genotypes(
   loci = names(freqs),
   number_of_extra_unrelateds = 0L,
   linkage_map,
-  number_of_replicates = 1L
+  number_of_replicates = 1L,
+  sex_locus_name = "AMEL"
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ sample_many_pedigree_genotypes(
 \item{linkage_map}{A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent.}
 
 \item{number_of_replicates}{An integer specifying the number of replicate genotype samples to generate. Defaults to 1.}
+
+\item{sex_locus_name}{Character vector, defaults to "AMEL"}
 }
 \description{
 Sample (many) genotypes for pedigree members according to allele frequencies by allele dropping and possibly taking linkage into account by simulating recombination.

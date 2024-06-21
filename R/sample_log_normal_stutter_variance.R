@@ -1,6 +1,6 @@
 #' @title Sample log normal stutter variance parameters according to priors
 #'
-#' @param log_normal_stutter_variability List of variability parameters. See \link{gf} for an example.
+#' @param log_normal_stutter_variability List of variability parameters. See \link{gf_configuration} for an example.
 #' @return Named numeric with stutter variance parameter for all stutter types. Names are \code{k2} concatenated with the name of the stuter type. See example.
 #' @examples
 #' gf <- gf_configuration()

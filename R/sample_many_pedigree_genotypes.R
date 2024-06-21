@@ -5,24 +5,26 @@
 #' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
 #' @param linkage_map A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent.
 #' @param number_of_replicates An integer specifying the number of replicate genotype samples to generate. Defaults to 1.
+#' @param sex_locus_name Character vector, defaults to "AMEL"
 #'
 #' @seealso \link{read_allele_freqs}
 #' @export
 sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                                            number_of_extra_unrelateds = 0L,
                                            linkage_map,
-                                           number_of_replicates = 1L){
+                                           number_of_replicates = 1L,
+                                           sex_locus_name = "AMEL"){
 
   .validate_pedigree(pedigree, disallow_U_names = TRUE)
   .validate_freqs(freqs, loci)
 
-  locus_idx_by_name <- setNames(seq_along(loci), loci)
+  locus_idx_by_name <- stats::setNames(seq_along(loci), loci)
 
   if (missing(linkage_map)) linkage_map <- NULL
   if (!is.null(linkage_map)) .validate_linkage_map(linkage_map)
 
-  # add missing loci to linkage map
-  missing_loci <- loci[!loci %in% linkage_map$locus]
+  # add missing loci to linkage map (but not AMEL)
+  missing_loci <- loci[!loci %in% c(linkage_map$locus, sex_locus_name)]
   linkage_map_used <- rbind(linkage_map,
                             data.frame(chromosome = rep("missing", length(missing_loci)),
                                        locus = missing_loci,
@@ -31,7 +33,8 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
   # sample founders
   x <- .sample_many_founders(pedigree, number_of_replicates = number_of_replicates,
                              number_of_extra_unrelateds = number_of_extra_unrelateds,
-                             freqs = freqs, loci = loci)
+                             freqs = freqs, loci = loci,
+                             sex_locus_name = sex_locus_name)
 
 
   # prepare indices for dropping alleles
@@ -65,7 +68,7 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
 
   # split the linkage map by chromosome
   linkage_map_by_chromosome <- split(linkage_map_used, linkage_map_used$chromosome)
-  chromosomes <- gtools::mixedsort(names(linkage_map_by_chromosome))
+  chromosomes <- naturalsort::naturalsort(names(linkage_map_by_chromosome))
 
   chromosome = chromosomes[1]
   # start sampling data by chromosome

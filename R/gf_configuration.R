@@ -19,7 +19,9 @@ gf_configuration <- function(){
 
   gf <- list()
 
-  data(kits)
+  local_env <- environment()
+  utils::data(kits, envir = local_env)
+  kits <- local_env$kits
   gf$autosomal_markers <- unique(kits$GlobalFiler_Panel_v1$Marker[!kits$GlobalFiler_Panel_v1$Gender.Marker])
 
   repeat_length_by_marker <- stats::setNames(kits$GlobalFiler_Panel_v1$Repeat[

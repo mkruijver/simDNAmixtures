@@ -7,7 +7,7 @@
 sample_log_normal_stutter_variance(log_normal_stutter_variability)
 }
 \arguments{
-\item{log_normal_stutter_variability}{List of variability parameters. See \link{gf} for an example.}
+\item{log_normal_stutter_variability}{List of variability parameters. See \link{gf_configuration} for an example.}
 }
 \value{
 Named numeric with stutter variance parameter for all stutter types. Names are \code{k2} concatenated with the name of the stuter type. See example.

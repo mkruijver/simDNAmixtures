@@ -92,16 +92,16 @@ sampling_parameters <- list(min_template = 75., max_template = 75,
                             degradation_shape = 2.5, degradation_scale = 1e-3)
 
 single_source_results <- sample_mixtures_from_genotypes(n = 1,
-                                                        genotypes = list(K1), sampling_parameters = sampling_parameters,
-                                                        number_of_replicates = 3, sample_model = sample_log_normal_model,
-                                                        model_settings = gf$log_normal_bwfw_settings)
+                genotypes = list(K1), sampling_parameters = sampling_parameters,
+                number_of_replicates = 3, sample_model = sample_log_normal_model,
+                model_settings = gf$log_normal_bwfw_settings)
 
 # now sample two mixtures of K1 and K2 with two replicates each
 
 mix_results <- sample_mixtures_from_genotypes(n = 2,
-                                              genotypes = list(K1, K2), sampling_parameters = sampling_parameters,
-                                              number_of_replicates = 3, sample_model = sample_log_normal_model,
-                                              model_settings = gf$log_normal_bwfw_settings)
+                genotypes = list(K1, K2), sampling_parameters = sampling_parameters,
+                number_of_replicates = 3, sample_model = sample_log_normal_model,
+                model_settings = gf$log_normal_bwfw_settings)
 }
 \seealso{
 \link{sample_mixtures}
