@@ -28,7 +28,7 @@ e.g. we do not restrict the first column name or the last row name.
 }
 \examples{
 # below we read an allele freqs file that comes with the package
-filename <- system.file("extdata","FBI_extended_Cauc.csv",package = "simDNAmixtures")
+filename <- system.file("extdata","FBI_extended_Cauc_022024.csv",package = "simDNAmixtures")
 freqs <- read_allele_freqs(filename)
 freqs # the output is a list with an attribute named \code{N} giving the sample size.
 }

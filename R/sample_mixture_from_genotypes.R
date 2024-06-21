@@ -8,7 +8,7 @@
 #' @seealso \link{sample_mixtures} for a function that samples many mixtures in one go.
 #' @examples
 #' # read allele frequencies and kit data
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                            package = "simDNAmixtures"))
 #' gf <- gf_configuration()
 #'

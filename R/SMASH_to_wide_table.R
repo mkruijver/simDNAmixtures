@@ -4,7 +4,7 @@
 #' @return DataFrame with columns: Sample Name, Marker, Allele 1, Allele 2, ..., Size 1, Size 2, ..., Height 1, Height 2, ...
 #' @examples
 #' # generate example data in SMASH form
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #' package = "simDNAmixtures"))
 #' gf <- gf_configuration()
 #'

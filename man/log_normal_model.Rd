@@ -47,7 +47,7 @@ Define a log normal model for peak height variability with the parametrisation a
 }
 \examples{
 gf <- gf_configuration()
-freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
                            package = "simDNAmixtures"))
 
 k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability)

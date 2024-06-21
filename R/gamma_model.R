@@ -16,7 +16,7 @@
 #' @seealso \link{log_normal_model}.
 #' @examples
 #' # read allele frequencies
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                                        package = "simDNAmixtures"))
 #'
 #' gf <- gf_configuration()

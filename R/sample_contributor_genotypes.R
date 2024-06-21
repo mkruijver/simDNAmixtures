@@ -11,7 +11,7 @@
 #' @examples
 #'
 #' # read allele frequencies
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                            package = "simDNAmixtures"))
 #'
 #' # define a pedigree of siblings S1 and S2 (and their parents)
@@ -21,7 +21,8 @@
 #' # where U1 is an unrelated person
 #'
 #' sample_contributor_genotypes(contributors = c("S1","U1","S2"),
-#'                              freqs, pedigree = ped_sibs)
+#'                              freqs, pedigree = ped_sibs,
+#'                              loci = gf_configuration()$autosomal_markers)
 #' @export
 sample_contributor_genotypes <- function(contributors, freqs, linkage_map, pedigree,
                                          loci = names(freqs), return_non_contributors = FALSE){

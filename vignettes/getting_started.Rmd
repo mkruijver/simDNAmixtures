@@ -27,7 +27,7 @@ For a general introduction to forensic genetics and probabilistic genotyping, se
 Below, we load allele frequencies provided with the package and demonstrate how mixtures can be sampled using a log normal model for peak heights (refer to [@taylor2013interpretation] for details on the model). The template parameters for each contributor are picked uniformly between 50 and 10,000. The degradation parameter is picked from a gamma distribution with shape 2.5 and scale 0.001.
 
 ```{r}
-freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
                                        package = "simDNAmixtures"))
 gf <- gf_configuration()
 

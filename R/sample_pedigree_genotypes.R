@@ -6,7 +6,7 @@
 #' @details For each founder, a genotype is sampled randomly by drawing two alleles according to allele frequencies. Alleles for the rest of the pedigree are then obtained by allele dropping: \link{sample_offspring} is invoked for each non-founder.
 #' @return List of DataFrames with genotypes for each pedigree member. See \link{sample_genotype} for the DataFrame format.
 #' @examples
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                            package = "simDNAmixtures"))
 #' gf <- gf_configuration()
 #'

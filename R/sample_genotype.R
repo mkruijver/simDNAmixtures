@@ -7,7 +7,7 @@
 #' @return DataFrame with columns \code{Sample Name}, \code{Locus}, \code{Allele1} and \code{Allele2}.
 #' @examples
 #' # below we read an allele freqs and sample a genotype
-#' filename <- system.file("extdata","FBI_extended_Cauc.csv",
+#' filename <- system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                         package = "simDNAmixtures")
 #' freqs <- read_allele_freqs(filename)
 #' sample_genotype(freqs, loci = c("D3S1358", "vWA"))

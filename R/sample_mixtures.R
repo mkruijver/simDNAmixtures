@@ -23,7 +23,7 @@
 #' \item \code{parameter_summary} DataFrame with parameters for each sample
 #' }
 #' @examples
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                            package = "simDNAmixtures"))
 #' gf <- gf_configuration()
 #'

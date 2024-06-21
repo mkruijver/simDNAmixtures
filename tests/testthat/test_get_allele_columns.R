@@ -2,7 +2,7 @@ library(simDNAmixtures)
 
 test_that("get-allele-columns works for 2 columns", {
 
-  freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+  freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
                              package = "simDNAmixtures"))
 
 

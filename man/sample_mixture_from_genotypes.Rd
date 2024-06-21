@@ -24,7 +24,7 @@ A mixture profile is sampled according to the provided \code{pg_model} (see \lin
 }
 \examples{
 # read allele frequencies and kit data
-freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
                            package = "simDNAmixtures"))
 gf <- gf_configuration()
 

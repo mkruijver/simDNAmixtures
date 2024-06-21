@@ -22,7 +22,7 @@
 #' Bright, J.A. et al. (2016). Developmental validation of STRmix™, expert software for the interpretation of forensic DNA profiles. Forensic Science International: Genetics, 23, 226-239. \doi{10.1016/j.fsigen.2016.05.007}
 #' @examples
 #' gf <- gf_configuration()
-#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+#' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
 #'                            package = "simDNAmixtures"))
 #'
 #' k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability)

@@ -64,7 +64,7 @@ Return value is a list with simulation results:\itemize{
 Sample mixtures with random genotypes and random parameters according to priors
 }
 \examples{
-freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
                            package = "simDNAmixtures"))
 gf <- gf_configuration()
 

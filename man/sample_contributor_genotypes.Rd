@@ -38,7 +38,7 @@ For each founder or unrelated person, a genotype is sampled randomly by drawing 
 \examples{
 
 # read allele frequencies
-freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc.csv",
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
                            package = "simDNAmixtures"))
 
 # define a pedigree of siblings S1 and S2 (and their parents)
@@ -48,5 +48,6 @@ ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 # where U1 is an unrelated person
 
 sample_contributor_genotypes(contributors = c("S1","U1","S2"),
-                             freqs, pedigree = ped_sibs)
+                             freqs, pedigree = ped_sibs,
+                             loci = gf_configuration()$autosomal_markers)
 }
