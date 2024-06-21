@@ -3,6 +3,7 @@
 #' @param back_stutter_rate Numeric. (Optional)
 #' @param forward_stutter_rate Numeric. (Optional)
 #' @param size_regression Function, see \link{read_size_regression}.
+#' @param sex_locus_name Character vector, defaults to "AMEL".
 #' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied. In the global stutter model, the expected stutter rate is constant across all loci and for all parent alleles.
 #' @return Object of class \code{stutter_model} to be used by e.g. \link{gamma_model}.
 #' @seealso \link{allele_specific_stutter_model} for a stutter model where the expected stutter rate depends on the allele and locus.
@@ -18,9 +19,11 @@
 #'
 #' stutter_model
 #' @export
-global_stutter_model <- function(back_stutter_rate, forward_stutter_rate, size_regression){
+global_stutter_model <- function(back_stutter_rate, forward_stutter_rate,
+                                 size_regression, sex_locus_name = "AMEL"){
 
-  stutter_model <- list(stutters = list())
+  stutter_model <- list(stutters = list(),
+                        sex_locus_name = sex_locus_name)
   class(stutter_model) <- "stutter_model"
 
   if (!missing(back_stutter_rate)){
@@ -79,16 +82,21 @@ global_stutter_model_add_expected_stutter <- function(stutter_model, x){
 
     for (i_row in seq_len(nrow(x_pre_stutter))){
       marker <- x_pre_stutter$Marker[i_row]
-      parent <- x_pre_stutter$Allele[i_row]
-      target <- get_stutter_target(parent, stutter$delta)
-      target_size <- size_regression(marker, target)
-      parent_height <- x_pre_stutter$ExpectedAllele[i_row]
-      expected <- parent_height * stutter_rate
 
-      # subtract stutter from Allele
-      x <- add_expected_peak_height(x, marker, parent, NA, -expected, "ExpectedAllele")
-      # add expected stutter
-      x <- add_expected_peak_height(x, marker, target, target_size, expected, column_name)
+      applies_to_locus <- marker != stutter_model$sex_locus_name
+
+      if (applies_to_locus){
+        parent <- x_pre_stutter$Allele[i_row]
+        target <- get_stutter_target(parent, stutter$delta)
+        target_size <- size_regression(marker, target)
+        parent_height <- x_pre_stutter$ExpectedAllele[i_row]
+        expected <- parent_height * stutter_rate
+
+        # subtract stutter from Allele
+        x <- add_expected_peak_height(x, marker, parent, NA, -expected, "ExpectedAllele")
+        # add expected stutter
+        x <- add_expected_peak_height(x, marker, target, target_size, expected, column_name)
+      }
     }
 
     x$ExpectedStutter <- x$ExpectedStutter + x[[column_name]]

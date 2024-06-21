@@ -10,7 +10,8 @@ sample_contributor_genotypes(
   linkage_map,
   pedigree,
   loci = names(freqs),
-  return_non_contributors = FALSE
+  return_non_contributors = FALSE,
+  sex_locus_name = "AMEL"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ sample_contributor_genotypes(
 \item{loci}{Character vector of locus names (defaults to \code{names} attribute of \code{freqs})}
 
 \item{return_non_contributors}{Logical. Should genotypes of non-contributing pedigree members also be returned?}
+
+\item{sex_locus_name}{Character vector, defaults to "AMEL"}
 }
 \value{
 List of DataFrames with genotypes for each pedigree member. See \link{sample_genotype} for the DataFrame format.
@@ -50,4 +53,9 @@ ped_sibs <- pedtools::nuclearPed(children = c("S1", "S2"))
 sample_contributor_genotypes(contributors = c("S1","U1","S2"),
                              freqs, pedigree = ped_sibs,
                              loci = gf_configuration()$autosomal_markers)
+
+# now also include AMEL
+sample_contributor_genotypes(contributors = c("S1","S2", "U1"),
+                             freqs, pedigree = ped_sibs,
+                             loci = c(gf_configuration()$autosomal_markers, "AMEL"))
 }

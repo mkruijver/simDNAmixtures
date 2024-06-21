@@ -8,7 +8,7 @@ sample_many_pedigree_genotypes(
   pedigree,
   freqs,
   loci = names(freqs),
-  number_of_extra_unrelateds = 0L,
+  unrelated_names = character(),
   linkage_map,
   number_of_replicates = 1L,
   sex_locus_name = "AMEL"
@@ -20,6 +20,8 @@ sample_many_pedigree_genotypes(
 \item{freqs}{Allele frequencies (see \link{read_allele_freqs})}
 
 \item{loci}{Character vector of locus names (defaults to \code{names} attribute of \code{freqs})}
+
+\item{unrelated_names}{Character vector with names of any additional unrelated persons. Defaults to length zero.}
 
 \item{linkage_map}{A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent.}
 

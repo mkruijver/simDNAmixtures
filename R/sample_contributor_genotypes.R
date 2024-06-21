@@ -6,6 +6,7 @@
 #' @param pedigree (optional) [ped][pedtools::ped] object
 #' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
 #' @param return_non_contributors Logical. Should genotypes of non-contributing pedigree members also be returned?
+#' @param sex_locus_name Character vector, defaults to "AMEL"
 #' @details For each founder or unrelated person, a genotype is sampled randomly by drawing two alleles from allele frequencies. The non-founders get genotypes by allele dropping, see \link{sample_pedigree_genotypes} for details.
 #' @return List of DataFrames with genotypes for each pedigree member. See \link{sample_genotype} for the DataFrame format.
 #' @examples
@@ -23,9 +24,15 @@
 #' sample_contributor_genotypes(contributors = c("S1","U1","S2"),
 #'                              freqs, pedigree = ped_sibs,
 #'                              loci = gf_configuration()$autosomal_markers)
+#'
+#' # now also include AMEL
+#' sample_contributor_genotypes(contributors = c("S1","S2", "U1"),
+#'                              freqs, pedigree = ped_sibs,
+#'                              loci = c(gf_configuration()$autosomal_markers, "AMEL"))
 #' @export
 sample_contributor_genotypes <- function(contributors, freqs, linkage_map, pedigree,
-                                         loci = names(freqs), return_non_contributors = FALSE){
+                                         loci = names(freqs), return_non_contributors = FALSE,
+                                         sex_locus_name = "AMEL"){
 
   if (!is.character(contributors)){
     stop("contributors should be a character vector")
@@ -58,21 +65,11 @@ sample_contributor_genotypes <- function(contributors, freqs, linkage_map, pedig
     }
   }
 
-  genotypes <- list()
+  samples <- sample_many_pedigree_genotypes(pedigree, freqs = freqs, loci = loci,
+            unrelated_names = unr_names, linkage_map = linkage_map,
+            sex_locus_name = sex_locus_name)
 
-  # sample related genotypes if any
-  related_names <- contributors[contributors %in% ped_names]
-
-  if (length(related_names) > 0){
-    genotypes <- .wide_references_to_allele_tables(
-      sample_many_pedigree_genotypes(pedigree = pedigree, freqs = freqs,
-                                     linkage_map = linkage_map, loci = loci))
-  }
-
-  # sample unrelated genotypes
-  for (unr_name in unr_names){
-    genotypes[[unr_name]] <- sample_genotype(freqs = freqs, loci = loci, label = unr_name)
-  }
+  genotypes <- .wide_references_to_allele_tables(samples)
 
   # reorder
   if (return_non_contributors){

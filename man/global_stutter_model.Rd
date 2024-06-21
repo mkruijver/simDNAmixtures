@@ -4,7 +4,12 @@
 \alias{global_stutter_model}
 \title{Global stutter model where the expected stutter rate is constant across alleles and loci}
 \usage{
-global_stutter_model(back_stutter_rate, forward_stutter_rate, size_regression)
+global_stutter_model(
+  back_stutter_rate,
+  forward_stutter_rate,
+  size_regression,
+  sex_locus_name = "AMEL"
+)
 }
 \arguments{
 \item{back_stutter_rate}{Numeric. (Optional)}
@@ -12,6 +17,8 @@ global_stutter_model(back_stutter_rate, forward_stutter_rate, size_regression)
 \item{forward_stutter_rate}{Numeric. (Optional)}
 
 \item{size_regression}{Function, see \link{read_size_regression}.}
+
+\item{sex_locus_name}{Character vector, defaults to "AMEL".}
 }
 \value{
 Object of class \code{stutter_model} to be used by e.g. \link{gamma_model}.

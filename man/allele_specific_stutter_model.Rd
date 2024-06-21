@@ -4,12 +4,18 @@
 \alias{allele_specific_stutter_model}
 \title{Stutter model where the expected stutter rate depends on the allele and locus}
 \usage{
-allele_specific_stutter_model(stutter_types, size_regression)
+allele_specific_stutter_model(
+  stutter_types,
+  size_regression,
+  sex_locus_name = "AMEL"
+)
 }
 \arguments{
 \item{stutter_types}{List. See \link{stutter_type}.}
 
 \item{size_regression}{Function, see \link{read_size_regression}.}
+
+\item{sex_locus_name}{Character vector, defaults to "AMEL".}
 }
 \value{
 Object of class \code{stutter_model} to be used by e.g. \link{log_normal_model}.

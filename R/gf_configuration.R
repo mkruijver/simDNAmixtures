@@ -19,10 +19,14 @@ gf_configuration <- function(){
 
   gf <- list()
 
+  # load kits data
   local_env <- environment()
   utils::data(kits, envir = local_env)
   kits <- local_env$kits
+
   gf$autosomal_markers <- unique(kits$GlobalFiler_Panel_v1$Marker[!kits$GlobalFiler_Panel_v1$Gender.Marker])
+  loci_with_AMEL <- unique(kits$GlobalFiler_Panel_v1$Marker[(!kits$GlobalFiler_Panel_v1$Gender.Marker) |
+                                                              (kits$GlobalFiler_Panel_v1$Marker == "AMEL")])
 
   repeat_length_by_marker <- stats::setNames(kits$GlobalFiler_Panel_v1$Repeat[
     match(gf$autosomal_markers, kits$GlobalFiler_Panel_v1$Marker)],
@@ -33,7 +37,8 @@ gf_configuration <- function(){
   # size regression
   filename_size_regression <- system.file("extdata","GlobalFiler_SizeRegression.csv",
                                           package = "simDNAmixtures")
-  gf$size_regression <- read_size_regression(filename_size_regression)
+  gf$size_regression <- read_size_regression(filename_size_regression,
+                        exceptions = list(AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
 
   gf$stutters <- list()
 
@@ -98,14 +103,14 @@ gf_configuration <- function(){
                              max_stutter_ratio = 0.05)
   )
 
-  detection_threshold <- c(D3S1358 = 75, vWA = 75, D16S539 = 75, CSF1PO = 75, TPOX = 75,
+  detection_threshold <- c(D3S1358 = 75, vWA = 75, D16S539 = 75, CSF1PO = 75, TPOX = 75, AMEL = 75,
                            D8S1179 = 100, D21S11 = 100, D18S51 = 100, D2S441 = 60, D19S433 = 60,
                            TH01 = 60, FGA = 60, D22S1045 = 80, D5S818 = 80, D13S317 = 80,
                            D7S820 = 80, SE33 = 80, D10S1248 = 100, D1S1656 = 100, D12S391 = 100,
                            D2S1338 = 100)
 
   gf$log_normal_settings <- list(
-    locus_names = gf$autosomal_markers,
+    locus_names = loci_with_AMEL,
     degradation_parameter_cap = 0.01,
     c2_prior = c(8.45,1.746),
     LSAE_variance_prior = 0.019,
@@ -119,7 +124,7 @@ gf_configuration <- function(){
     "BackStutter", "ForwardStutter")],
     size_regression = gf$size_regression)
 
-  detection_threshold_75 <- c(D3S1358 = 75, vWA = 75, D16S539 = 75, CSF1PO = 75, TPOX = 75,
+  detection_threshold_75 <- c(D3S1358 = 75, vWA = 75, D16S539 = 75, CSF1PO = 75, TPOX = 75, AMEL = 75,
                               D8S1179 = 75, D21S11 = 75, D18S51 = 75, D2S441 = 75, D19S433 = 75,
                               TH01 = 75, FGA = 75, D22S1045 = 75, D5S818 = 75, D13S317 = 75,
                               D7S820 = 75, SE33 = 75, D10S1248 = 75, D1S1656 = 75, D12S391 = 75,
@@ -135,7 +140,7 @@ gf_configuration <- function(){
 
 
   gf$log_normal_bwfw_settings <- list(
-    locus_names = gf$autosomal_markers,
+    locus_names = loci_with_AMEL,
     degradation_parameter_cap = 0.01,
     c2_prior = c(4.865, 3.101),
     LSAE_variance_prior = 0.0217,
@@ -146,7 +151,7 @@ gf_configuration <- function(){
   )
 
   gf$gamma_settings <- list(
-    locus_names = gf$autosomal_markers,
+    locus_names = loci_with_AMEL,
     detection_threshold = detection_threshold,
     LSAE_variance_prior = 0,
     size_regression = gf$size_regression,
@@ -154,7 +159,7 @@ gf_configuration <- function(){
   )
 
   gf$gamma_settings_no_stutter <- list(
-    locus_names = gf$autosomal_markers,
+    locus_names = loci_with_AMEL,
     detection_threshold = detection_threshold,
     LSAE_variance_prior = 0,
     size_regression = gf$size_regression

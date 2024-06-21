@@ -3,6 +3,7 @@
 #' @param pedigree [ped][pedtools::ped] object
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
 #' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
+#' @param unrelated_names Character vector with names of any additional unrelated persons. Defaults to length zero.
 #' @param linkage_map A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent.
 #' @param number_of_replicates An integer specifying the number of replicate genotype samples to generate. Defaults to 1.
 #' @param sex_locus_name Character vector, defaults to "AMEL"
@@ -10,10 +11,14 @@
 #' @seealso \link{read_allele_freqs}
 #' @export
 sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
-                                           number_of_extra_unrelateds = 0L,
+                                           unrelated_names = character(),
                                            linkage_map,
                                            number_of_replicates = 1L,
                                            sex_locus_name = "AMEL"){
+
+  if (missing(pedigree)){
+    pedigree <- dummy_pedigree
+  }
 
   .validate_pedigree(pedigree, disallow_U_names = TRUE)
   .validate_freqs(freqs, loci)
@@ -32,14 +37,20 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
 
   # sample founders
   x <- .sample_many_founders(pedigree, number_of_replicates = number_of_replicates,
-                             number_of_extra_unrelateds = number_of_extra_unrelateds,
+                             unrelated_names = unrelated_names,
                              freqs = freqs, loci = loci,
                              sex_locus_name = sex_locus_name)
 
 
+  # if there are no non-founders, then we are done here!
+
   # prepare indices for dropping alleles
   ped_row_is_founder <- pedigree$FIDX == 0 & pedigree$MIDX == 0
   ped_row_is_non_founder <- !ped_row_is_founder
+
+  if (!any(ped_row_is_non_founder)){
+    return(x)
+  }
 
   ped_non_founder_row_idx <- which(ped_row_is_non_founder)
   ped_non_founder_fidx <- pedigree$FIDX[ped_non_founder_row_idx]
@@ -48,9 +59,9 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
   transmissions <- data.frame(non_founder_row = rep(ped_non_founder_row_idx, each = 2),
                               fidx = rep(ped_non_founder_fidx, each = 2),
                               midx = rep(ped_non_founder_midx, each = 2),
-                              allele = c(1, 2))
+                              allele = if (length(ped_non_founder_row_idx)>0) c(1, 2) else integer())
 
-  number_of_persons <- length(pedigree$ID) + number_of_extra_unrelateds
+  number_of_persons <- length(pedigree$ID) + length(unrelated_names)
 
   replicate_row_offsets <- rep(seq(from = 0, to = number_of_replicates - 1),
                                each = nrow(transmissions)) * number_of_persons

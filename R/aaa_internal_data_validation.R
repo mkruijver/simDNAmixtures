@@ -22,6 +22,25 @@
   }
 }
 
+.validate_sex_locus_freqs <- function(a, f){
+
+  sum_of_freqs <- sum(f)
+  if (abs(sum_of_freqs - 1) > 1e-5){
+    stop("Sum of freqs at sex locus needs to be 1 but is ", sum_of_freqs)
+  }
+
+  if (!all(2 == sapply(a, function(x) length(strsplit(x, split = ",")[[1]])))){
+    stop("Sex locus needs to have frequency for genotypes of exactly two alleles")
+  }
+
+  if (!(AMEL_XX_packed %in% a)){
+    stop("Sex locus needs to have frequency for X,X")
+  }
+  if (!(AMEL_XY_packed %in% a)){
+    stop("Sex locus needs to have frequency for X,Y")
+  }
+}
+
 .ped_forbidden_names <- paste0("U", seq_len(10))
 
 #' Validate Pedigree Object

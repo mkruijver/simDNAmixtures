@@ -2,6 +2,7 @@
 #'
 #' @param stutter_types List. See \link{stutter_type}.
 #' @param size_regression Function, see \link{read_size_regression}.
+#' @param sex_locus_name Character vector, defaults to "AMEL".
 #' @details When a pg_model is constructed (see \link{gamma_model}), a stutter model can optionally be applied. The allele specific stutter model is commonly used with a log normal model. The expected stutter ratio for a parent allele at a locus is obtained from a linear regression of observed stutter ratios against allele length. For some loci or alleles the linear model may not be satisfactory. To override the expected stutter rates for specific alleles, a list of exceptions can be used. See \link{stutter_type} for more detail.
 #' @return Object of class \code{stutter_model} to be used by e.g. \link{log_normal_model}.
 #' @seealso \link{global_stutter_model} for a stutter model where the expected stutter ratio does not depend on the locus or parent allele.
@@ -29,10 +30,11 @@
 #' bs_model <- allele_specific_stutter_model(list(backstutter), size_regression)
 #' bs_model
 #' @export
-allele_specific_stutter_model <- function(stutter_types, size_regression){
+allele_specific_stutter_model <- function(stutter_types, size_regression, sex_locus_name = "AMEL"){
 
   stutter_model <- list(stutter_types = stutter_types,
-                        size_regression = size_regression)
+                        size_regression = size_regression,
+                        sex_locus_name = sex_locus_name)
   class(stutter_model) <- "stutter_model"
 
   stutter_model$add_expected_stutter <- function(...) allele_specific_stutter_model_add_expected_stutter(stutter_model, ...)
@@ -65,7 +67,11 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
     for (i_row in seq_len(nrow(x))){
       marker <- x$Marker[i_row]
 
-      if (stutter$applies_to_all_loci | (marker %in% stutter$applies_to_loci)){
+      is_sex_locus <- marker == stutter_model$sex_locus_name
+      applies_to_locus <- (!is_sex_locus) &
+        (stutter$applies_to_all_loci | (marker %in% stutter$applies_to_loci))
+
+      if (applies_to_locus){
         parent <- x$Allele[i_row]
         parent_size <- x$Size[i_row]
 
