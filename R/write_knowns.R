@@ -7,6 +7,6 @@ write_knowns <- function(contributor_genotypes, knowns_dir, sample_name){
 
     utils::write.table(x = contributor_genotypes[[contributor_name]],
                 file = knowns_path, quote = FALSE,
-                sep = "\t",row.names = FALSE)
+                sep = "\t",row.names = FALSE, na = "")
   }
 }
