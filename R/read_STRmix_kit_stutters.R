@@ -32,7 +32,8 @@
 
     applicable_loci <- as.character(unlist(stutter_settings$applicableLoci))
 
-    applies_to_all_loci <- all(locus_names %in% applicable_loci)
+    applies_to_all_loci <- .parse_STRmix_boolean(attr(stutter_settings$applicableLoci, "all")) |
+      all(locus_names %in% applicable_loci)
 
     stutter_regression <- read_stutter_regression(file.path(stutters_dir, regression_file))
     stutter_exceptions <- if (is.null(exceptions_file)) NULL else read_stutter_exceptions(file.path(stutters_dir, exceptions_file))
