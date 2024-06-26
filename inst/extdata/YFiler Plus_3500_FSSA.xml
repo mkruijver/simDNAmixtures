@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<profilingKit kitName="YFiler Plus_3500_FSSA">
+    <kitType>YFiler Plus</kitType>
+    <sizeRegressionFile>YFiler Plus_SizeRegression.csv</sizeRegressionFile>
+    <dyeSet count="5">
+        <dyeChannel name="6-FAM">
+            <dyeColour>blue</dyeColour>
+        </dyeChannel>
+        <dyeChannel name="VIC">
+            <dyeColour>green</dyeColour>
+        </dyeChannel>
+        <dyeChannel name="NED">
+            <dyeColour>yellow</dyeColour>
+        </dyeChannel>
+        <dyeChannel name="TAZ">
+            <dyeColour>red</dyeColour>
+        </dyeChannel>
+        <dyeChannel name="SID">
+            <dyeColour>purple</dyeColour>
+        </dyeChannel>
+    </dyeSet>
+    <loci count="25">
+        <locus name="DYS576">
+            <dyeColour>blue</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS389I">
+            <dyeColour>blue</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS635">
+            <dyeColour>blue</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS389II">
+            <dyeColour>blue</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS627">
+            <dyeColour>blue</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS460">
+            <dyeColour>green</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS458">
+            <dyeColour>green</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS19">
+            <dyeColour>green</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="YGATAH4">
+            <dyeColour>green</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS448">
+            <dyeColour>green</dyeColour>
+            <repeatLength>6</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS391">
+            <dyeColour>green</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS456">
+            <dyeColour>yellow</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS390">
+            <dyeColour>yellow</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS438">
+            <dyeColour>yellow</dyeColour>
+            <repeatLength>5</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS392">
+            <dyeColour>yellow</dyeColour>
+            <repeatLength>3</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS518">
+            <dyeColour>yellow</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS570">
+            <dyeColour>red</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS437">
+            <dyeColour>red</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS385">
+            <dyeColour>red</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+            <multiCopyMarker>Y</multiCopyMarker>
+        </locus>
+        <locus name="DYS449">
+            <dyeColour>red</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS393">
+            <dyeColour>purple</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS439">
+            <dyeColour>purple</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYS481">
+            <dyeColour>purple</dyeColour>
+            <repeatLength>3</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+        <locus name="DYF387S1">
+            <dyeColour>purple</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+            <multiCopyMarker>Y</multiCopyMarker>
+        </locus>
+        <locus name="DYS533">
+            <dyeColour>purple</dyeColour>
+            <repeatLength>4</repeatLength>
+            <yMarker>Y</yMarker>
+        </locus>
+    </loci>
+    <kitSettings name="YFiler Plus_3500">
+        <detectionThresholds>
+            <threshold locus="DYS576">50</threshold>
+            <threshold locus="DYS389I">50</threshold>
+            <threshold locus="DYS635">50</threshold>
+            <threshold locus="DYS389II">50</threshold>
+            <threshold locus="DYS627">50</threshold>
+            <threshold locus="DYS460">50</threshold>
+            <threshold locus="DYS458">50</threshold>
+            <threshold locus="DYS19">50</threshold>
+            <threshold locus="YGATAH4">50</threshold>
+            <threshold locus="DYS448">50</threshold>
+            <threshold locus="DYS391">50</threshold>
+            <threshold locus="DYS456">50</threshold>
+            <threshold locus="DYS390">50</threshold>
+            <threshold locus="DYS438">50</threshold>
+            <threshold locus="DYS392">50</threshold>
+            <threshold locus="DYS518">50</threshold>
+            <threshold locus="DYS570">50</threshold>
+            <threshold locus="DYS437">50</threshold>
+            <threshold locus="DYS385">50</threshold>
+            <threshold locus="DYS449">50</threshold>
+            <threshold locus="DYS393">50</threshold>
+            <threshold locus="DYS439">50</threshold>
+            <threshold locus="DYS481">50</threshold>
+            <threshold locus="DYF387S1">50</threshold>
+            <threshold locus="DYS533">50</threshold>
+        </detectionThresholds>
+        <useDynamicThresholds>N</useDynamicThresholds>
+        <ignoredLoci/>
+        <saturation>30000</saturation>
+        <degradationStartsAt>-1.0</degradationStartsAt>
+        <degradationMax>0.01</degradationMax>
+        <dropinCap>300</dropinCap>
+        <dropinRateParameter>1.0E-4</dropinRateParameter>
+        <dropinGammaParameters>0.0,0.0</dropinGammaParameters>
+        <allelicVariance>4.865,3.101</allelicVariance>
+        <useDropoutModel>N</useDropoutModel>
+        <minVarFactor>0.5</minVarFactor>
+        <locusAmpVariance>0.0217</locusAmpVariance>
+        <varianceMinimizationParameter>1000.0</varianceMinimizationParameter>
+        <stutters count="15">
+            <stutter name="B3R">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-3,0</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B3R_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="16">
+                    <locus>DYS576</locus>
+                    <locus>DYS635</locus>
+                    <locus>DYS389II</locus>
+                    <locus>DYS627</locus>
+                    <locus>DYS460</locus>
+                    <locus>DYS458</locus>
+                    <locus>YGATAH4</locus>
+                    <locus>DYS456</locus>
+                    <locus>DYS570</locus>
+                    <locus>DYS437</locus>
+                    <locus>DYS385</locus>
+                    <locus>DYS449</locus>
+                    <locus>DYS393</locus>
+                    <locus>DYS481</locus>
+                    <locus>DYF387S1</locus>
+                    <locus>DYS533</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B2R">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-2,0</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B2R_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci all="Y" excludeGender="N" excludeQuality="N" excludeYMarkers="N"/>
+            </stutter>
+            <stutter name="B2RP1">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-2,1</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B2RP1_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="2">
+                    <locus>DYS518</locus>
+                    <locus>DYS481</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B2RP2">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-2,2</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B2RP2_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="3">
+                    <locus>DYS627</locus>
+                    <locus>DYS19</locus>
+                    <locus>DYS448</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B1R">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-1,0</positionRelativeToParent>
+                <inverselyProportionalToParent>Y</inverselyProportionalToParent>
+                <stutterMax>0.3</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B1R_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci all="Y" excludeGender="N" excludeQuality="N" excludeYMarkers="N"/>
+            </stutter>
+            <stutter name="B1RP1">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-1,1</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B1RP1_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="2">
+                    <locus>DYS518</locus>
+                    <locus>DYS481</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B1RP2">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-1,2</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B1RP2_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="8">
+                    <locus>DYS576</locus>
+                    <locus>DYS627</locus>
+                    <locus>DYS460</locus>
+                    <locus>DYS19</locus>
+                    <locus>DYS448</locus>
+                    <locus>DYS438</locus>
+                    <locus>DYS449</locus>
+                    <locus>DYS439</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B1RP3">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-1,3</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B1RP3_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="2">
+                    <locus>DYS456</locus>
+                    <locus>DYS439</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="F0RP2">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>0,2</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_F0RP2_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="1">
+                    <locus>DYS19</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="F1R">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>1,0</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_F1R_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci all="Y" excludeGender="N" excludeQuality="N" excludeYMarkers="N"/>
+            </stutter>
+            <stutter name="F2R">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>2,0</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_F2R_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="7">
+                    <locus>DYS19</locus>
+                    <locus>DYS392</locus>
+                    <locus>DYS385</locus>
+                    <locus>DYS393</locus>
+                    <locus>DYS481</locus>
+                    <locus>DYF387S1</locus>
+                    <locus>DYS533</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B2P3">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-2,3</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B2RP3_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="7">
+                    <locus>DYS458</locus>
+                    <locus>DYS391</locus>
+                    <locus>DYS456</locus>
+                    <locus>DYS390</locus>
+                    <locus>DYS438</locus>
+                    <locus>DYS437</locus>
+                    <locus>DYS439</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="B2P4">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>-2,4</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_B2RP4_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="1">
+                    <locus>DYS438</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="F0P3">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>0,3</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_F0RP3_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="5">
+                    <locus>DYS389I</locus>
+                    <locus>DYS458</locus>
+                    <locus>DYS456</locus>
+                    <locus>DYS437</locus>
+                    <locus>DYS393</locus>
+                </applicableLoci>
+            </stutter>
+            <stutter name="F1P2">
+                <enabled>Y</enabled>
+                <positionRelativeToParent>1,2</positionRelativeToParent>
+                <inverselyProportionalToParent>N</inverselyProportionalToParent>
+                <stutterMax>0.15</stutterMax>
+                <stutterVariance>4.865,3.101</stutterVariance>
+                <regressionFile>YFiler Plus_F1RP2_Stutter regression.csv</regressionFile>
+                <exceptionsFile></exceptionsFile>
+                <applicableLoci count="3">
+                    <locus>DYS460</locus>
+                    <locus>DYS19</locus>
+                    <locus>DYS456</locus>
+                </applicableLoci>
+            </stutter>
+        </stutters>
+    </kitSettings>
+</profilingKit>
