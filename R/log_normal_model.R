@@ -66,7 +66,8 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
 
   model <- list()
 
-  parameters <- list(template = template,
+  parameters <- list(model = "log_normal_model",
+                     template = template,
                      degradation = degradation,
                      c2 = c2)
 

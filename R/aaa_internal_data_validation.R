@@ -99,6 +99,8 @@
   if (length(x) != 1){
     stop(param_name, " needs to be a logical of length 1")
   }
+
+  x
 }
 
 .validate_integer <- function(n, param_name, require_strictly_positive = FALSE){
@@ -118,6 +120,8 @@
   if (require_strictly_positive & (n <= 0)){
     stop(param_name, " needs to be strictly positive")
   }
+
+  as.integer(n)
 }
 
 .validate_or_generate_seed <- function(seed){

@@ -120,7 +120,8 @@ gamma_model <- function(mixture_proportions, mu, cv,
   model$locus_names <- locus_names
   model$detection_threshold <- detection_threshold
 
-  parameters <- list(mixture_proportions = mixture_proportions,
+  parameters <- list(model = "gamma_model",
+                     mixture_proportions = mixture_proportions,
                      mu = mu,
                      cv = cv,
                      degradation_beta = degradation_beta,

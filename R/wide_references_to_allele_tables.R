@@ -1,5 +1,10 @@
 .wide_references_to_allele_tables <- function(x){
 
+  if (isTRUE(startsWith(tolower(names(x)[2]), "sample"))){
+    rownames(x) <- x[[2]]
+    return(.wide_references_to_allele_tables(x[-c(1, 2)]))
+  }
+
   sample_names <- rownames(x)
   locus_names <- colnames(x)[seq(from = 1L, to = length(colnames(x)), by = 2L)]
 

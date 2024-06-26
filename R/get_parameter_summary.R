@@ -1,11 +1,20 @@
 get_parameter_summary <- function(samples){
 
   # collect all parameter names across samples and their max length
-  parameter_names <- unique(c(lapply(samples, function(x)
-                            names(x$model$parameters)), recursive=TRUE))
+  parameter_names <-c("contributors",
+                      unique(c(lapply(samples, function(x)
+                            names(x$model$parameters)), recursive=TRUE)))
 
   get_max_length_by_parameter_name <- function(parameter_name, s){
-    max(sapply(s, function(x) length(x$model$parameters[[parameter_name]])))
+    max(sapply(s, function(x) {
+
+      if (parameter_name != "contributors"){
+        return(length(x$model$parameters[[parameter_name]]))
+      }else{
+        return(length(x$contributor_genotypes))
+      }
+
+      } ))
   }
 
   max_length_by_parameter_name <- sapply(parameter_names, function(parameter_name){
@@ -17,6 +26,7 @@ get_parameter_summary <- function(samples){
   for (i_sample in seq_along(samples)){
     # for this sample, collect dfs for each parameter
     parameters <- samples[[i_sample]]$model$parameters
+    parameters$contributors <- names(samples[[i_sample]]$contributor_genotypes)
 
     dfs_by_parameter_name <- list()
 
