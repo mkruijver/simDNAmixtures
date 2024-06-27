@@ -20,7 +20,7 @@
 #' @export
 sample_offspring <- function(father, mother, label = "Child"){
 
-  .validate_character(label, "label", required_length = 1L)
+  .validate_character(label, required_length = 1L)
 
   check_genotype_df(father, "father")
   check_genotype_df(mother, "mother")

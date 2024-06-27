@@ -32,15 +32,15 @@ stutter_type <- function(name, delta,
   stutter <- list()
   class(stutter) <- "stutter_type"
 
-  .validate_character(name, "name", required_length = 1L)
-  .validate_logical(applies_to_all_loci, "applies_to_all_loci")
+  .validate_character(name, required_length = 1L)
+  .validate_logical(applies_to_all_loci)
 
   if ((!applies_to_all_loci) & missing(applies_to_loci)){
     stop("applies_to_all_loci is FALSE but applies_to_loci is missing")
   }
 
   if (!missing(applies_to_loci)){
-    .validate_character(applies_to_loci, "applies_to_loci")
+    .validate_character(applies_to_loci)
   }
 
   if (!is.numeric(delta)){

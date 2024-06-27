@@ -37,16 +37,14 @@ log_normal_model <- function(template, degradation = rep(0., length(template)),
                              c2, k2,
                              model_settings){
 
-  .validate_numeric(template, "template",
-                    require_strictly_positive = TRUE, require_length_one = FALSE)
-  .validate_numeric(degradation, "degradation",
-                    require_nonnegative = TRUE, require_length_one = FALSE)
+  .validate_numeric(template, require_strictly_positive = TRUE, require_length_one = FALSE)
+  .validate_numeric(degradation, require_nonnegative = TRUE, require_length_one = FALSE)
 
   if ((!is.numeric(degradation)) || (length(degradation) != length(template)) ){
     stop("degradation should be a numeric of length ", length(template))
   }
 
-  c2 <- .validate_numeric(c2, "c2", require_strictly_positive = TRUE)
+  c2 <- .validate_numeric(c2, require_strictly_positive = TRUE)
 
   validate_log_normal_model_settings(model_settings, LSAE, k2)
 

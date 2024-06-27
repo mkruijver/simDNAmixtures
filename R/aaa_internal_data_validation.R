@@ -92,6 +92,8 @@
 }
 
 .validate_logical <- function(x, param_name){
+  if (missing(param_name)) param_name <- as.character(match.call()$x)
+
   if (!is.logical(x)){
     stop(param_name, " needs to be a logical")
   }
@@ -104,6 +106,7 @@
 }
 
 .validate_integer <- function(n, param_name, require_strictly_positive = FALSE){
+  if (missing(param_name)) param_name <- as.character(match.call()$n)
 
   if (length(n) != 1){
     stop(param_name, " needs to have length 1")
@@ -125,9 +128,12 @@
 }
 
 .validate_character <- function(x, param_name, required_length){
+  if (missing(param_name)) param_name <- as.character(match.call()$x)
 
-  if ((!missing(required_length)) & (length(x) != required_length) ){
-    stop(param_name, " needs to have length ", required_length)
+  if (!missing(required_length)){
+    if (length(x) != required_length){
+      stop(param_name, " needs to have length ", required_length)
+    }
   }
 
   if (!is.character(x)){
@@ -138,6 +144,8 @@
 .validate_numeric <- function(x, param_name, require_strictly_positive = FALSE,
                               require_nonnegative = FALSE,
                               require_length_one = TRUE){
+
+  if (missing(param_name)) param_name <- as.character(match.call()$x)
 
   if (require_length_one & (length(x) != 1)){
     stop(param_name, " needs to have length 1")
@@ -156,6 +164,31 @@
   }
 
   as.numeric(x)
+}
+
+.validate_clamp <- function(x, param_name, minimum = NA, maximum = NA,
+                            strict_minimum = FALSE,
+                            strict_maximum = FALSE){
+
+  if (missing(param_name)) param_name <- as.character(match.call()$x)
+
+  if (!is.na(minimum)){
+    if (any(x < minimum)){
+      stop(param_name, " needs to be at least ", minimum)
+    }
+    if (strict_minimum & any(x <= minimum)){
+      stop(param_name, " needs to be more than ", minimum)
+    }
+  }
+
+  if (!is.na(maximum)){
+    if (any(x > maximum)){
+      stop(param_name, " needs to be at most ", maximum)
+    }
+    if (strict_maximum & any(x >= strict_maximum)){
+      stop(param_name, " needs to be less than ", strict_maximum)
+    }
+  }
 }
 
 .validate_or_generate_seed <- function(seed){

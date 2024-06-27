@@ -82,9 +82,8 @@ sample_mixtures_from_genotypes <- function(n,
                                            tag = "simulation", silent = FALSE){
 
   # validate inputs
-  .validate_integer(n, "n", require_strictly_positive = TRUE)
-  .validate_integer(number_of_replicates, "number_of_replicates",
-                    require_strictly_positive = TRUE)
+  .validate_integer(n, require_strictly_positive = TRUE)
+  .validate_integer(number_of_replicates, require_strictly_positive = TRUE)
 
   # if seed is missing we obtain one here
   seed_validated <- .validate_or_generate_seed(seed)

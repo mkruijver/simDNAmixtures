@@ -48,8 +48,8 @@ gamma_model <- function(mixture_proportions, mu, cv,
                                         model_settings$locus_names),
                         model_settings){
 
-  .validate_numeric(mixture_proportions, "mixture_proportions",
-                    require_strictly_positive = TRUE, require_length_one = FALSE)
+  .validate_numeric(mixture_proportions,require_strictly_positive = TRUE,
+                    require_length_one = FALSE)
 
   if (!isTRUE(all.equal(sum(mixture_proportions), 1))){
     stop("mixture_proportions should sum to 1")
@@ -59,8 +59,8 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("degradation_beta should be a numeric of length ",
          length(mixture_proportions))
   }
-  .validate_numeric(degradation_beta, "mixture_proportions",
-                    require_nonnegative = TRUE, require_length_one = FALSE)
+  .validate_numeric(degradation_beta, require_nonnegative = TRUE,
+                    require_length_one = FALSE)
   if (any(degradation_beta > 1)){
     stop("degradation_beta should not exceed 1")
   }
@@ -82,13 +82,12 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("all locus names need to be in names(detection_threshold)")
   }
 
-  .validate_numeric(LSAE, "LSAE",
-                    require_nonnegative = TRUE, require_length_one = FALSE)
-  .validate_numeric(detection_threshold, "detection_threshold",
-                    require_nonnegative = TRUE, require_length_one = FALSE)
-  .validate_numeric(mu, "mu", require_strictly_positive = TRUE,
+  .validate_numeric(LSAE, require_nonnegative = TRUE, require_length_one = FALSE)
+  .validate_numeric(detection_threshold, require_nonnegative = TRUE,
+                    require_length_one = FALSE)
+  .validate_numeric(mu, require_strictly_positive = TRUE,
                     require_length_one = TRUE)
-  .validate_numeric(cv, "mu", require_nonnegative = TRUE,
+  .validate_numeric(cv, require_nonnegative = TRUE,
                     require_length_one = TRUE)
 
   if (!is.null(stutter_model)){
