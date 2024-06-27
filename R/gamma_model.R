@@ -48,24 +48,19 @@ gamma_model <- function(mixture_proportions, mu, cv,
                                         model_settings$locus_names),
                         model_settings){
 
-  if (!is.numeric(mixture_proportions)){
-    stop("mixture_proportions should be a numeric vector")
-  }
-  if (any(mixture_proportions <= 0)){
-    stop("mixture_proportions should be positive")
-  }
+  .validate_numeric(mixture_proportions, "mixture_proportions",
+                    require_strictly_positive = TRUE, require_length_one = FALSE)
+
   if (!isTRUE(all.equal(sum(mixture_proportions), 1))){
     stop("mixture_proportions should sum to 1")
   }
 
-  if ((!is.numeric(degradation_beta)) || (length(degradation_beta) != length(mixture_proportions)) ){
-    stop("degradation_beta should be a numeric of length ", length(mixture_proportions))
+  if (length(degradation_beta) != length(mixture_proportions)){
+    stop("degradation_beta should be a numeric of length ",
+         length(mixture_proportions))
   }
-
-  if (any(degradation_beta <= 0)){
-    stop("degradation_beta should be positive")
-  }
-
+  .validate_numeric(degradation_beta, "mixture_proportions",
+                    require_nonnegative = TRUE, require_length_one = FALSE)
   if (any(degradation_beta > 1)){
     stop("degradation_beta should not exceed 1")
   }
@@ -87,27 +82,14 @@ gamma_model <- function(mixture_proportions, mu, cv,
     stop("all locus names need to be in names(detection_threshold)")
   }
 
-  if (!is.numeric(LSAE)){
-    stop("LSAE needs to be numeric")
-  }
-
-  if (!is.numeric(detection_threshold)){
-    stop("detection_threhold needs to be numeric")
-  }
-
-  if ((!is.numeric(mu)) || (length(mu) != 1) ){
-    stop("mu should be a numeric of length 1")
-  }
-  if (mu <= 0){
-    stop("mu should be positive")
-  }
-
-  if ((!is.numeric(cv)) || (length(cv) != 1) ){
-    stop("cv should be a numeric of length 1")
-  }
-  if (cv < 0){
-    stop("cv should be non-negative")
-  }
+  .validate_numeric(LSAE, "LSAE",
+                    require_nonnegative = TRUE, require_length_one = FALSE)
+  .validate_numeric(detection_threshold, "detection_threshold",
+                    require_nonnegative = TRUE, require_length_one = FALSE)
+  .validate_numeric(mu, "mu", require_strictly_positive = TRUE,
+                    require_length_one = TRUE)
+  .validate_numeric(cv, "mu", require_nonnegative = TRUE,
+                    require_length_one = TRUE)
 
   if (!is.null(stutter_model)){
     if (!inherits(stutter_model, "stutter_model")){

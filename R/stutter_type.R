@@ -32,25 +32,15 @@ stutter_type <- function(name, delta,
   stutter <- list()
   class(stutter) <- "stutter_type"
 
-  if (!is.character(name)){
-    stop("name is not a character")
-  }
-  if (length(name)!=1){
-    stop("name is not length 1")
-  }
-
-  if ((!is.logical(applies_to_all_loci)) || (length(applies_to_all_loci) != 1)){
-    stop("applies_to_all_loci needs to be a logical of length 1")
-  }
+  .validate_character(name, "name", required_length = 1L)
+  .validate_logical(applies_to_all_loci, "applies_to_all_loci")
 
   if ((!applies_to_all_loci) & missing(applies_to_loci)){
     stop("applies_to_all_loci is FALSE but applies_to_loci is missing")
   }
 
   if (!missing(applies_to_loci)){
-    if (!is.character(applies_to_loci)){
-      stop("applies_to_loci is not a character vector of locus names")
-    }
+    .validate_character(applies_to_loci, "applies_to_loci")
   }
 
   if (!is.numeric(delta)){

@@ -124,6 +124,40 @@
   as.integer(n)
 }
 
+.validate_character <- function(x, param_name, required_length){
+
+  if ((!missing(required_length)) & (length(x) != required_length) ){
+    stop(param_name, " needs to have length ", required_length)
+  }
+
+  if (!is.character(x)){
+    stop(param_name, " needs to be a character")
+  }
+}
+
+.validate_numeric <- function(x, param_name, require_strictly_positive = FALSE,
+                              require_nonnegative = FALSE,
+                              require_length_one = TRUE){
+
+  if (require_length_one & (length(x) != 1)){
+    stop(param_name, " needs to have length 1")
+  }
+
+  if (!(is.numeric(x) | is.integer(x))){
+    stop(param_name, " needs to be numeric")
+  }
+
+  if (require_nonnegative & any(x < 0.)){
+    stop(param_name, " needs to be non-negative")
+  }
+
+  if (require_strictly_positive & any(x <= 0.)){
+    stop(param_name, " needs to be strictly positive")
+  }
+
+  as.numeric(x)
+}
+
 .validate_or_generate_seed <- function(seed){
   if (!missing(seed)){
 

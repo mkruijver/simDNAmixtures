@@ -20,12 +20,7 @@
 #' @export
 sample_offspring <- function(father, mother, label = "Child"){
 
-  if (!is.character(label)){
-    stop("label should be a character vector")
-  }
-  if (length(label)!=1){
-    stop("label should be a character vector of length 1")
-  }
+  .validate_character(label, "label", required_length = 1L)
 
   check_genotype_df(father, "father")
   check_genotype_df(mother, "mother")
