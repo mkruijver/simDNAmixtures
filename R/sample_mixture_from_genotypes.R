@@ -35,12 +35,7 @@ sample_mixture_from_genotypes <- function(genotypes, model, sample_name = "mixtu
   if (!all(sapply(genotypes, is.data.frame))){
     stop("genotypes is not a list of DataFrames")
   }
-  if (!is.character(sample_name)){
-    stop("sample_name is not a character")
-  }
-  if (length(sample_name) != 1){
-    stop("sample_name is not length 1")
-  }
+  .validate_character(sample_name, required_length = 1L)
 
   profile <- model$build_expected_profile_and_sample_peak_heights(genotypes)
 

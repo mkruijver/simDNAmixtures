@@ -52,6 +52,19 @@
 #'                             sampling_parameters = sampling_parameters,
 #'                             model_settings = gf$gamma_settings_no_stutter,
 #'                             sample_model = sample_gamma_model)
+#'
+#' # an example using the semi-continuous drop model
+#'
+#' drop_model_sampling_parameters <- list(min_dropout_probability. = 0.,
+#'                                        max_dropout_probability. = 0.5)
+#'
+#' drop_model_settings <- list(locus_names = gf$autosomal_markers,
+#'                             size_regression = gf$size_regression)
+#'
+#' mixtures <- sample_mixtures(n = 2, contributors = c("U1", "U2"), freqs = freqs,
+#'                             sampling_parameters = drop_model_sampling_parameters,
+#'                             model_settings = drop_model_settings,
+#'                             sample_model = sample_drop_model)
 #' @export
 sample_mixtures <- function(n, contributors, freqs,
                             linkage_map,

@@ -72,7 +72,8 @@ add_expected_peak_height <- function(x, marker, allele, size, expected, column_n
   }
 }
 
-set_or_add_df_variable <- function(x, marker, allele, size, value, column_name){
+set_or_add_df_variable <- function(x, marker, allele, size, value, column_name,
+                                   sum = FALSE){
   idx <- get_allele_index(x, marker, allele)
 
   if(length(idx)==0){
@@ -83,10 +84,15 @@ set_or_add_df_variable <- function(x, marker, allele, size, value, column_name){
 
     return(dplyr::bind_rows(x, new_df))
   }else if(length(idx)==1){
-    x[[column_name]][idx] <- value
+
+    if (!sum){
+      x[[column_name]][idx] <- value
+    }
+    else{
+      x[[column_name]][idx] <- x[[column_name]][idx] + value
+    }
     return(x)
   }else{
     stop("something wrong")
   }
 }
-
