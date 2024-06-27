@@ -9,7 +9,7 @@ read_size_regression(filename, exceptions)
 \arguments{
 \item{filename}{Path to file (character).}
 
-\item{size_exceptions}{Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.}
+\item{exceptions}{Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.}
 }
 \value{
 A function that takes a locus name and allele as arguments and returns the size.

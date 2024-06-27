@@ -69,12 +69,12 @@ sample_mixtures_fixed_parameters <- function(genotypes,
   get_parameter <- function(parameter_summary, i_sample, parameter_name){
     i_columns <- which(startsWith(names(parameter_summary), parameter_name))
 
-    unlist(na.omit(parameter_summary[i_sample, i_columns]))
+    unlist(stats::na.omit(parameter_summary[i_sample, i_columns]))
   }
 
   for (i_sample in seq_len(number_of_samples)){
 
-    contributor_names <- na.omit(as.character(
+    contributor_names <- stats::na.omit(as.character(
       parameter_summary[i_sample, contributors_columns]))
 
     contributor_genotypes <- genotypes[contributor_names]

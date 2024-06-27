@@ -1,7 +1,7 @@
 #' @title Reads a size regression file
 #'
 #' @param filename Path to file (character).
-#' @param size_exceptions Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.
+#' @param exceptions Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.
 #' @details
 #' Read a regression file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
 #'

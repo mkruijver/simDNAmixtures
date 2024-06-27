@@ -38,7 +38,8 @@ gf_configuration <- function(){
   filename_size_regression <- system.file("extdata","GlobalFiler_SizeRegression.csv",
                                           package = "simDNAmixtures")
   gf$size_regression <- read_size_regression(filename_size_regression,
-                        exceptions = list(AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
+                        exceptions = list(AMEL = stats::setNames(c(98.5, 104.5),
+                                                                 nm = c("X", "Y"))))
 
   gf$stutters <- list()
 
