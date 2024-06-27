@@ -25,7 +25,7 @@ We start by reading the YSTR kit and stutter data.
 ```{r}
   require(simDNAmixtures)
   data_dir <- system.file("extdata", package = "simDNAmixtures")
-  kit_filename <- file.path(data_dir, "YFiler Plus_3500_FSSA.xml")
+  kit_filename <- file.path(data_dir, "YFiler_Plus_3500_FSSA.xml")
   YSTR_kit <- read_STRmix_kit_settings(kit_filename, data_dir)
 ```
 

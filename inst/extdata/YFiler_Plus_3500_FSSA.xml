@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <profilingKit kitName="YFiler Plus_3500_FSSA">
     <kitType>YFiler Plus</kitType>
-    <sizeRegressionFile>YFiler Plus_SizeRegression.csv</sizeRegressionFile>
+    <sizeRegressionFile>YFiler_Plus_SizeRegression.csv</sizeRegressionFile>
     <dyeSet count="5">
         <dyeChannel name="6-FAM">
             <dyeColour>blue</dyeColour>
@@ -196,7 +196,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B3R_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B3R_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="16">
                     <locus>DYS576</locus>
@@ -223,7 +223,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B2R_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B2R_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci all="Y" excludeGender="N" excludeQuality="N" excludeYMarkers="N"/>
             </stutter>
@@ -233,7 +233,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B2RP1_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B2RP1_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="2">
                     <locus>DYS518</locus>
@@ -246,7 +246,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B2RP2_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B2RP2_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="3">
                     <locus>DYS627</locus>
@@ -260,7 +260,7 @@
                 <inverselyProportionalToParent>Y</inverselyProportionalToParent>
                 <stutterMax>0.3</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B1R_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B1R_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci all="Y" excludeGender="N" excludeQuality="N" excludeYMarkers="N"/>
             </stutter>
@@ -270,7 +270,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B1RP1_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B1RP1_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="2">
                     <locus>DYS518</locus>
@@ -283,7 +283,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B1RP2_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B1RP2_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="8">
                     <locus>DYS576</locus>
@@ -302,7 +302,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B1RP3_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B1RP3_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="2">
                     <locus>DYS456</locus>
@@ -315,7 +315,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_F0RP2_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_F0RP2_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="1">
                     <locus>DYS19</locus>
@@ -327,7 +327,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_F1R_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_F1R_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci all="Y" excludeGender="N" excludeQuality="N" excludeYMarkers="N"/>
             </stutter>
@@ -337,7 +337,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_F2R_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_F2R_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="7">
                     <locus>DYS19</locus>
@@ -355,7 +355,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B2RP3_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B2RP3_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="7">
                     <locus>DYS458</locus>
@@ -373,7 +373,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_B2RP4_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_B2RP4_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="1">
                     <locus>DYS438</locus>
@@ -385,7 +385,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_F0RP3_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_F0RP3_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="5">
                     <locus>DYS389I</locus>
@@ -401,7 +401,7 @@
                 <inverselyProportionalToParent>N</inverselyProportionalToParent>
                 <stutterMax>0.15</stutterMax>
                 <stutterVariance>4.865,3.101</stutterVariance>
-                <regressionFile>YFiler Plus_F1RP2_Stutter regression.csv</regressionFile>
+                <regressionFile>YFiler_Plus_F1RP2_Stutter_regression.csv</regressionFile>
                 <exceptionsFile></exceptionsFile>
                 <applicableLoci count="3">
                     <locus>DYS460</locus>
