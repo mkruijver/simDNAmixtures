@@ -141,3 +141,42 @@ test_that("Drop model sampling (2P, known references)", {
 
   expect_setequal(sample_marker_allele, ref_marker_allele)
 })
+
+test_that("Drop model with YSTRs", {
+
+
+  K1 <- structure(list(`Sample Name` = c("K1", "K1", "K1", "K1", "K1", "K1", "K1", "K1", "K1", "K1"),
+                   Locus = c("DYS19", "DYS389I", "DYS389II.I", "DYS390",
+                             "DYS391", "DYS392", "DYS393", "DYS437","DYS438", "DYS439"),
+                   Allele1 = as.character(c(14L, 12L, 16L, 22L, 10L, 11L, 13L, 16L, 10L, 11L)),
+                   Allele2 = c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)),
+                   class = "data.frame", row.names = c(NA, -10L))
+  K2 <- structure(list(`Sample Name` = c("K2", "K2", "K2", "K2", "K2", "K2", "K2", "K2", "K2", "K2"),
+                       Locus = c("DYS19", "DYS389I", "DYS389II.I", "DYS390",
+                                 "DYS391", "DYS392", "DYS393", "DYS437", "DYS438", "DYS439"),
+                       Allele1 = as.character(c(14L, 13L, 15L, 25L, 10L, 13L, 14L, 15L, 12L, 12L)),
+                       Allele2 = c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)),
+                  class = "data.frame", row.names = c(NA, -10L))
+
+
+  locus_names <- c("DYS19", "DYS389I", "DYS389II.I", "DYS390", "DYS391", "DYS392",
+                   "DYS393", "DYS437", "DYS438", "DYS439")
+
+  sampling_parameters <- list(min_dropout_probability. = 0.0, max_dropout_probability. = 0.1)
+
+  drop_model_settings <- list(locus_names = locus_names,
+                              size_regression = function(locus, allele) 0.0)
+
+  model <- drop_model(dropout_probabilities = c(0., 0.), model_settings = drop_model_settings)
+
+  x <- sample_mixture_from_genotypes(genotypes = list(K1, K2), model = model)
+
+  # verify that nothing dropped out
+  sample_marker_allele <- paste0(x$Marker, "_", x$Allele)
+
+  ref_marker_allele <- c(paste0(K1$Locus, "_", K1$Allele1),
+                         paste0(K2$Locus, "_", K2$Allele1))
+
+  expect_setequal(sample_marker_allele, ref_marker_allele)
+
+})
