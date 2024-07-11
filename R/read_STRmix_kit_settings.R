@@ -27,8 +27,23 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
 
   size_regression_filename <- kit_xml$profilingKit$sizeRegressionFile[[1]]
 
+  # read any size exceptions for AMEL
+  size_exceptions <- list()
+  for (x in profiling_kit_loci <- kit_xml$profilingKit$loci){
+    locus_name <- attr(x, "name")
+
+    alleles <- x$alleles
+    if (!is.null(alleles)){
+      alleles_name <- sapply(alleles, function(a) attr(a, "name"))
+      alleles_bp <- as.numeric(sapply(alleles, function(a) attr(a, "basePairs")))
+
+      size_exceptions[[locus_name]] <- setNames(alleles_bp, alleles_name)
+    }
+  }
+
   size_regression <- read_size_regression(
-    file.path(stutters_dir, size_regression_filename))
+    file.path(stutters_dir, size_regression_filename),
+    exceptions = size_exceptions)
 
   locus_names <- as.character(sapply(kit_xml$profilingKit$loci,
                                      function(x) attr(x, "name")))
