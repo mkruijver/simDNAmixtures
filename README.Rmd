@@ -80,6 +80,8 @@ gf <- gf_configuration()
 We are now ready to sample a mixed STR profile. A gamma model is used with $\mu$ sampled uniformly between 50 and 5000 rfu and a coefficient of variation between 5 and 35%.
 
 ```{r}
+set.seed(1)
+
 sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
                            min_cv = 0.05, max_cv = 0.35,
                            degradation_shape1 = 0, degradation_shape2 = 0)
@@ -99,3 +101,8 @@ library(knitr)
 kable(mixtures$samples[[1]]$mixture)
 ```
 
+The genotypes of the two contributors are available as `mixtures$samples[[1]]$contributor_genotypes`.
+
+```{r echo = FALSE, results = 'asis'}
+kable(mixtures$samples[[1]]$contributor_genotypes)
+```
