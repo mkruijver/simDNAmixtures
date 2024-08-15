@@ -125,7 +125,11 @@ allele_specific_stutter_model_add_expected_stutter <- function(stutter_model, x)
     for (i_row in seq_len(nrow(x_pre_stutter_products))){
       marker <- x_pre_stutter_products$Marker[i_row]
 
-      if (stutter$applies_to_all_loci | (marker %in% stutter$applies_to_loci)){
+      is_sex_locus <- marker == stutter_model$sex_locus_name
+      applies_to_locus <- (!is_sex_locus) &
+        (stutter$applies_to_all_loci | (marker %in% stutter$applies_to_loci))
+
+      if (applies_to_locus){
         parent <- x_pre_stutter_products$Allele[i_row]
 
         parent_height <- x_pre_stutter_products$ExpectedAllele[i_row]
