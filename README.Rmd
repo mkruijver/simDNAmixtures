@@ -1,0 +1,101 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "50%"
+)
+```
+
+# simDNAmixtures
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+The goal of **simDNAmixtures** is to provide an easy to use workflow for simulating single source or mixed forensic DNA profiles. These simulations are used in research and validation related to probabilistic genotyping systems and also in studies on relationship testing.
+
+The **simDNAmixtures** package supports simulation of:
+
+-   Autosomal STR profiles (e.g. GlobalFiler™)
+
+-   Autosomal SNP profiles (e.g. Kintelligence or FORCE)
+
+-   YSTR profiles (e.g. Yfiler™ Plus)
+
+Genotypes of the sample contributors may be provided as inputs. For autosomal profiles (STRs or SNPs) it is also possible to sample genotypes according to allele frequencies and a pedigree.
+
+## Installation
+
+To install **simDNAmixtures** from [CRAN](https://cran.r-project.org/):
+
+```{r, eval = FALSE}
+install.packages("pedtools")
+```
+
+Alternatively, you can install the development version of **simDNAmixtures** from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("mkruijver/simDNAmixtures")
+```
+
+## Example (GlobalFiler™ mixture of two siblings)
+
+This example demonstrates how a mixed STR profile comprising two siblings can be simulated. More comprehensive examples of how to set up a simulation study can be found in the vignettes.
+
+The first step is to define a pedigree with the two siblings and their parents using the [pedtools](https://cran.r-project.org/package=pedtools) package.
+
+```{r include = FALSE}
+knitr::opts_chunk$set(
+  out.width = "35%"
+)
+```
+
+```{r, fig.width = 3, fig.height = 2.5}
+library(simDNAmixtures)
+library(pedtools)
+
+ped_fs <- nuclearPed(children = c("S1", "S2"))
+plot(ped_fs)
+```
+
+Further, we load provided data including allele frequencies and data related to the GlobalFiler™ kit such as the locus names, size regression and stutter model.
+
+```{r}
+# load allele frequencies
+freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
+                           package = "simDNAmixtures"))
+
+# load kit data
+gf <- gf_configuration()
+```
+
+We are now ready to sample a mixed STR profile. A gamma model is used with $\mu$ sampled uniformly between 50 and 5000 rfu and a coefficient of variation between 5 and 35%.
+
+```{r}
+sampling_parameters <- list(min_mu = 50., max_mu = 5e3,
+                           min_cv = 0.05, max_cv = 0.35,
+                           degradation_shape1 = 0, degradation_shape2 = 0)
+
+mixtures <- sample_mixtures(n = 1, contributors = c("S1", "S2"), 
+                            pedigree = ped_fs, freqs = freqs,
+                            sampling_parameters = sampling_parameters,
+                            model_settings = gf$gamma_settings,
+                            sample_model = sample_gamma_model)
+
+```
+
+The simulation results are stored in the `mixtures` object. Note that the `results_directory` argument to the `sample_mixtures` function may be used to automatically write results to disk. Below we print the simulated mixture data stored as `mixtures$samples[[1]]$mixture`.
+
+```{r echo = FALSE, results = 'asis'}
+library(knitr)
+kable(mixtures$samples[[1]]$mixture)
+```
+
