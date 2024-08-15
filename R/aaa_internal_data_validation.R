@@ -39,6 +39,11 @@
   if (!(AMEL_XY_packed %in% a)){
     stop("Sex locus needs to have frequency for X,Y")
   }
+
+  sum_of_xx_xy_freqs <- as.numeric(f[AMEL_XX_packed] + f[AMEL_XY_packed])
+  if (abs(sum_of_xx_xy_freqs - 1) > 1e-5){
+    stop("Sum of X,X and X,Y freqs at sex locus needs to be 1 but is ", sum_of_xx_xy_freqs)
+  }
 }
 
 .ped_forbidden_names <- paste0("U", seq_len(10))

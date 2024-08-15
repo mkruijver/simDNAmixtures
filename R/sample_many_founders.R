@@ -1,7 +1,8 @@
 .sample_many_founders <- function(ped, freqs,
                                   unrelated_names = character(),
                                   number_of_replicates = 1L, loci = names(freqs),
-                                  sex_locus_name = "AMEL"){
+                                  sex_locus_name = "AMEL",
+                                  return_integer = FALSE){
 
   # if no pedigree is provided then we create a dummy of size 0
   if (missing(ped)){
@@ -15,7 +16,7 @@
   number_of_loci <- length(loci)
 
   # set up an allele matrix for all persons for all replicates across all loci
-  x <- matrix(data = NA_character_,
+  x <- matrix(data = NA_integer_,
               nrow = number_of_persons * number_of_replicates,
               ncol = 2 * number_of_loci)
 
@@ -54,64 +55,43 @@
       stop("Zero allele frequencies available for locus ", locus_name)
     }
 
-    founder_allele_locus_cols_idx <- rep(c(2 * i_locus - 1, 2 * i_locus), times = number_of_founders * number_of_replicates)
+    founder_allele_locus_cols_idx <- rep(c(2 * i_locus - 1, 2 * i_locus),
+                                         times = number_of_founders * number_of_replicates)
     founder_allele_idx[, 2] <- founder_allele_locus_cols_idx
 
     is_sex_locus <- locus_name == sex_locus_name
 
     if (!is_sex_locus){
       # sample and put the alleles in the right places
-      x[founder_allele_idx] <- a_locus[sample.int(n = length(f_locus),
-                                                  size = number_of_founder_alleles,
-                                                  replace = TRUE, prob = f_locus)]
+      a_int <- sample.int(n = length(f_locus),
+                          size = number_of_founder_alleles,
+                          replace = TRUE, prob = f_locus)
+      x[founder_allele_idx] <- a_int
     }
     else{
       .validate_sex_locus_freqs(a_locus, f_locus)
 
-      # assign XX,XY to pedigree members and extra unrelated persons
+      pr_xy <- as.numeric(f_locus[AMEL_XY_packed])
+      pr_xx <- as.numeric(f_locus[AMEL_XX_packed])
+
+      # prepare a single chunk
+      chunk <- integer(number_of_persons)
       ped_sexed_idx <- which(ped$SEX == 1 | ped$SEX == 2)
-      ped_unknown_sex_idx <- which(ped$SEX == 0)
+      chunk[ped_sexed_idx] <- ped$SEX[ped_sexed_idx]
 
-      number_of_pedigree_members <- length(ped$SEX)
+      # repeat the single chunk
+      chunk_repped <- rep(chunk, number_of_replicates)
 
-      ped_sexed_alleles <- sapply(ped$SEX[ped_sexed_idx], function(s)
-                if (s==1) AMEL_XY_unpacked else AMEL_XX_unpacked)
+      # fill in the blanks
+      chunk_repped_blank_idx <- which(chunk_repped == 0L)
+      chunk_repped[chunk_repped_blank_idx] <- sample.int(
+        n = 2, size = length(chunk_repped_blank_idx),
+        replace = TRUE, prob = c(pr_xy, pr_xx))
 
-      number_of_unsexed_persons <- number_of_extra_unrelateds + length(ped_unknown_sex_idx)
-
-      # unpack alleles from provided genotypes
-      a_locus_split <- lapply(a_locus, function(a) strsplit(a, split = ",")[[1]])
-      extra_unrelateds_idx <- if (number_of_extra_unrelateds == 0) integer() else
-        number_of_pedigree_members + seq_len(number_of_extra_unrelateds)
-
-      for (i_rep in seq_len(number_of_replicates)){
-        number_of_rows_offset <- (i_rep - 1) * number_of_persons
-
-        # write XX,XY for this rep for the sexed ped members
-        if (length(ped_sexed_alleles) > 0){
-          x[cbind(rep(ped_sexed_idx, each = 2) +
-                    number_of_rows_offset,
-                  c(2 * i_locus - 1, 2 * i_locus))] <- ped_sexed_alleles
-        }
-
-        # sample XX,XY for unsexed ped members and unsexed unknown unrelated persons
-        if (number_of_unsexed_persons > 0){
-          genotypes_idx_sampled <- sample.int(n = length(f_locus),
-                                              size = number_of_unsexed_persons,
-                                              replace = TRUE, prob = f_locus)
-
-          # grab the alleles for sampled genotypes
-          unsexed_alleles <- unlist(a_locus_split[genotypes_idx_sampled])
-
-          # put the XX,XY in the right places for these persons too
-          x[cbind(rep(c(ped_unknown_sex_idx, extra_unrelateds_idx), each = 2) +
-                  number_of_rows_offset,
-                  c(2 * i_locus - 1, 2 * i_locus))] <- unsexed_alleles
-        }
-      }
-
+      x[, 2*i_locus - 1] <- chunk_repped
     }
   }
 
-  x
+  if (return_integer) x else .many_genotypes_int_to_labels(x, freqs,
+            sex_locus_name = sex_locus_name, loci = loci)
 }

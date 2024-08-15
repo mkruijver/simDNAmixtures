@@ -39,8 +39,8 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
   x <- .sample_many_founders(pedigree, number_of_replicates = number_of_replicates,
                              unrelated_names = unrelated_names,
                              freqs = freqs, loci = loci,
-                             sex_locus_name = sex_locus_name)
-
+                             sex_locus_name = sex_locus_name,
+                             return_integer = TRUE)
 
   # if there are no non-founders, then we are done here!
 
@@ -49,7 +49,8 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
   ped_row_is_non_founder <- !ped_row_is_founder
 
   if (!any(ped_row_is_non_founder)){
-    return(x)
+    return(.many_genotypes_int_to_labels(x, freqs = freqs,
+            sex_locus_name = sex_locus_name, loci = loci))
   }
 
   ped_non_founder_row_idx <- which(ped_row_is_non_founder)
@@ -129,5 +130,6 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
     }
   }
 
-  x
+  return(.many_genotypes_int_to_labels(x, freqs = freqs,
+                                       sex_locus_name = sex_locus_name, loci = loci))
 }

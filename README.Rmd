@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 # simDNAmixtures
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The goal of **simDNAmixtures** is to provide an easy to use workflow for simulating single source or mixed forensic DNA profiles. These simulations are used in research and validation related to probabilistic genotyping systems and also in studies on relationship testing.
