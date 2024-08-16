@@ -91,7 +91,7 @@
   for (required_column in required_columns){
     x <- linkage_map[[required_column]]
     if (is.null(x)){
-      stop("linkage_map should be a DataFrame with a column named", required_column)
+      stop("linkage_map should be a DataFrame with a column named: ", required_column)
     }
   }
 }
