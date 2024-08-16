@@ -14,7 +14,8 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                                            unrelated_names = character(),
                                            linkage_map,
                                            number_of_replicates = 1L,
-                                           sex_locus_name = "AMEL"){
+                                           sex_locus_name = "AMEL",
+                                           return_transmission_vectors = FALSE){
 
   if (missing(pedigree)){
     pedigree <- dummy_pedigree
@@ -51,6 +52,10 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
   if (!any(ped_row_is_non_founder)){
     return(.many_genotypes_int_to_labels(x, freqs = freqs,
             sex_locus_name = sex_locus_name, loci = loci))
+  }
+
+  if (return_transmission_vectors){
+    transmission_vectors_by_locus <- list()
   }
 
   ped_non_founder_row_idx <- which(ped_row_is_non_founder)
@@ -119,7 +124,13 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
       }
 
       # determine the index of the loci in the output
-      locus_idx <- as.integer(locus_idx_by_name[linkage_map_chromosome$locus[chromosome_i_locus]])
+      locus_name <- linkage_map_chromosome$locus[chromosome_i_locus]
+      locus_idx <- as.integer(locus_idx_by_name[locus_name])
+
+      if (return_transmission_vectors){
+        transmission_vectors_by_locus[[locus_name]] <- transmission_vectors
+      }
+
       # drop alleles down the pedigree for this locus
       from_idx[, 2] <- as.vector(transmission_vectors) + (2 * (locus_idx - 1))
       to_idx[, 2] <- rep(transmissions$allele, times = number_of_replicates) + (2 * (locus_idx - 1))
@@ -130,6 +141,13 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
     }
   }
 
-  return(.many_genotypes_int_to_labels(x, freqs = freqs,
-                                       sex_locus_name = sex_locus_name, loci = loci))
+  result <- .many_genotypes_int_to_labels(x, freqs = freqs,
+                                         sex_locus_name = sex_locus_name, loci = loci)
+
+  if (return_transmission_vectors){
+    attr(result, "transmissions") <- transmissions
+    attr(result, "transmission_vectors_by_locus") <- transmission_vectors_by_locus
+  }
+
+  return(result)
 }
