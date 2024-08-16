@@ -30,7 +30,7 @@ sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
 
   # add missing loci to linkage map (but not AMEL)
   missing_loci <- loci[!loci %in% c(linkage_map$locus, sex_locus_name)]
-  linkage_map_used <- rbind(linkage_map,
+  linkage_map_used <- rbind(linkage_map[linkage_map$locus %in% loci,],
                             data.frame(chromosome = rep("missing", length(missing_loci)),
                                        locus = missing_loci,
                                        position = rep(NA, length(missing_loci))))
