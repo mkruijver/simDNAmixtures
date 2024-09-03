@@ -4,12 +4,14 @@
 \alias{read_size_regression}
 \title{Reads a size regression file}
 \usage{
-read_size_regression(filename, exceptions)
+read_size_regression(filename, exceptions, repeat_length_by_marker)
 }
 \arguments{
 \item{filename}{Path to file (character).}
 
 \item{exceptions}{Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.}
+
+\item{repeat_length_by_marker}{Optionally a named integer vector with repeat lengths by marker. If not provided, then a .3 allele will not convert to e.g. .75 for a tetranucleotide.}
 }
 \value{
 A function that takes a locus name and allele as arguments and returns the size.
@@ -37,4 +39,15 @@ regression_with_AMEL <- read_size_regression(filename, exceptions = list(
                           AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
 # check that we can obtain size for X at AMEL
 stopifnot(regression_with_AMEL("AMEL", "X") == 98.5)
+
+# pass in repeat_length_by_marker for more precise estimates
+gf <- gf_configuration()
+
+regression_with_repeat_length <- read_size_regression(filename,
+           repeat_length_by_marker = gf$repeat_length_by_marker)
+
+# obtain size for the 15.3 allele at the D1S1656 locus
+stopifnot(regression_with_repeat_length("D1S1656", 15.3) ==
+           121.628203912362 + 15.75 * 4.2170043570021)
+
 }

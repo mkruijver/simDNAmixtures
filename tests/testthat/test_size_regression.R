@@ -14,3 +14,24 @@ test_that("Size regression works with AMEL exceptions", {
   expect_equal(regression("AMEL", "Y"), 104.5)
 }
 )
+
+test_that("Size regression works with repeat length by marker", {
+  filename <- system.file("extdata",
+                          "GlobalFiler_SizeRegression.csv",
+                          package = "simDNAmixtures")
+
+  gf <- gf_configuration()
+
+  regression <- read_size_regression(filename, repeat_length_by_marker =
+                                       gf$repeat_length_by_marker)
+
+  # obtain size for the 11.3 allele at the D2S441 locus
+  expect_equal(regression("D2S441", 11.3),
+               44.7888995552663 + 11.75 * 4.05775572187873)
+
+  # obtain size for the 12 allele at the D2S441 locus
+  expect_equal(regression("D2S441", 12),
+               44.7888995552663 + 12 * 4.05775572187873)
+
+}
+)

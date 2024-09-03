@@ -19,6 +19,13 @@ bp_to_repeats <- function(bp, repeat_length){
   whole_repeats + 0.1 * partials
 }
 
+# converts e.g. 9.3 to 9.74 for a tetranucleotide
+repeats_to_decimals <- function(repeats, repeat_length){
+  bp <- repeats_to_bp(repeats, repeat_length)
+
+  bp / repeat_length
+}
+
 get_stutter_target <- function(parent, delta, repeat_length){
 
   if (length(delta) == 1){

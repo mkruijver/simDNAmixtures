@@ -2,6 +2,7 @@
 #'
 #' @param filename Path to file (character).
 #' @param exceptions Optionally a list providing sizes for alleles not covered by the regression. See examples for how this can be used to assign sizes to X and Y at the Amelogenin locus.
+#' @param repeat_length_by_marker Optionally a named integer vector with repeat lengths by marker. If not provided, then a .3 allele will not convert to e.g. .75 for a tetranucleotide.
 #' @details
 #' Read a regression file from disk and returns a function that provides the fragment length (bp) for a given locus and allele.
 #'
@@ -22,13 +23,25 @@
 #'                           AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
 #' # check that we can obtain size for X at AMEL
 #' stopifnot(regression_with_AMEL("AMEL", "X") == 98.5)
+#'
+#' # pass in repeat_length_by_marker for more precise estimates
+#' gf <- gf_configuration()
+#'
+#' regression_with_repeat_length <- read_size_regression(filename,
+#'            repeat_length_by_marker = gf$repeat_length_by_marker)
+#'
+#' # obtain size for the 15.3 allele at the D1S1656 locus
+#' stopifnot(regression_with_repeat_length("D1S1656", 15.3) ==
+#'            121.628203912362 + 15.75 * 4.2170043570021)
+#'
 #' @export
-read_size_regression <- function(filename, exceptions){
+read_size_regression <- function(filename, exceptions, repeat_length_by_marker){
 
   regression_df <- utils::read.csv(filename, colClasses = c("character", "numeric", "numeric"))
   regression_df_by_locus <- split(regression_df, regression_df$Locus)
 
   has_exceptions <- !missing(exceptions)
+  has_repeat_length_by_marker <- !missing(repeat_length_by_marker)
 
   f <- function(locus, allele){
 
@@ -53,7 +66,18 @@ read_size_regression <- function(filename, exceptions){
     intercept <- regression_locus$Intercept
     slope <- regression_locus$Slope
 
-    intercept + slope * as.numeric(allele)
+    allele_numeric <- as.numeric(allele)
+
+    # potentially convert the point repeats the right way if
+    if (has_repeat_length_by_marker){
+      repeat_length <- repeat_length_by_marker[[locus]]
+
+      if (!is.null(repeat_length)){
+        allele_numeric <- repeats_to_decimals(allele_numeric, repeat_length)
+      }
+    }
+
+    intercept + slope * allele_numeric
   }
 
   f
