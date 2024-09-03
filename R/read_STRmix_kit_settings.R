@@ -41,9 +41,12 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
     }
   }
 
+  repeat_length_by_marker <- .extract_repeat_length_by_locus_from_STRmix_kit(kit_xml)
+
   size_regression <- read_size_regression(
     file.path(stutters_dir, size_regression_filename),
-    exceptions = size_exceptions)
+    exceptions = size_exceptions,
+    repeat_length_by_marker = repeat_length_by_marker)
 
   locus_names <- as.character(sapply(kit_xml$profilingKit$loci,
                                      function(x) attr(x, "name")))

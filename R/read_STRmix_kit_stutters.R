@@ -6,16 +6,7 @@
   # load general settings
   locus_names <- as.character(sapply(kit_xml$profilingKit$loci, function(x) attr(x,"name")))
 
-  repeat_lengths <- sapply(kit_xml$profilingKit$loci, function(x) as.numeric(x$repeatLength[[1]]))
-
-  # in a different version of the kit xml the repeat length is found as an attribute
-  if (length(unlist(repeat_lengths)) == 0){
-    repeat_lengths <- as.numeric(unlist(sapply(kit_xml$profilingKit$loci, function(x) {
-      repeat_length <- attr(x, "repeatLength")
-      if (is.null(repeat_length)) 0. else repeat_length
-    })))
-  }
-  repeat_length_by_locus <- stats::setNames(repeat_lengths, locus_names)
+  repeat_length_by_locus <- .extract_repeat_length_by_locus_from_STRmix_kit(kit_xml)
 
   stutters <- list()
   stutter_variability <- list()
