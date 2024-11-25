@@ -105,7 +105,10 @@ set_or_add_df_variable <- function(x, marker, allele, size, value, column_name,
 }
 
 .extract_repeat_length_by_locus_from_STRmix_kit <- function(kit_xml){
-  repeat_lengths <- sapply(kit_xml$profilingKit$loci, function(x) as.numeric(x$repeatLength[[1]]))
+  locus_names <- as.character(sapply(kit_xml$profilingKit$loci,
+                                     function(x) attr(x, "name")))
+
+    repeat_lengths <- sapply(kit_xml$profilingKit$loci, function(x) as.numeric(x$repeatLength[[1]]))
 
   # in a different version of the kit xml the repeat length is found as an attribute
   if (length(unlist(repeat_lengths)) == 0){
@@ -114,5 +117,6 @@ set_or_add_df_variable <- function(x, marker, allele, size, value, column_name,
       if (is.null(repeat_length)) 0. else repeat_length
     })))
   }
+
   repeat_length_by_locus <- stats::setNames(repeat_lengths, locus_names)
 }
