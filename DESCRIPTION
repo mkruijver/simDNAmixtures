@@ -19,6 +19,7 @@ Suggests:
     pedtools,
     testthat (>= 3.0.0),
     readr,
+    readxl,
     withr
 Config/testthat/edition: 3
 Depends: 
