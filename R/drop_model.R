@@ -9,7 +9,7 @@
 #'  }
 #' @details Define the classes semi-continuous drop-model. The model may then be used to sample DNA profiles using the \link{sample_mixture_from_genotypes} function. Alternatively, to sample many models and profiles in one go with parameters according to a specified distribution, the \link{sample_mixtures} function can be used.
 #' @return Object of class \code{pg_model}.
-#' @seealso \link{gamma_model}, \link{log_normal_model}.
+#' @seealso \link{sample_mixture_from_genotypes}, \link{sample_mixtures}, \link{gamma_model}, \link{log_normal_model}.
 #' @references
 #' Slooten, K. (2017). Accurate assessment of the weight of evidence for DNA mixtures by integrating the likelihood ratio. Forensic Science International: Genetics, 27, 1-16. \doi{10.1016/j.fsigen.2016.11.001}
 #' @examples

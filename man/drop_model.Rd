@@ -42,5 +42,5 @@ model
 Slooten, K. (2017). Accurate assessment of the weight of evidence for DNA mixtures by integrating the likelihood ratio. Forensic Science International: Genetics, 27, 1-16. \doi{10.1016/j.fsigen.2016.11.001}
 }
 \seealso{
-\link{gamma_model}, \link{log_normal_model}.
+\link{sample_mixture_from_genotypes}, \link{sample_mixtures}, \link{gamma_model}, \link{log_normal_model}.
 }
