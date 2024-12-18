@@ -18,7 +18,8 @@
 #' }
 #'
 #' @export
-read_STRmix_kit_settings <- function(filename, stutters_dir){
+read_STRmix_kit_settings <- function(filename, stutters_dir,
+                                     include_y_loci = FALSE){
 
   kit_xml <- filename |> xml2::read_xml() |> xml2::as_list()
 
@@ -28,8 +29,10 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
   size_regression_filename <- kit_xml$profilingKit$sizeRegressionFile[[1]]
 
   # read any size exceptions for AMEL
+  profiling_kit_loci <- kit_xml$profilingKit$loci
+
   size_exceptions <- list()
-  for (x in profiling_kit_loci <- kit_xml$profilingKit$loci){
+  for (x in profiling_kit_loci){
     locus_name <- attr(x, "name")
 
     alleles <- x$alleles
@@ -41,6 +44,26 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
     }
   }
 
+  # determine if there are any Y loci and quality loci
+  quality_loci <- character()
+  sex_loci <- character()
+  y_loci <- character()
+
+  for (x in profiling_kit_loci){
+    locus_name <- attr(x, "name")
+
+    if (.parse_STRmix_boolean(x$qualityMarker[[1]])){
+      quality_loci <- c(quality_loci, locus_name)
+    }
+    if (.parse_STRmix_boolean(x$genderMarker[[1]])){
+      sex_loci <- c(sex_loci, locus_name)
+    }
+    if (.parse_STRmix_boolean(x$yMarker[[1]])){
+      y_loci <- c(y_loci, locus_name)
+    }
+  }
+
+
   repeat_length_by_marker <- .extract_repeat_length_by_locus_from_STRmix_kit(kit_xml)
 
   size_regression <- read_size_regression(
@@ -51,6 +74,13 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
   locus_names <- as.character(sapply(kit_xml$profilingKit$loci,
                                      function(x) attr(x, "name")))
 
+  # ignore quality loci
+  locus_names <- locus_names[!(locus_names %in% quality_loci)]
+  if (!include_y_loci){
+    locus_names <- locus_names[!(locus_names %in% y_loci)]
+  }
+
+
   detection_threshold <- stats::setNames(sapply(kit_xml$profilingKit$kitSettings$detectionThresholds, function(x) as.numeric(x[[1]])),
                                   sapply(kit_xml$profilingKit$kitSettings$detectionThresholds, function(x) attr(x, "locus")))
 
@@ -60,12 +90,22 @@ read_STRmix_kit_settings <- function(filename, stutters_dir){
 
   LSAE_variance_prior <- .parse_STRmix_double(kit_xml$profilingKit$kitSettings$locusAmpVariance[[1]])
 
+
+  # create stutter model only if it is defined
+  stutter_model <- NULL
+  if (!is.null(stutters$stutter_model)){
+    stutter_model <- allele_specific_stutter_model(stutters$stutter_model, size_regression)
+  }
+
   list(locus_names = locus_names,
+       quality_loci = quality_loci,
+       sex_loci = sex_loci,
+       y_loci = y_loci,
        degradation_parameter_cap = degradation_parameter_cap,
        c2_prior = c2_prior,
        LSAE_variance_prior = LSAE_variance_prior,
        detection_threshold = detection_threshold,
        size_regression = size_regression,
-       stutter_model = allele_specific_stutter_model(stutters$stutter_model, size_regression),
+       stutter_model = stutter_model,
        stutter_variability = stutters$stutter_variability)
 }

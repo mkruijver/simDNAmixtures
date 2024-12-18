@@ -68,6 +68,7 @@
 
   }
 
-  list(stutter_model = stutters,
-       stutter_variability = stutter_variability)
+  list(stutter_model = if(length(stutters) > 0) stutters else NULL,
+       stutter_variability = if (length(stutter_variability) > 0) stutter_variability else NULL
+       )
 }
