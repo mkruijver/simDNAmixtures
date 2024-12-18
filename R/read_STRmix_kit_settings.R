@@ -4,6 +4,7 @@
 #'
 #' @param filename Character vector specifying the path to the XML file containing the profiling kit settings.
 #' @param stutters_dir Character vector specifying the directory path where stutter settings files are located.
+#' @param include_y_loci Should Y loci be included in the list of locus names? Default is `FALSE`.
 #'
 #' @return A list containing the following components:
 #' \itemize{

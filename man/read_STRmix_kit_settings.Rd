@@ -4,12 +4,14 @@
 \alias{read_STRmix_kit_settings}
 \title{Read STRmix Kit Settings}
 \usage{
-read_STRmix_kit_settings(filename, stutters_dir)
+read_STRmix_kit_settings(filename, stutters_dir, include_y_loci = FALSE)
 }
 \arguments{
 \item{filename}{Character vector specifying the path to the XML file containing the profiling kit settings.}
 
 \item{stutters_dir}{Character vector specifying the directory path where stutter settings files are located.}
+
+\item{include_y_loci}{Should Y loci be included in the list of locus names? Default is \code{FALSE}.}
 }
 \value{
 A list containing the following components:
