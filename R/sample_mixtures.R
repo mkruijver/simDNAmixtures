@@ -103,11 +103,18 @@ sample_mixtures <- function(n, contributors, freqs,
   # keep track of sample index even if replicates are used
   i_sample_out <- 1L
   for (i_sample in seq_len(n)){
+
+    sex_locus_name <- NULL
+    if (!(is.null(model_settings$sex_loci)) && (length(model_settings$sex_loci) == 1)){
+      sex_locus_name <- model_settings$sex_loci
+    }
+
     all_genotypes <- sample_contributor_genotypes(contributors, freqs,
                                                   linkage_map = linkage_map,
                                                   pedigree = pedigree,
                                                   loci = model_settings$locus_names,
-                                                  return_non_contributors = write_non_contributors)
+                                                  return_non_contributors = write_non_contributors,
+                                                  sex_locus_name = sex_locus_name)
 
     contributor_genotypes <- all_genotypes[contributors]
 
