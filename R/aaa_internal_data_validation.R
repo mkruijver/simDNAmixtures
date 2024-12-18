@@ -132,7 +132,7 @@
   as.integer(n)
 }
 
-.validate_character <- function(x, param_name, required_length){
+.validate_character <- function(x, param_name, required_length, required_length_min){
   if (missing(param_name)) param_name <- as.character(match.call()$x)
 
   if (!missing(required_length)){
@@ -140,6 +140,13 @@
       stop(param_name, " needs to have length ", required_length)
     }
   }
+
+  if (!missing(required_length_min)){
+    if (length(x) < required_length_min){
+      stop(param_name, " needs to have at least length ", required_length_min)
+    }
+  }
+
 
   if (!is.character(x)){
     stop(param_name, " needs to be a character")

@@ -24,6 +24,13 @@ read_STRmix_kit_settings <- function(filename, stutters_dir,
 
   kit_xml <- filename |> xml2::read_xml() |> xml2::as_list()
 
+  # check if this is a Y kit and warn if include_y_loci == FALSE
+  kit_type <- kit_xml$profilingKit$kitType[[1]]
+  if (isTRUE(grepl("YFiler|PowerPlex Y|PowerplexY|PPY23", kit_type, ignore.case = TRUE)) &&
+      !include_y_loci){
+    warning("include_y_loci = FALSE but kit type is ", kit_type)
+  }
+
   # load stutters
   stutters <- .read_STRmix_kit_stutters(kit_xml, stutters_dir)
 
@@ -96,6 +103,11 @@ read_STRmix_kit_settings <- function(filename, stutters_dir,
   stutter_model <- NULL
   if (!is.null(stutters$stutter_model)){
     stutter_model <- allele_specific_stutter_model(stutters$stutter_model, size_regression)
+  }
+
+  # check that at least one locus is included
+  if (length(locus_names) < 1){
+    stop("No usable loci were found")
   }
 
   list(locus_names = locus_names,
