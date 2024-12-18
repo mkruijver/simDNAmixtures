@@ -49,7 +49,7 @@ get_parameter_summary <- function(samples){
         }
       }
       else{
-        dfs_by_parameter_name[[parameter_name]] <- data.frame(t(values))
+        dfs_by_parameter_name[[parameter_name]] <- data.frame(t(values), check.names = FALSE)
       }
     }
 
@@ -60,6 +60,7 @@ get_parameter_summary <- function(samples){
   }
 
   parameter_summary <- data.frame(SampleName = names(samples),
-                                  do.call(rbind, dfs_by_sample))
+                                  do.call(rbind, dfs_by_sample),
+                                  check.names = FALSE)
 
 }
