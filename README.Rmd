@@ -35,7 +35,7 @@ Genotypes of the sample contributors may be provided as inputs. For autosomal pr
 To install **simDNAmixtures** from [CRAN](https://cran.r-project.org/):
 
 ```{r, eval = FALSE}
-install.packages("pedtools")
+install.packages("simDNAmixtures")
 ```
 
 Alternatively, you can install the development version of **simDNAmixtures** from [GitHub](https://github.com/) with:

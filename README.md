@@ -28,7 +28,7 @@ genotypes according to allele frequencies and a pedigree.
 To install **simDNAmixtures** from [CRAN](https://cran.r-project.org/):
 
 ``` r
-install.packages("pedtools")
+install.packages("simDNAmixtures")
 ```
 
 Alternatively, you can install the development version of
