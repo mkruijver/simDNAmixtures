@@ -36,7 +36,8 @@ regression("vWA", 12)
 
 # now add AMEL sizes
 regression_with_AMEL <- read_size_regression(filename, exceptions = list(
-                          AMEL = setNames(c(98.5, 104.5), nm = c("X", "Y"))))
+                          AMEL = stats::setNames(c(98.5, 104.5),
+                                                 nm = c("X", "Y"))))
 # check that we can obtain size for X at AMEL
 stopifnot(regression_with_AMEL("AMEL", "X") == 98.5)
 

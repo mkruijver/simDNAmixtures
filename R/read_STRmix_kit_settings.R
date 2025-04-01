@@ -48,7 +48,7 @@ read_STRmix_kit_settings <- function(filename, stutters_dir,
       alleles_name <- sapply(alleles, function(a) attr(a, "name"))
       alleles_bp <- as.numeric(sapply(alleles, function(a) attr(a, "basePairs")))
 
-      size_exceptions[[locus_name]] <- setNames(alleles_bp, alleles_name)
+      size_exceptions[[locus_name]] <- stats::setNames(alleles_bp, alleles_name)
     }
   }
 

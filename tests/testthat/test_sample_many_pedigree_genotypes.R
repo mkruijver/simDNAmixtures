@@ -3,8 +3,8 @@ library(simDNAmixtures)
 ped_fs <- pedtools::nuclearPed(nch = 2)
 
 freqs <- list(
-  locus_a = setNames(c(0.4, 0.6), nm = letters[1:2]),
-  locus_b = setNames(c(0.9, 0.1), nm = letters[1:2])
+  locus_a = stats::setNames(c(0.4, 0.6), nm = letters[1:2]),
+  locus_b = stats::setNames(c(0.9, 0.1), nm = letters[1:2])
 )
 
 linkage_map <- data.frame(chromosome = rep("1",2),
