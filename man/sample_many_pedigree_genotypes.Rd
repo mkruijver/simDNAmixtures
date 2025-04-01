@@ -11,7 +11,8 @@ sample_many_pedigree_genotypes(
   unrelated_names = character(),
   linkage_map,
   number_of_replicates = 1L,
-  sex_locus_name = "AMEL"
+  sex_locus_name = "AMEL",
+  return_transmission_vectors = FALSE
 )
 }
 \arguments{
