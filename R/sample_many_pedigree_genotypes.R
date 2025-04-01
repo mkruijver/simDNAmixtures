@@ -4,11 +4,37 @@
 #' @param freqs Allele frequencies (see \link{read_allele_freqs})
 #' @param loci Character vector of locus names (defaults to \code{names} attribute of \code{freqs})
 #' @param unrelated_names Character vector with names of any additional unrelated persons. Defaults to length zero.
-#' @param linkage_map A linkage map specifying the recombination fractions between loci. If NULL, loci are assumed to be independent.
+#' @param linkage_map A linkage map specifying cM distances between loci. If missing, loci are assumed to be independent.
 #' @param number_of_replicates An integer specifying the number of replicate genotype samples to generate. Defaults to 1.
 #' @param sex_locus_name Character vector, defaults to "AMEL"
+#' @param return_transmission_vectors Should transmission vectors be returned as an attribute? These are usually not of interest, so the default is `FALSE`.
 #'
 #' @seealso \link{read_allele_freqs}
+#' @examples
+#' # load allele frequencies
+#' freqs <- read_allele_freqs(system.file("extdata",
+#'                             "FBI_extended_Cauc_022024.csv",
+#'                             package = "simDNAmixtures"))
+#'
+#' # define a pedigree with two full siblings: S1 and S2
+#' ped_fs <- pedtools::nuclearPed(children = c("S1", "S2"))
+#'
+#' # define two linked loci
+#' linkage_map <- data.frame(chromosome = c(12, 12),
+#'                           locus = c("vWA", "D12S391"),
+#'                           position = c(15.15, 26.63))
+#'
+#'
+#' # sample genotypes ignoring linkage
+#' sample_many_pedigree_genotypes(pedigree = ped_fs, freqs = freqs,
+#'                              loci = c("vWA", "D12S391"),
+#'                             number_of_replicates = 10)
+#'
+#' # sample genotypes taking linkage into acconut
+#' sample_many_pedigree_genotypes(pedigree = ped_fs, freqs = freqs,
+#'                             loci = c("vWA", "D12S391"),
+#'                             linkage_map = linkage_map,
+#'                             number_of_replicates = 10)
 #' @export
 sample_many_pedigree_genotypes <- function(pedigree, freqs, loci = names(freqs),
                                            unrelated_names = character(),
