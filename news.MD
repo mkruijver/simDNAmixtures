@@ -1,3 +1,6 @@
+# simDNAmixtures 1.1.1 (April 15, 2025)
+* Require R >= 4.1.0 to address NOTE
+
 # simDNAmixtures 1.1.0 (April 14, 2025)
 * Add `sample_many_pedigree_genotypes` function to more efficiently sample many genotypes
 * Mixtures can now be simulated including the AMEL locus

@@ -1,6 +1,6 @@
 Package: simDNAmixtures
 Title: Simulate Forensic DNA Mixtures
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     person("Maarten", "Kruijver", , "maarten.kruijver@esr.cri.nz", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6890-7632"))
@@ -23,7 +23,7 @@ Suggests:
     withr
 Config/testthat/edition: 3
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 LazyData: true
 VignetteBuilder: knitr
 URL: https://mkruijver.github.io/simDNAmixtures/
