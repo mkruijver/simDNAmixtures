@@ -15,13 +15,21 @@
 #' @examples
 #' gf <- gf_configuration()
 #' freqs <- read_allele_freqs(system.file("extdata","FBI_extended_Cauc_022024.csv",
-#'                            package = "simDNAmixtures"))
+#'                                        package = "simDNAmixtures"))
+#' settings <- list(locus_names = gf$autosomal_markers, size_regression = gf$size_regression)
 #'
-#' k2 <- sample_log_normal_stutter_variance(gf$log_normal_settings$stutter_variability)
+#' model <- drop_model(dropout_probabilities = c(0.1),
+#'                     drop_in_rate = 1e-3,
+#'                     freqs = freqs, model_settings = settings)
 #'
-#' model <- log_normal_model(template = 1e3, c2 = 15, k2 = k2,
-#'                           model_settings = gf$log_normal_settings)
-#' model
+#' g <- sample_contributor_genotypes(contributors = "U1", freqs = freqs,
+#'                                   loci = settings$locus_names)
+#'
+#' # genotype
+#' g
+#'
+#' # sample with dropout
+#' sample_mixture_from_genotypes(g, model)
 #' @export
 drop_model <- function(dropout_probabilities, drop_in_rate = 0.,
                              freqs,
