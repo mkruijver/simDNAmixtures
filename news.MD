@@ -1,7 +1,13 @@
+# simDNAmixtures 1.1.2 (April 15, 2025)
+
+* Rename news.MD to NEWS.md to address NOTE
+
 # simDNAmixtures 1.1.1 (April 15, 2025)
+
 * Require R >= 4.1.0 to address NOTE
 
 # simDNAmixtures 1.1.0 (April 14, 2025)
+
 * Add `sample_many_pedigree_genotypes` function to more efficiently sample many genotypes
 * Mixtures can now be simulated including the AMEL locus
 * YSTR loci can now be simulated (see vignette)
@@ -14,6 +20,7 @@
 * Bug fixed in `read_allele_freqs` where `N` attribute was removed if `normalise = TRUE` or `remove_zeroes = TRUE`
 
 # simDNAmixtures 1.0.1 (May 3, 2022)
+
 * Removed `\dontrun` from `gamma_model` example
 
 # simDNAmixtures 1.0 (May 1, 2022)
