@@ -85,7 +85,7 @@ sample_mixtures_fixed_parameters <- function(genotypes,
       if (!is.null(model_settings$stutter_model)){
         model <- log_normal_model(
           template = get_parameter(parameter_summary, i_sample, "template"),
-          degradation = get_parameter(parameter_summary, i_sample, "template"),
+          degradation = get_parameter(parameter_summary, i_sample, "degradation"),
           LSAE = unlist(parameter_summary[i_sample,model_settings$locus_names]),
           c2 = get_parameter(parameter_summary, i_sample, "c2"),
           k2 = get_parameter(parameter_summary, i_sample, "k2"),
@@ -93,7 +93,7 @@ sample_mixtures_fixed_parameters <- function(genotypes,
       }else{
         model <- log_normal_model(
           template = get_parameter(parameter_summary, i_sample, "template"),
-          degradation = get_parameter(parameter_summary, i_sample, "template"),
+          degradation = get_parameter(parameter_summary, i_sample, "degradation"),
           LSAE = unlist(parameter_summary[i_sample,model_settings$locus_names]),
           c2 = get_parameter(parameter_summary, i_sample, "c2"),
           model_settings = model_settings)
