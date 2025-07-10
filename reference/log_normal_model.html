@@ -146,7 +146,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters$k2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       k2BackStutter    k2ForwardStutter    k22bpBackStutter k2DoubleBackStutter </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            8.064877           24.684015            2.892549            9.155898 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          28.7205737           0.9720239           6.4116270           6.9526035 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters$LSAE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  D3S1358      vWA  D16S539   CSF1PO     TPOX     AMEL  D8S1179   D21S11 </span>
@@ -185,8 +185,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     intercept + slope * allele_numeric</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b294513bb0&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29a832130&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac08609238&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0e2323a0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $build_expected_profile_and_sample_peak_heights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (genotypes) </span>
@@ -198,8 +198,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x$LSAE &lt;- LSAE[x$Marker]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b29485dff0&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29485c728&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac0f235bd8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0f245b80&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sample_name_suffix</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "N1_1000_a"</span>
@@ -227,8 +227,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     slope &lt;- regression_locus$Slope</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     max(min_stutter_ratio, intercept + slope * as.numeric(allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2942818a8&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29aa21368&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac081d2358&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0e86b518&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $exceptions</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $exceptions$D8S1179</span>
@@ -292,8 +292,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(stutter$regression(locus, allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2940b1958&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29abbd3f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac07c7ae48&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0e999b90&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stutter_type"</span>
@@ -319,8 +319,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     slope &lt;- regression_locus$Slope</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     max(min_stutter_ratio, intercept + slope * as.numeric(allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2942818a8&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29ac55078&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac081d2358&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0e9f1c80&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $get_expected_stutter_ratio</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (locus, allele) </span>
@@ -338,8 +338,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(stutter$regression(locus, allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2940b1958&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29ae7aa10&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac07c7ae48&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0eb5d480&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stutter_type"</span>
@@ -376,8 +376,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     slope &lt;- regression_locus$Slope</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     max(min_stutter_ratio, intercept + slope * as.numeric(allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2942818a8&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29aea4310&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac081d2358&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0eb6d560&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $get_expected_stutter_ratio</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (locus, allele) </span>
@@ -395,8 +395,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(stutter$regression(locus, allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2940b1958&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29b3daf80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac07c7ae48&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0ec53f88&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stutter_type"</span>
@@ -422,8 +422,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     slope &lt;- regression_locus$Slope</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     max(min_stutter_ratio, intercept + slope * as.numeric(allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2942818a8&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29b554268&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac081d2358&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0ec76778&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $get_expected_stutter_ratio</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (locus, allele) </span>
@@ -441,8 +441,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>         return(stutter$regression(locus, allele))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2940b1958&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29b95b3b0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac07c7ae48&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0ed903b0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stutter_type"</span>
@@ -476,8 +476,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     intercept + slope * allele_numeric</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b294513bb0&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29a832130&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac08609238&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0e2323a0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sex_locus_name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AMEL"</span>
@@ -486,8 +486,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> allele_specific_stutter_model_add_expected_stutter(stutter_model, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ...)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55b2917c6a08&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b29b95ea10&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55ac0b3070a0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ac0ed93cf0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "stutter_model"</span>
@@ -551,7 +551,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
